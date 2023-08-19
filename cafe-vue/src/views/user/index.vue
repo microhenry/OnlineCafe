@@ -40,13 +40,13 @@
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55"> </el-table-column>
-          <el-table-column type="index" label="序号"></el-table-column>
-          <el-table-column prop="userName" label="姓名"></el-table-column>
-          <el-table-column prop="loginName" label="登录名"></el-table-column>
-          <el-table-column prop="sex" label="性别"></el-table-column>
-          <el-table-column prop="email" label="邮箱"></el-table-column>
-          <el-table-column prop="address" label="地址"></el-table-column>
-          <el-table-column label="操作">
+          <el-table-column type="index" label="No."></el-table-column>
+          <el-table-column prop="userName" label="User Name"></el-table-column>
+          <el-table-column prop="loginName" label="Login Name"></el-table-column>
+          <el-table-column prop="sex" label="Gender"></el-table-column>
+          <el-table-column prop="email" label="Email"></el-table-column>
+          <el-table-column prop="address" label="Address"></el-table-column>
+          <el-table-column label="Operation">
             <template slot-scope="scope">
               <!--Edit Btn-->
               <el-button
@@ -79,7 +79,7 @@
       >
       </el-pagination>
     </el-row>
-    <!--Dialog-->
+    <!--Add User Dialog-->
     <el-dialog
       title="Add User"
       :visible.sync="addDialogVisible"
@@ -87,25 +87,25 @@
       @close="addDialogClosed"
     >
       <!--内容主体区域-->
-      <el-form :model="userForm" label-width="70px">
-        <el-form-item label="登录名" prop="loginName">
+      <el-form :model="userForm" label-width="90px">
+        <el-form-item label="Login Name" prop="loginName">
           <el-input v-model="userForm.loginName"></el-input>
         </el-form-item>
-        <el-form-item label="用户名" prop="userName">
+        <el-form-item label="User Name" prop="userName">
           <el-input v-model="userForm.userName"></el-input>
         </el-form-item>
-        <el-form-item label="密码" prop="password">
+        <el-form-item label="Password" prop="password">
           <el-input v-model="userForm.password" show-password></el-input>
         </el-form-item>
-        <el-form-item label="性别" prop="sex">
-          <el-radio v-model="userForm.sex" label="男">男</el-radio>
-          <el-radio v-model="userForm.sex" label="女">女</el-radio>
-          <el-radio v-model="userForm.sex" label="其他">其他</el-radio>
+        <el-form-item label="Gender" prop="sex">
+          <el-radio v-model="userForm.sex" label="Male">Male</el-radio>
+          <el-radio v-model="userForm.sex" label="Female">Female</el-radio>
+          <el-radio v-model="userForm.sex" label="Other">Other</el-radio>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item label="Email" prop="email">
           <el-input v-model="userForm.email"></el-input>
         </el-form-item>
-        <el-form-item label="地址" prop="address">
+        <el-form-item label="Address" prop="address">
           <el-input v-model="userForm.address"></el-input>
         </el-form-item>
       </el-form>
@@ -118,22 +118,22 @@
     <!--修改用户的对话框-->
     <el-dialog title="Edit User" :visible.sync="editDialogVisible" width="30%">
       <!--内容主体区域-->
-      <el-form :model="editForm" label-width="70px">
-        <el-form-item label="登录名" prop="loginName">
+      <el-form :model="editForm" label-width="90px">
+        <el-form-item label="Login Name" prop="loginName">
           <el-input v-model="editForm.loginName" :disabled="true"></el-input>
         </el-form-item>
-        <el-form-item label="用户名" prop="userName">
+        <el-form-item label="User Name" prop="userName">
           <el-input v-model="editForm.userName"></el-input>
         </el-form-item>
-        <el-form-item label="性别" prop="sex">
-          <el-radio v-model="editForm.sex" label="男">男</el-radio>
-          <el-radio v-model="editForm.sex" label="女">女</el-radio>
-          <el-radio v-model="editForm.sex" label="其他">其他</el-radio>
+        <el-form-item label="Gender" prop="sex">
+          <el-radio v-model="editForm.sex" label="Male">Male</el-radio>
+          <el-radio v-model="editForm.sex" label="Female">Female</el-radio>
+          <el-radio v-model="editForm.sex" label="Other">Other</el-radio>
         </el-form-item>
-        <el-form-item label="邮箱" prop="email">
+        <el-form-item label="Email" prop="email">
           <el-input v-model="editForm.email"></el-input>
         </el-form-item>
-        <el-form-item label="地址" prop="address">
+        <el-form-item label="Address" prop="address">
           <el-input v-model="editForm.address"></el-input>
         </el-form-item>
       </el-form>

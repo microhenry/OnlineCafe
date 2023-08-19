@@ -6,6 +6,7 @@ import router from './router'
 //import ElementUI
 import ElementUI from 'element-ui'
 import 'element-ui/lib/theme-chalk/index.css'
+import locale from 'element-ui/lib/locale/lang/en'
 //add axios
 var axios= require('axios')
 Vue.prototype.$axios = axios
@@ -20,7 +21,7 @@ Vue.config.productionTip = false
 
 /* eslint-disable no-new */
 
-Vue.use(ElementUI)
+Vue.use(ElementUI, { locale })
 
 //hook
 router.beforeEach((to, from, next) => {
