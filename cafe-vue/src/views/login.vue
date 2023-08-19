@@ -31,6 +31,8 @@
 </template>
 
 <script>
+import { userLogin } from "@/api/user";
+
 export default {
   name: "Login",
   data() {
@@ -52,18 +54,27 @@ export default {
   },
   methods: {
     login () {
-      this.$axios
-        .post('/login', {
-          loginName: this.loginForm.loginName,
-          password: this.loginForm.password
-        })
-        .then(successResponse => {
-          if (successResponse.data.code === 200) {
-            this.$router.replace({path: '/'})
-          }
-        })
-        .catch(failResponse => {
-        })
+      var _this = this;
+      userLogin({
+        loginName: this.loginForm.loginName,
+        password: this.loginForm.password,
+      }).then((resp) => {
+        let code=resp.data.code;
+        console.log(code)
+        if(code===200){
+          let data=resp.data.data;
+          let token=data.token;
+          let user=data.user;
+          //存储token
+          _this.$store.commit('SET_TOKENN', token);
+          //存储user，优雅一点的做法是token和user分开获取
+          _this.$store.commit('SET_USER', user);
+          console.log(_this.$store.state.token);
+          var path = this.$route.query.redirect
+          this.$router.replace({path: path === '/' || path === undefined ? '/' : path})
+          console.log('success')
+        }
+      });
     }
   },
 };

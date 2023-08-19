@@ -12,7 +12,7 @@ const service = axios.create({
 service.interceptors.request.use(
   config => {
 
-    if (store.getters.getToken) {
+    if (store.state.token) {
       config.headers['token'] = window.sessionStorage.getItem("token")
     }
     return config
