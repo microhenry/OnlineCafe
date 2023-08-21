@@ -2,15 +2,15 @@
   <el-container class="home-container">
 
     <el-header style="margin-right: 15px; width: 100%">
-      <span class="nav-logo">😀</span>
-      <span class="head-title">Just A Demo</span>
+      <span class="nav-logo">Cafe</span>
+      <span class="head-title">Online Cafe Ordering Application</span>
+      <span class="user-title">{{ this.$store.state.user.userName }}</span>
+      <el-button type="danger" class="logout-btn" @click="logout">Logout</el-button>
       <el-avatar
-        icon="el-icon-user-solid"
-        style="color: #222; float: right; padding: 20px"
-      >{{ this.$store.state.user.userName }}</el-avatar
-      >
-    </el-header>
+        style="float: right;"
+      > {{ this.$store.state.user.userName }} </el-avatar>
 
+    </el-header>
     <el-container>
 
       <el-aside width="13%">
@@ -49,6 +49,13 @@ export default {
       ],
     };
   },
+  methods: {
+    logout() {
+      this.$router.replace({path: '/login'});
+      this.$store.commit('REMOVE_INFO');
+      console.log(this.$store.state.user)
+    }
+  }
 };
 </script>
 
@@ -66,6 +73,19 @@ export default {
   left: 15%;
   font-size: 20px;
   font-weight: bold;
+}
+
+.user-title {
+  position: absolute;
+  padding-top: 10px;
+  right: 12%;
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.logout-btn {
+  margin-left: 10px;
+  float: right;
 }
 
 
