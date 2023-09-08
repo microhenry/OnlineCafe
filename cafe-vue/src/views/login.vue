@@ -20,6 +20,11 @@
         show-password
       ></el-input>
     </el-form-item>
+    <el-row>
+      <el-button plain
+      style="width: 40%; border: none;margin-bottom: 2%"
+      @click="SignUp">sign up</el-button>
+    </el-row>
     <el-form-item style="width: 100%">
       <el-button
         type="primary"
@@ -91,8 +96,12 @@ export default {
           return false;
         }
       });
+    },
+    SignUp(){
+        this.$router.push({path:'/Register'})
     }
   },
+
 };
 </script>
 

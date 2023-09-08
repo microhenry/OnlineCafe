@@ -4,7 +4,7 @@ import HelloWorld from '@/components/HelloWorld'
 //导入登录页面组件
 import Login from '@/views/login.vue'
 import Home from '@/views/home.vue'
-
+import Register from "@/views/Register"
 Vue.use(Router)
 
 export default new Router({
@@ -48,6 +48,11 @@ export default new Router({
       path:'/login',
       name: 'Login',
       component: Login
-    }
+    },
+     {
+       path:'/Register',
+         name:'Register',
+       component:Register
+     }
   ]
 })
