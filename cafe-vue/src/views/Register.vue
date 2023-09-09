@@ -1,5 +1,5 @@
 <template>
-  <body id="login-page">
+  <body id="register-page">
   <div id="Register">
 
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="0px" class="login-container" >
@@ -161,7 +161,7 @@ export default {
 </script>
 
 <style scoped>
-#login-page {
+#register-page {
   background: url("../assets/img/bg_login.jpg") no-repeat center;
   height: 100%;
   width: 100%;

@@ -1,5 +1,5 @@
 <template>
-  <body id="login-page">
+  <body id="register-page">
   <el-form class="login-container" label-position="left" label-width="0px" :model="loginForm" :rules="rules" ref="loginForm">
     <h3 class="login_title">Login</h3>
     <el-form-item prop="loginName">
@@ -98,7 +98,7 @@ export default {
       });
     },
     SignUp(){
-        this.$router.push({path:'/Register'})
+        this.$router.push({path:'/registerNew'})
     }
   },
 
@@ -106,7 +106,7 @@ export default {
 </script>
 
 <style scoped>
-#login-page {
+#register-page {
   background: url("../assets/img/bg_login.jpg") no-repeat center;
   height: 100%;
   width: 100%;
