@@ -62,7 +62,7 @@ import { userLogin } from "@/api/user";
 import { userList, userAdd } from "@/api/userNew";
 
 export default {
-  name: "Login",
+  name: "Register",
   data() {
     var validateEail = (rule, value, callback)=>{
       const mailReg = /^([a-zA-Z0-9_-])+@([a-zA-Z0-9_-])+(.[a-zA-Z0-9_-])+/
