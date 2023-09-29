@@ -3,7 +3,7 @@
   <div id="Register">
 
     <el-form :model="ruleForm" status-icon :rules="rules" ref="ruleForm" label-width="0px" class="login-container" >
-      <h3 class="login_title">Register</h3>
+      <h3 class="register_title">Register</h3>
 <!--      名字 prop是爆红的，v-model传参-->
       <el-form-item label="" prop="name">
         <el-input
@@ -184,7 +184,7 @@ body {
   box-shadow: 0 0 25px #cac6c6;
 }
 
-.login_title {
+.register_title {
   margin: 0 auto 40px auto;
   text-align: center;
   color: #505458;

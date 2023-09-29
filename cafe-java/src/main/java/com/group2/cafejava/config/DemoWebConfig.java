@@ -25,10 +25,6 @@ public class DemoWebConfig implements WebMvcConfigurer {
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/api/**")
                 //放行路径，可以添加多个
                 .excludePathPatterns("/api/login","/api/user/**");
-<<<<<<< HEAD
-=======
-
->>>>>>> 97c8c3c424a0fcfc08b55d36c0c0b20f1124e2e9
     }
 
 

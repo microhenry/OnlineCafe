@@ -1,8 +1,8 @@
 <template>
   <body id="register-page">
   <!--内容主体区域-->
-  <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="0px" class="login-container">
-    <h3 class="login_title">Register</h3>
+  <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="auto" class="login-container">
+    <h2 class="register_title">Register</h2>
     <el-form-item label="LoginName:" prop="loginName">
       <el-input
         type="text"
@@ -49,10 +49,15 @@
       <el-input v-model="userForm.address" placeholder="Please enter your physical address"></el-input>
     </el-form-item>
 
-    <el-form-item>
-      <el-button type="primary" @click="addUser('userForm')">Register</el-button>
-      <el-button @click="resetForm('userForm')">Clear</el-button>
-    </el-form-item>
+    <el-row style="margin-bottom: 10px">
+      <el-button style="width: 40%" type="primary" @click="addUser('userForm')">Register</el-button>
+      <el-button style="width: 40%" type="danger" @click="resetForm('userForm')">Clear</el-button>
+    </el-row>
+    <el-row style="line-height: 25px">
+      <span style="font-size: 16px">Already have an account? </span>
+      <el-link type="primary" :underline="false" @click="SignIn" style="font-size: 16px">Login</el-link>
+      <span style="font-size: 16px"> to your account.</span>
+    </el-row>
   </el-form>
   </body>
 </template>
@@ -113,24 +118,24 @@ export default {
   },
   created() {
     // 生命周期函数
-    this.getUserList();
+    //this.getUserList();
   },
   methods: {
-    getUserList() {
-      userList(this.queryInfo)
-        .then((res) => {
-          if (res.data.code === 200) {
-            //用户列表
-            this.userList = res.data.data.records;
-            this.total = res.data.data.total;
-          } else {
-            this.$message.error(res.data.message);
-          }
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    },
+    // getUserList() {
+    //   userList(this.queryInfo)
+    //     .then((res) => {
+    //       if (res.data.code === 200) {
+    //         //用户列表
+    //         this.userList = res.data.data.records;
+    //         this.total = res.data.data.total;
+    //       } else {
+    //         this.$message.error(res.data.message);
+    //       }
+    //     })
+    //     .catch((err) => {
+    //       console.log(err);
+    //     });
+    // },
     addUser(formName) {
       console.log(formName)
       this.$refs[formName].validate((valid) => {
@@ -140,11 +145,12 @@ export default {
             .then((res) => {
               if (res.data.code === 200) {
                 this.addDialogVisible = false;
-                this.getUserList();
+                //this.getUserList();
                 this.$message({
-                  message: "Added user successfully.",
+                  message: "Registration successfully.",
                   type: "success",
-                });
+                },
+                this.$router.push({path:'/login'}));
               } else {
                 this.$message.error("E01: Failed to add user.");
               }
@@ -161,6 +167,9 @@ export default {
     },
     resetForm(formName) {
       this.$refs[formName].resetFields();
+    },
+    SignIn(){
+      this.$router.push({path:'/login'})
     }
   },
 
@@ -183,16 +192,16 @@ body {
 .login-container {
   border-radius: 15px;
   background-clip: padding-box;
-  margin: 10px auto;
-  width: 350px;
-  padding: 35px 35px 15px 35px;
+  margin: 70px auto;
+  width: 450px;
+  padding: 35px 35px 35px 35px;
   background: #fff;
   border: 1px solid #eaeaea;
   box-shadow: 0 0 25px #cac6c6;
 }
 
-.login_title {
-  margin: 0 auto 0px auto;
+.register_title {
+  margin: 0 auto 20px auto;
   text-align: center;
   color: #505458;
 }

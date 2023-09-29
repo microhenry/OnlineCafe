@@ -1,7 +1,7 @@
 <template>
   <body id="login-page">
-  <el-form class="login-container" label-position="left" label-width="0px" :model="loginForm" :rules="rules" ref="loginForm">
-    <h3 class="login_title">Login</h3>
+  <el-form class="login-container" label-width="auto" :model="loginForm" :rules="rules" ref="loginForm">
+    <h2 class="register_title">Login</h2>
     <el-form-item prop="loginName">
       <el-input
         type="text"
@@ -20,19 +20,19 @@
         show-password
       ></el-input>
     </el-form-item>
-    <el-row>
-      <el-button plain
-      style="width: 40%; border: none;margin-bottom: 2%"
-      @click="SignUp">sign up</el-button>
-    </el-row>
-    <el-form-item style="width: 100%">
+    <el-row style="margin-bottom: 10px">
       <el-button
         type="primary"
-        style="width: 100%;  border: none"
+        style="width: 80%"
         @click="login('loginForm')"
-      >login</el-button
+      >Login</el-button
       >
-    </el-form-item>
+    </el-row>
+    <el-row style="line-height: 25px">
+      <span style="font-size: 16px">Do not have an account? </span>
+      <el-link type="primary" :underline="false" @click="SignUp" style="font-size: 16px">Register</el-link>
+      <span style="font-size: 16px"> a new one.</span>
+    </el-row>
   </el-form>
   </body>
 </template>
@@ -123,14 +123,14 @@ body {
   background-clip: padding-box;
   margin: 90px auto;
   width: 350px;
-  padding: 35px 35px 15px 35px;
+  padding: 35px 35px 35px 35px;
   background: #fff;
   border: 1px solid #eaeaea;
   box-shadow: 0 0 25px #cac6c6;
 }
 
-.login_title {
-  margin: 0 auto 40px auto;
+.register_title {
+  margin: 0 auto 20px auto;
   text-align: center;
   color: #505458;
 }
