@@ -1,4 +1,4 @@
-import request from '@/utils/requestNew'
+import request from '@/utils/request'
 
 //Get user list
 export function userList(data) {

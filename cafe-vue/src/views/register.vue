@@ -2,7 +2,16 @@
   <body id="register-page">
   <!--内容主体区域-->
   <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="auto" class="login-container">
-    <h2 class="register_title">Register</h2>
+    <div class="login-reg-header">
+      <el-button
+        icon="el-icon-back"
+        size="small"
+        circle
+        class="back-btn"
+        @click="back"
+      ></el-button>
+      <h2 class="register_title">Register</h2>
+    </div>
     <el-form-item label="LoginName:" prop="loginName">
       <el-input
         type="text"
@@ -63,8 +72,7 @@
 </template>
 
 <script>
-import { userLogin } from "@/api/user";
-import { userList, userAdd } from "@/api/userNew";
+import { userAdd } from "@/api/userNew";
 
 export default {
   name: "Register",
@@ -170,7 +178,11 @@ export default {
     },
     SignIn(){
       this.$router.push({path:'/login'})
-    }
+    },
+    back(){
+      this.$router.back();
+      console.log('back')
+    },
   },
 
 };
@@ -199,11 +211,21 @@ body {
   border: 1px solid #eaeaea;
   box-shadow: 0 0 25px #cac6c6;
 }
-
+.login-reg-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+.back-btn {
+  position: absolute;
+}
 .register_title {
-  margin: 0 auto 20px auto;
+  margin: 0 auto 10px auto;
   text-align: center;
   color: #505458;
+  display: inline;
+  position: relative;
 }
 </style>
 

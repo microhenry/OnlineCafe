@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.Objects;
+
 @RestController
 public class MenuController {
 
@@ -23,6 +25,7 @@ public class MenuController {
         queryDTO.setPageNo(1);
         queryDTO.setPageSize(15);   //TODO: PageSize和PageNo的值不应该为硬编码，可能需要从前端获取
         queryDTO.setKeyword(category);
+        if (Objects.equals(category, "All")){queryDTO.setKeyword("");}
         return new Result(200,"",menuService.selectProductPage(queryDTO));
     }
 }

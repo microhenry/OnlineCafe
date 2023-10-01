@@ -51,15 +51,21 @@ export default {
   },
   methods: {
     logout() {
-      this.$router.replace({path: '/login'});
+      this.$router.push({path: '/login'});
       this.$store.commit('REMOVE_INFO');
+      this.$message({
+        showClose: true,
+        message: 'Logout successfully.',
+        center: true,
+        type: 'success'
+      });
       console.log(this.$store.state.user)
     }
   }
 };
 </script>
 
-<style >
+<style scoped>
 .nav-logo {
   position: absolute;
   padding-top: -1%;

@@ -1,11 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
 //导入登录页面组件
 import Login from '@/views/login.vue'
 import Dashboard from '@/views/dashboard.vue'
-import Register from "@/views/registerNew"
-import Products from "@/views/products"
+import Register from "@/views/register"
+import Homepage from "../views/homepage.vue";
 
 
 Vue.use(Router)
@@ -15,12 +14,12 @@ export default new Router({
     {
       path: '/',
       name: 'Default',
-      redirect: '/home',
+      redirect: '/dashboard',
       component: Dashboard
     },
     {
       // home页面并不需要被访问，只是作为其它组件的父组件
-      path: '/home',
+      path: '/dashboard',
       name: 'Dashboard',
       component: Dashboard,
       meta: {
@@ -57,14 +56,32 @@ export default new Router({
      //   component: Register
      // },
     {
-      path:'/registerNew',
-      name:'RegisterNew',
+      path:'/register',
+      name:'Register',
       component: Register
     },
     {
-      path:'/products',
-      name:'Products',
-      component: Products
-    }
+      path: '/homepage',
+      name: 'Homepage',
+      component: Homepage,
+      redirect: '/products',
+      children:[
+        {
+          path:'/home',
+          name:'Home',
+          component:() => import('@/views/home'),
+        },
+        {
+          path:'/products',
+          name:'Products',
+          component:() => import('@/views/products'),
+        },
+        {
+          path:'/about',
+          name:'About',
+          component:() => import('@/views/about'),
+        }
+      ]
+    },
   ]
 })

@@ -5,7 +5,8 @@
 <template>
   <el-tabs v-model="category" @tab-click="getProductMenuList" type="border-card" tab-position="left" >
     <el-tab-pane v-for="(tab, index) in tabs" :label="tab.label" :name="tab.name" :key="index">
-      <el-row :gutter="20" class="scrollable-row">
+      <el-empty :image-size="200" v-if="productMenuList.length === 0"></el-empty>
+      <el-row :gutter="20" v-else class="scrollable-row">
         <el-backtop target=".scrollable-row" :visibility-height="100" />
         <el-col style="padding-top: 10px; padding-bottom: 10px" :span="5" v-for="(product, index) in productMenuList" :key="index" class="hover-up">
           <el-card :body-style="{ padding: '10px'}">
@@ -15,7 +16,7 @@
               :src="requireProductImage(product.productPicUrl)"
             >
             </el-image>
-            <div style="padding: 10px;">
+            <div style="padding: 3px; min-height: 40px; align-items: center; display: flex; justify-content: center;" >
               <span class="bottom">{{ product.productName }}</span>
             </div>
           </el-card>
@@ -27,7 +28,7 @@
 
 <style scoped>
 .scrollable-row {
-  height: calc(100vh - 50px); /* Adjust the height */
+  height: calc(100vh - 150px); /* Adjust the height */
   overflow-y: auto; /* Set vertical scroll */
 }
 .hover-up {
@@ -44,9 +45,13 @@
     data() {
       return {
         productMenuList: [],
-        category: "Featured Beverages",
+        category: "All",
         tabs: [
-        {
+          {
+            label: "All Products",
+            name: "All",
+          },
+          {
             label: "Featured Beverages",
             name: "Featured Beverages",
           },

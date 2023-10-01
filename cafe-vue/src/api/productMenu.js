@@ -1,4 +1,4 @@
-import request from '@/utils/requestNew'
+import request from '@/utils/request'
 
 //Get productMenu list
 export function productMenuList(data, category) {

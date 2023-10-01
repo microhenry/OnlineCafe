@@ -1,3 +1,4 @@
+<!--现已使用register.vue作为登录界面，RegisterOld.vue处于废弃状态-->
 <template>
   <body id="register-page">
   <div id="Register">

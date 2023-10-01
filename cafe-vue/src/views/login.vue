@@ -1,7 +1,16 @@
 <template>
   <body id="login-page">
   <el-form class="login-container" label-width="auto" :model="loginForm" :rules="rules" ref="loginForm">
-    <h2 class="register_title">Login</h2>
+    <div class="login-reg-header">
+      <el-button
+        icon="el-icon-back"
+        size="small"
+        circle
+        class="back-btn"
+        @click="back"
+      ></el-button>
+      <h2 class="login_title">Login</h2>
+    </div>
     <el-form-item prop="loginName">
       <el-input
         type="text"
@@ -80,7 +89,13 @@ export default {
               _this.$store.commit('SET_USER', user);
               console.log(_this.$store.state.token);
               var path = this.$route.query.redirect
-              this.$router.replace({path: path === '/' || path === undefined ? '/' : path})
+              this.$router.push({path: path === '/' || path === undefined ? '/' : path})
+              this.$message({
+                showClose: true,
+                message: 'Login successfully.',
+                center: true,
+                type: 'success'
+              });
               console.log('success')
             } else {
               this.$message({
@@ -98,8 +113,12 @@ export default {
       });
     },
     SignUp(){
-        this.$router.push({path:'/registerNew'})
-    }
+        this.$router.push({path:'/register'})
+    },
+    back(){
+      this.$router.back();
+      console.log('back')
+    },
   },
 
 };
@@ -129,10 +148,21 @@ body {
   box-shadow: 0 0 25px #cac6c6;
 }
 
-.register_title {
-  margin: 0 auto 20px auto;
+.login-reg-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+.back-btn {
+  position: absolute;
+}
+.login_title {
+  margin: 0 auto 10px auto;
   text-align: center;
   color: #505458;
+  display: inline;
+  position: relative;
 }
 </style>
 
