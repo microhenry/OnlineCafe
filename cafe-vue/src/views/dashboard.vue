@@ -44,8 +44,8 @@ export default {
   data() {
     return {
       navList: [
-        { name: "/index", title: "Home", icon: "el-icon-s-home" },
-        { name: "/user", title: "User Management",icon:"el-icon-s-custom" },
+        { name: "/dashboard/index", title: "Home", icon: "el-icon-s-home" },
+        { name: "/dashboard/user", title: "User Management",icon:"el-icon-s-custom" },
       ],
     };
   },

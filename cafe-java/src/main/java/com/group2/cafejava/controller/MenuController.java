@@ -21,7 +21,7 @@ public class MenuController {
     public Result ShowMenu(@PathVariable String category){
         QueryDTO queryDTO=new QueryDTO();
         queryDTO.setPageNo(1);
-        queryDTO.setPageSize(5);
+        queryDTO.setPageSize(15);   //TODO: PageSize和PageNo的值不应该为硬编码，可能需要从前端获取
         queryDTO.setKeyword(category);
         return new Result(200,"",menuService.selectProductPage(queryDTO));
     }

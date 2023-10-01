@@ -39,7 +39,10 @@ CREATE TABLE `product` (
 
 LOCK TABLES `product` WRITE;
 /*!40000 ALTER TABLE `product` DISABLE KEYS */;
-INSERT INTO `product` VALUES (1,'White Chocolate Mocha','Our signature espresso meets white chocolate sauce and steamed milk, and then is finished off with sweetened whipped cream to create this supreme white chocolate delight.','Hot Coffees',NULL),(2,'Cold Brew','Handcrafted in small batches daily, slow-steeped in cool water for 20 hours, without touching heat—Starbucks® Cold Brew is made from our custom blend of beans grown to steep long and cold for a super-smooth flavor.','Cold Coffees',NULL),(3,'English Breakfast','Each sip of this beloved morning black tea unfolds to reveal the complexity of the high-grown full leaves. An elegant, time-honored classic that brings a royal nod to every cup.','Hot Teas',NULL),(4,'Iced Shaken Lemon Passion Tea','Hibiscus passion tea and sunny lemonade is lightly sweetened and handshaken with ice for a refreshingly vibrant tea.','Iced Teas',NULL);
+INSERT INTO `product` VALUES (1,'White Chocolate Mocha','Our signature espresso meets white chocolate sauce and steamed milk, and then is finished off with sweetened whipped cream to create this supreme white chocolate delight.','Hot Coffees',White Chocolate Mocha),
+                             (2,'Cold Brew','Handcrafted in small batches daily, slow-steeped in cool water for 20 hours, without touching heat—Starbucks® Cold Brew is made from our custom blend of beans grown to steep long and cold for a super-smooth flavor.','Cold Coffees',Cold Brew),
+                             (3,'English Breakfast','Each sip of this beloved morning black tea unfolds to reveal the complexity of the high-grown full leaves. An elegant, time-honored classic that brings a royal nod to every cup.','Hot Teas',English Breakfast),
+                             (4,'Iced Shaken Lemon Passion Tea','Hibiscus passion tea and sunny lemonade is lightly sweetened and handshaken with ice for a refreshingly vibrant tea.','Iced Teas',Iced Shaken Lemon Passion Tea);
 /*!40000 ALTER TABLE `product` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
