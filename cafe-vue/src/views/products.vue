@@ -44,8 +44,16 @@
     data() {
       return {
         productMenuList: [],
-        category: "Hot Coffees",
+        category: "Featured Beverages",
         tabs: [
+        {
+            label: "Featured Beverages",
+            name: "Featured Beverages",
+          },
+          {
+            label: "Barista Favourites",
+            name: "Barista Favourites",
+          },
           {
             label: "Hot Coffees",
             name: "Hot Coffees",
@@ -55,12 +63,28 @@
             name: "Cold Coffees",
           },
           {
+            label: "Coffee Blended Frappuccino",
+            name: "Coffee Blended Frappuccino",
+          },
+          {
+            label: "Cream Blended Frappuccino",
+            name: "Cream Blended Frappuccino",
+          },
+          {
             label: "Hot Teas",
             name: "Hot Teas",
           },
           {
             label: "Iced Teas",
             name: "Iced Teas",
+          },
+          {
+            label: "Other Hot Beverages",
+            name: "Other Hot Beverages",
+          },
+          {
+            label: "Other Cold Beverages",
+            name: "Other Cold Beverages",
           },
         ],
       };
