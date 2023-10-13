@@ -4,5 +4,6 @@ import com.group2.cafejava.dto.LoginDTO;
 import com.group2.cafejava.result.Result;
 
 public interface LoginService {
-    public Result login(LoginDTO loginDTO);
+    public Result loginUser(LoginDTO loginDTO);
+    public Result loginStaff(LoginDTO loginDTO);
 }

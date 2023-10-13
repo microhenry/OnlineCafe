@@ -1,5 +1,6 @@
 package com.group2.cafejava.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.group2.cafejava.dto.QueryDTO;
 import com.group2.cafejava.entity.User;
 import com.group2.cafejava.mapper.UserMapper;
@@ -24,7 +25,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer addUser(User user) {
-        return userMapper.insert(user);
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("login_name", user.getLoginName());
+        User uer=userMapper.selectOne(wrapper);
+        if (uer==null){return userMapper.insert(user);}
+        else{
+            return -1;
+        }
     }
 
     @Override

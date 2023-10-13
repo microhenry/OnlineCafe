@@ -66,4 +66,8 @@ public class UserController {
         userService.batchDelete(ids);
         return new Result(200,"","");
     }
+//    @PostMapping("/api/user/detail")
+//    public Result userDetail(@RequestBody QueryDTO queryDTO){
+//        return new Result(200,"",userService.selectUserPage(queryDTO));
+//    }
 }

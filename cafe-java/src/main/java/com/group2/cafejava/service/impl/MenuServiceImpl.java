@@ -19,4 +19,9 @@ public class MenuServiceImpl implements MenuService {
         Page<Product> page=new Page<>(queryDTO.getPageNo(),queryDTO.getPageSize());
         return productMapper.selectProductPage(page,queryDTO.getKeyword());
     }
+    @Override
+    public IPage<Product> selectProduct(String productname) {
+        Page<Product> page=new Page<>(1,1);
+        return productMapper.selectProduct(page,productname);
+    }
 }

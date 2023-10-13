@@ -9,4 +9,5 @@ import com.group2.cafejava.result.Result;
 
 public interface MenuService {
     IPage<Product> selectProductPage(QueryDTO queryDTO);
+    IPage<Product> selectProduct(String productname);
 }

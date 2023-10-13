@@ -9,4 +9,12 @@
             </if>
         </where>
     </select>
+    <select id="selectProduct" resultType="Product">
+        select * from product
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or productName like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
 </mapper>
