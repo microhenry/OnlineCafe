@@ -87,7 +87,7 @@
       @close="addDialogClosed"
     >
       <!--内容主体区域-->
-      <el-form :model="userForm" label-width="90px">
+      <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="100px">
         <el-form-item label="Login Name" prop="loginName">
           <el-input v-model="userForm.loginName"></el-input>
         </el-form-item>
@@ -112,13 +112,14 @@
       <!--底部按钮区域-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="addUser">Confirm</el-button>
+        <el-button type="primary" @click="addUser('userForm')">Confirm</el-button>
       </span>
     </el-dialog>
-    <!--修改用户的对话框-->
+
+    <!--Edit User Dialog-->
     <el-dialog title="Edit User" :visible.sync="editDialogVisible" width="30%">
       <!--内容主体区域-->
-      <el-form :model="editForm" label-width="90px">
+      <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="100px">
         <el-form-item label="Login Name" prop="loginName">
           <el-input v-model="editForm.loginName" :disabled="true"></el-input>
         </el-form-item>
@@ -140,7 +141,7 @@
       <!--底部按钮区域-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="editUser">Confirm</el-button>
+        <el-button type="primary" @click="editUser('editForm')">Confirm</el-button>
       </span>
     </el-dialog>
   </div>
@@ -181,6 +182,43 @@ export default {
       },
       multipleSelection: [],
       ids: [],
+      userRules: {
+        loginName : [
+          { required: true, message: 'Login name cannot be empty!', trigger: 'change' }
+        ],
+        userName : [
+          { required: true, message: 'User name cannot be empty!', trigger: 'change' }
+        ],
+        password : [
+          { required: true, message: 'Password cannot be empty!', trigger: 'change' }
+        ],
+        sex : [
+          { required: true, message: 'Must select a gender!', trigger: 'change' }
+        ],
+        email : [
+          { required: true, message: 'Email cannot be empty!', trigger: 'change' }
+        ],
+        address : [
+          { required: true, message: 'Address cannot be empty!', trigger: 'change' }
+        ]
+      },
+      editRules: {
+        loginName : [
+          { required: true, message: 'Login name cannot be empty!', trigger: 'change' }
+        ],
+        userName : [
+          { required: true, message: 'User name cannot be empty!', trigger: 'change' }
+        ],
+        sex : [
+          { required: true, message: 'Must select a gender!', trigger: 'change' }
+        ],
+        email : [
+          { required: true, message: 'Email cannot be empty!', trigger: 'change' }
+        ],
+        address : [
+          { required: true, message: 'Address cannot be empty!', trigger: 'change' }
+        ]
+      },
     };
   },
   created() {
@@ -218,30 +256,39 @@ export default {
       this.getUserList();
     },
     //添加用户
-    addUser() {
-      userAdd(this.userForm)
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.addDialogVisible = false;
-            this.getUserList();
-            this.$message({
-              message: "Added user successfully.",
-              type: "success",
+    addUser(formName) {
+      console.log(formName)
+      this.$refs[formName].validate((valid) => {
+        console.log(valid)
+        if (valid) {
+          userAdd(this.userForm)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.addDialogVisible = false;
+                this.getUserList();
+                this.$message({
+                  message: "Added user successfully.",
+                  type: "success",
+                });
+              } else {
+                this.$message.error("Failed to add user.");
+              }
+            })
+            .catch((err) => {
+              this.$message.error("Failed to add user.");
+              console.log(err);
             });
-          } else {
-            this.$message.error("Failed to add user.");
-          }
-        })
-        .catch((err) => {
-          this.$message.error("Failed to add user.");
-          console.log(err);
-        });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
     },
 
     // 监听 添加用户对话框的关闭事件
     addDialogClosed() {
       // 表单内容重置为空
-      this.$refs.addFormRef.resetFields();
+      this.$refs.userForm.resetFields();
     },
 
     // 监听 修改用户状态
@@ -251,24 +298,31 @@ export default {
       this.editForm = userinfo;
     },
     //修改用户
-    editUser() {
-      userUpdate(this.editForm)
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.editDialogVisible = false;
-            this.getUserList();
-            this.$message({
-              message: "Edited user successfully.",
-              type: "success",
+    editUser(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          userUpdate(this.editForm)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.editDialogVisible = false;
+                this.getUserList();
+                this.$message({
+                  message: "Edited user successfully.",
+                  type: "success",
+                });
+              } else {
+                this.$message.error("Failed to edit user.");
+              }
+            })
+            .catch((err) => {
+              this.$message.error("Failed to edit user.");
+              console.loge(err);
             });
-          } else {
-            this.$message.error("Failed to edit user.");
-          }
-        })
-        .catch((err) => {
-          this.$message.error("Failed to edit user.");
-          console.loge(err);
-        });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
     },
     // 根据ID删除对应的用户信息
     async removeUserById(id) {
@@ -353,7 +407,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .el-row {
   margin-bottom: 20px;
 }

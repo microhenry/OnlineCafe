@@ -1,13 +1,23 @@
 <template>
   <body id="login-page">
-  <el-form class="login-container" label-position="left" label-width="0px" :rules="rules">
-    <h3 class="login_title">Login</h3>
+  <el-form class="login-container" label-width="auto" :model="loginForm" :rules="rules" ref="loginForm">
+    <div class="login-reg-header">
+      <el-button
+        icon="el-icon-back"
+        size="small"
+        circle
+        class="back-btn"
+        @click="back"
+      ></el-button>
+      <h2 class="login_title">Login</h2>
+    </div>
     <el-form-item prop="loginName">
       <el-input
         type="text"
         v-model="loginForm.loginName"
         auto-complete="off"
         placeholder="login name"
+        clearable
       ></el-input>
     </el-form-item>
     <el-form-item prop="password">
@@ -16,16 +26,22 @@
         v-model="loginForm.password"
         auto-complete="off"
         placeholder="password"
+        show-password
       ></el-input>
     </el-form-item>
-    <el-form-item style="width: 100%">
+    <el-row style="margin-bottom: 10px">
       <el-button
         type="primary"
-        style="width: 100%;  border: none"
-        @click="login"
-      >login</el-button
+        style="width: 80%"
+        @click="login('loginForm')"
+      >Login</el-button
       >
-    </el-form-item>
+    </el-row>
+    <el-row style="line-height: 25px">
+      <span style="font-size: 16px">Do not have an account? </span>
+      <el-link type="primary" :underline="false" @click="SignUp" style="font-size: 16px">Register</el-link>
+      <span style="font-size: 16px"> a new one.</span>
+    </el-row>
   </el-form>
   </body>
 </template>
@@ -53,58 +69,100 @@ export default {
     };
   },
   methods: {
-    login () {
-      var _this = this;
-      userLogin({
-        loginName: this.loginForm.loginName,
-        password: this.loginForm.password,
-      }).then((resp) => {
-        let code=resp.data.code;
-        console.log(code)
-        if(code===200){
-          let data=resp.data.data;
-          let token=data.token;
-          let user=data.user;
-          //存储token
-          _this.$store.commit('SET_TOKENN', token);
-          //存储user，优雅一点的做法是token和user分开获取
-          _this.$store.commit('SET_USER', user);
-          console.log(_this.$store.state.token);
-          var path = this.$route.query.redirect
-          this.$router.replace({path: path === '/' || path === undefined ? '/' : path})
-          console.log('success')
+    login (formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          var _this = this;
+          userLogin({
+            loginName: this.loginForm.loginName,
+            password: this.loginForm.password,
+          }).then((resp) => {
+            let code=resp.data.code;
+            console.log(code)
+            if(code===200){
+              let data=resp.data.data;
+              let token=data.token;
+              let user=data.user;
+              //存储token
+              _this.$store.commit('SET_TOKENN', token);
+              //存储user，优雅一点的做法是token和user分开获取
+              _this.$store.commit('SET_USER', user);
+              console.log(_this.$store.state.token);
+              var path = this.$route.query.redirect
+              this.$router.push({path: path === '/' || path === undefined ? '/' : path})
+              this.$message({
+                showClose: true,
+                message: 'Login successfully.',
+                center: true,
+                type: 'success'
+              });
+              console.log('success')
+            } else {
+              this.$message({
+                showClose: true,
+                message: 'Incorrect username or password.',
+                center: true,
+                type: 'error'
+              });
+            }
+          });
+        } else {
+          console.log('error submit!!');
+          return false;
         }
       });
-    }
+    },
+    SignUp(){
+        this.$router.push({path:'/register'})
+    },
+    back(){
+      this.$router.back();
+      console.log('back')
+    },
   },
+
 };
 </script>
 
 <style scoped>
 #login-page {
+  background: url("../assets/img/bg_login.jpg") no-repeat center;
   height: 100%;
   width: 100%;
   background-size: cover;
   position: fixed;
+  top: 0;
+  left: 0;
 }
 body {
-  margin: 0px;
+  margin: 0;
 }
 .login-container {
   border-radius: 15px;
   background-clip: padding-box;
   margin: 90px auto;
   width: 350px;
-  padding: 35px 35px 15px 35px;
+  padding: 35px 35px 35px 35px;
   background: #fff;
   border: 1px solid #eaeaea;
   box-shadow: 0 0 25px #cac6c6;
 }
 
+.login-reg-header {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+  position: relative;
+}
+.back-btn {
+  position: absolute;
+}
 .login_title {
-  margin: 0px auto 40px auto;
+  margin: 0 auto 10px auto;
   text-align: center;
   color: #505458;
+  display: inline;
+  position: relative;
 }
 </style>
 

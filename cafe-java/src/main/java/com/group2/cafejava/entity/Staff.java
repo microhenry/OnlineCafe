@@ -4,8 +4,8 @@ import com.baomidou.mybatisplus.annotation.IdType;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 
-@TableName(value = "user")
-public class User {
+@TableName(value = "staff")
+public class Staff {
     @TableId(type = IdType.AUTO)
     private Integer id;
     private String loginName;
@@ -81,17 +81,17 @@ public class User {
         this.address = address;
     }
 
-    public User() {
+    public Staff() {
     }
 
-    public User(String loginName, String userName, String password, String sex, String email, String address) {
+    public Staff(String loginName, String userName, String password, String sex, String email, String address) {
         this.loginName = loginName;
         this.userName = userName;
         this.password = password;
         this.sex = sex;
         this.email = email;
         this.address = address;
-        this.money=100.0;
+        this.money=1000.0;
     }
 
     @Override

@@ -24,7 +24,7 @@ public class DemoWebConfig implements WebMvcConfigurer {
         //添加拦截器
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/api/**")
                 //放行路径，可以添加多个
-                .excludePathPatterns("/api/login");
+                .excludePathPatterns("/api/login", "/api/user/**", "/api/menu/**");
     }
 
 

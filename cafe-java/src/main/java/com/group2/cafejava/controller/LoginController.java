@@ -14,9 +14,15 @@ public class LoginController {
     @Autowired
     LoginService loginService;
 
-    @PostMapping(value = "/api/login")
+
+    @PostMapping(value = "/api/loginUser")
     @CrossOrigin
-    public Result login(@RequestBody LoginDTO loginDTO){
-        return loginService.login(loginDTO);
+    public Result loginUser(@RequestBody LoginDTO loginDTO){
+        return loginService.loginUser(loginDTO);
+    }
+    @PostMapping(value = "/api/loginStaff")
+
+    public Result loginStaff(@RequestBody LoginDTO loginDTO){
+        return loginService.loginStaff(loginDTO);
     }
 }
