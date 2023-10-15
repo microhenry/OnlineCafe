@@ -2,8 +2,9 @@ import Vue from 'vue'
 import Router from 'vue-router'
 //导入登录页面组件
 import Login from '@/views/authentication/login.vue'
-import Dashboard from '@/views/dashboard/dashboard.vue'
 import Register from "@/views/authentication/register"
+import LoginStaff from '@/views/authentication/loginStaff.vue'
+import Dashboard from '@/views/dashboard/dashboard.vue'
 import Homepage from "../views/homepage/homepage.vue";
 
 
@@ -14,7 +15,7 @@ export default new Router({
     {
       path: '/',
       name: 'Default',
-      redirect: '/dashboard',
+      redirect: '/homepage',
       component: Dashboard
     },
     {
@@ -54,6 +55,11 @@ export default new Router({
       path:'/register',
       name:'Register',
       component: Register
+    },
+    {
+      path:'/loginstaff',
+      name: 'LoginStaff',
+      component: LoginStaff
     },
     {
       path: '/homepage',

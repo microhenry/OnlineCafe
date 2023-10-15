@@ -9,7 +9,7 @@
         class="back-btn"
         @click="back"
       ></el-button>
-      <h2 class="login_title">Login</h2>
+      <h2 class="login_title">Staff Login</h2>
     </div>
     <el-form-item prop="loginName">
       <el-input
@@ -38,19 +38,17 @@
       >
     </el-row>
     <el-row style="line-height: 25px">
-      <span style="font-size: 16px">Do not have an account? </span>
-      <el-link type="primary" :underline="false" @click="SignUp" style="font-size: 16px">Register</el-link>
-      <span style="font-size: 16px"> a new one.</span>
-    </el-row>
-    <el-row style="line-height: 25px">
-      <el-link type="primary" :underline="false" @click="SignInStaff" style="font-size: 14px">Staff Login</el-link>
+      <span style="font-size: 16px">Are you a customer? </span>
+      <el-link type="primary" :underline="false" @click="SignIn" style="font-size: 16px">Login</el-link>
+      <span style="font-size: 16px"> to your account.</span>
     </el-row>
   </el-form>
   </body>
 </template>
 
 <script>
-import { userLogin } from "@/api/user";
+import { staffLogin } from "@/api/userStaff";
+import store from "../../store";
 
 export default {
   name: "Login",
@@ -76,7 +74,7 @@ export default {
       this.$refs[formName].validate((valid) => {
         if (valid) {
           var _this = this;
-          userLogin({
+          staffLogin({
             loginName: this.loginForm.loginName,
             password: this.loginForm.password,
           }).then((resp) => {
@@ -86,14 +84,16 @@ export default {
               let data=resp.data.data;
               console.log(data);
               let token=data.token;
-              let user=data.user;
+              let staff=data.staff;
               //存储token
               _this.$store.commit('SET_TOKENN', token);
               //存储user，优雅一点的做法是token和user分开获取
-              _this.$store.commit('SET_USER', user);
-              console.log(_this.$store.state.token);
+              _this.$store.commit('SET_STAFF', staff);
+              console.log("_this.$store.state.token"+_this.$store.state.token);
+              console.log("store.state.staff: "+store.state.staff);
+              console.log(store.state.staff === '');
               var path = this.$route.query.redirect
-              this.$router.push({path: path === '/' || path === undefined ? '/' : path})
+              this.$router.push({path: path === '/dashboard' || path === undefined ? '/dashboard' : path})
               this.$message({
                 showClose: true,
                 message: 'Login successfully.',
@@ -116,11 +116,8 @@ export default {
         }
       });
     },
-    SignUp(){
-        this.$router.push({path:'/register'})
-    },
-    SignInStaff(){
-      this.$router.push({path:'/loginstaff'})
+    SignIn(){
+      this.$router.push({path:'/login'})
     },
     back(){
       this.$router.back();
@@ -133,7 +130,7 @@ export default {
 
 <style scoped>
 #login-page {
-  background: url("../../assets/img/bg_login.jpg") no-repeat center;
+  background: url("../../assets/img/bg_loginstaff.jpg") no-repeat center;
   height: 100%;
   width: 100%;
   background-size: cover;

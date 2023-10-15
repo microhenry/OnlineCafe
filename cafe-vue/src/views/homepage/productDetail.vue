@@ -114,7 +114,6 @@ export default {
             //TODO: following value should get from backend
             this.productDetail.productPrice = 7.5;
             this.productDetail.productRate = 4.5;
-            console.log(this.productDetail.productDescription);
           } else {
             this.$message.error(res.data.message);
           }

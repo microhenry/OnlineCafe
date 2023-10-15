@@ -27,6 +27,7 @@
             <el-button v-if="!isLoggedIn" class="login-btn" @click="signup">Sign up</el-button>
             <span v-if="isLoggedIn" class="user-title" style="margin-right: 5px">Welcome,</span>
             <el-popover
+              v-if="isLoggedIn"
               placement="bottom"
               trigger="hover">
               <span>Balance: <span style="color: red">{{formattedMoney}}</span></span>
@@ -54,10 +55,16 @@ export default {
   computed: {
     isLoggedIn() {
       // 使用$store来检测用户是否登录
-      return !!this.$store.state.token;
+      if(!this.$store.state.token || this.$store.state.user === undefined || this.$store.state.user === '') {
+        // 登录状态：未登录
+        return false;
+      } else {
+        return true;
+      }
+      // return !!this.$store.state.token;
     },
     formattedMoney() {
-      const money = this.$store.state.user.money;
+      let money = this.$store.state.user.money;
       // 使用 toFixed 方法为余额保留两位小数
       return '$'+parseFloat(money).toFixed(2);
     },
