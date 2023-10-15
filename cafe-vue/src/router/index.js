@@ -1,10 +1,10 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 //导入登录页面组件
-import Login from '@/views/login.vue'
-import Dashboard from '@/views/dashboard.vue'
-import Register from "@/views/register"
-import Homepage from "../views/homepage.vue";
+import Login from '@/views/authentication/login.vue'
+import Dashboard from '@/views/dashboard/dashboard.vue'
+import Register from "@/views/authentication/register"
+import Homepage from "../views/homepage/homepage.vue";
 
 
 Vue.use(Router)
@@ -50,11 +50,6 @@ export default new Router({
       name: 'Login',
       component: Login
     },
-     // {
-     //   path:'/Register',
-     //     name:'Register',
-     //   component: Register
-     // },
     {
       path:'/register',
       name:'Register',
@@ -69,18 +64,23 @@ export default new Router({
         {
           path:'/home',
           name:'Home',
-          component:() => import('@/views/home'),
+          component:() => import('@/views/homepage/home'),
         },
         {
           path:'/products',
           name:'Products',
-          component:() => import('@/views/products'),
+          component:() => import('@/views/homepage/products'),
         },
         {
           path:'/about',
           name:'About',
-          component:() => import('@/views/about'),
-        }
+          component:() => import('@/views/homepage/about'),
+        },
+        {
+          path: '/products/:productId',
+          name: 'productDetail',
+          component: () => import('@/views/homepage/productDetail.vue'),
+        },
       ]
     },
   ]

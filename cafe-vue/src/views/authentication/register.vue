@@ -190,7 +190,7 @@ export default {
 
 <style scoped>
 #register-page {
-  background: url("../assets/img/bg_login.jpg") no-repeat center;
+  background: url("../../assets/img/bg_login.jpg") no-repeat center;
   height: 100%;
   width: 100%;
   background-size: cover;

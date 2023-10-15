@@ -11,9 +11,10 @@
         <el-col style="padding-top: 10px; padding-bottom: 10px" :span="5" v-for="(product, index) in productMenuList" :key="index" class="hover-up">
           <el-card :body-style="{ padding: '10px'}">
             <el-image
-              style="width: 100%; height: 100%"
+              style="width: 100%; height: 100%; cursor: pointer"
               fit="fill"
               :src="requireProductImage(product.productPicUrl)"
+              @click.native="goToProductDetail(product.productName)"
             >
             </el-image>
             <div style="padding: 3px; min-height: 40px; align-items: center; display: flex; justify-content: center;" >
@@ -28,7 +29,7 @@
 
 <style scoped>
 .scrollable-row {
-  height: calc(100vh - 150px); /* Adjust the height */
+  height: calc(100vh - 162px); /* Adjust the height */
   overflow-y: auto; /* Set vertical scroll */
 }
 .hover-up {
@@ -40,7 +41,7 @@
 </style>
 
 <script>
-  import { productMenuList} from "../api/productMenu";
+  import { productMenuList} from "../../api/productMenu";
   export default {
     data() {
       return {
@@ -115,11 +116,16 @@
       requireProductImage(productPicUrl) {
         try {
           // Try to require the image
-          return require(`../assets/img/products/${productPicUrl}.jpg`);
+          return require(`../../assets/img/products/${productPicUrl}.jpg`);
         } catch (e) {
           // If it fails, return the default image
-          return require("../assets/img/default.jpg");
+          return require("../../assets/img/default.jpg");
         }
+      },
+      goToProductDetail(productId) {
+        // 使用 Vue Router 导航到商品详情页面，并传递商品的唯一标识
+        console.log(productId);
+        this.$router.push({ name: 'productDetail', params: { productId } });
       },
     },
   }
