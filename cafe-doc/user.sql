@@ -23,18 +23,17 @@ DROP TABLE IF EXISTS `user`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `user` (
-  `Username` varchar(20) NOT NULL,
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `Password` varchar(20) NOT NULL,
-  `Gender` char(1) DEFAULT NULL,
-  `Birthday` date DEFAULT NULL,
-  `Tel` varchar(15) NOT NULL,
-  `Address` varchar(100) NOT NULL,
-  `Nickname` varchar(20) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `login_name` varchar(64) NOT NULL,
+  `user_name` varchar(64) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `sex` varchar(8) DEFAULT NULL,
+  `email` varchar(32) NOT NULL,
+  `address` varchar(128) NOT NULL,
   `Money` double NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `UserAccount_ID_uindex` (`ID`),
-  UNIQUE KEY `UserAccount_Username_uindex` (`Username`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `UserAccount_ID_uindex` (`id`),
+  UNIQUE KEY `UserAccount_Username_uindex` (`login_name`)
 ) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -44,7 +43,7 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES ('M1',1,'M1','M','2023-09-07','1234567890','Tianjin City',NULL,0),('C1',3,'C1','M','2023-09-07','1357924680','GuangRong Road',NULL,0);
+INSERT INTO `user` VALUES (1,'M1','m1','M1','M','1234567890','Tianjin City',0),(3,'C1','c1','C1','M','1357924680','GuangRong Road',0);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-15 12:52:48
+-- Dump completed on 2023-10-15 13:26:04
