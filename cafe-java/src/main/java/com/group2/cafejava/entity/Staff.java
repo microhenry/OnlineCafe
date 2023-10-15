@@ -104,6 +104,7 @@ public class Staff {
                 ", sex='" + sex + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
+                ", money=" + money +
                 '}';
     }
 }

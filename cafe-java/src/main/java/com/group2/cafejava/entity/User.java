@@ -104,6 +104,7 @@ public class User {
                 ", sex='" + sex + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
+                ", money=" + money +
                 '}';
     }
 }

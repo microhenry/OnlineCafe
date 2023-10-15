@@ -25,7 +25,7 @@ public class MenuController {
         queryDTO.setPageNo(1);
         queryDTO.setPageSize(50);   //TODO: PageSize和PageNo的值不应该为硬编码，可能需要从前端获取
         queryDTO.setKeyword(category);
-        if (Objects.equals(category, "all")){queryDTO.setKeyword("");}
+        if (Objects.equals(category, "All")){queryDTO.setKeyword("");}
         return new Result(200,"",menuService.selectProductPage(queryDTO));
     }
     @PostMapping("/api/menu/product/{productname}")
