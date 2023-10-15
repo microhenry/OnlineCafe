@@ -23,18 +23,17 @@ DROP TABLE IF EXISTS `staff`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `staff` (
-  `Staffname` varchar(20) NOT NULL,
-  `ID` int NOT NULL AUTO_INCREMENT,
-  `Password` varchar(20) NOT NULL,
-  `Gender` char(1) DEFAULT NULL,
-  `Birthday` date DEFAULT NULL,
-  `Tel` varchar(15) NOT NULL,
-  `Address` varchar(100) NOT NULL,
-  `Nickname` varchar(20) DEFAULT NULL,
+  `id` int NOT NULL AUTO_INCREMENT,
+  `login_name` varchar(64) NOT NULL,
+  `password` varchar(64) NOT NULL,
+  `sex` char(8) DEFAULT NULL,
+  `email` varchar(32) NOT NULL,
+  `address` varchar(128) NOT NULL,
+  `user_name` varchar(64) NOT NULL,
   `money` double NOT NULL DEFAULT '0',
-  PRIMARY KEY (`ID`),
-  UNIQUE KEY `staff_Staffname_uindex` (`Staffname`),
-  UNIQUE KEY `staff_ID_uindex` (`ID`)
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `staff_Staffname_uindex` (`login_name`),
+  UNIQUE KEY `staff_ID_uindex` (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -44,7 +43,7 @@ CREATE TABLE `staff` (
 
 LOCK TABLES `staff` WRITE;
 /*!40000 ALTER TABLE `staff` DISABLE KEYS */;
-INSERT INTO `staff` VALUES ('S1',1,'S1','M','2023-10-09','0987654321','Auckland',NULL,0);
+INSERT INTO `staff` VALUES (1,'S1','S1','M','0987654321','Auckland','s1',0);
 /*!40000 ALTER TABLE `staff` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
@@ -57,4 +56,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-14 15:59:28
+-- Dump completed on 2023-10-15 13:26:31
