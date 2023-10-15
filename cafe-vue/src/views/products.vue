@@ -45,11 +45,11 @@
     data() {
       return {
         productMenuList: [],
-        category: "All",
+        category: "all",
         tabs: [
           {
             label: "All Products",
-            name: "All",
+            name: "all",
           },
           {
             label: "Featured Beverages",

@@ -49,4 +49,10 @@ public class UserServiceImpl implements UserService {
         userMapper.deleteBatchIds(ids);
     }
 
+    @Override
+    public IPage<User> selectUser(QueryDTO queryDTO) {
+        Page<User> page=new Page<>(queryDTO.getPageNo(),queryDTO.getPageSize());
+        return userMapper.selectUser(page,queryDTO.getKeyword());
+    }
+
 }
