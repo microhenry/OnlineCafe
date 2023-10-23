@@ -56,8 +56,8 @@ public class Product {
     public Product() {
     }
 
-    public Product(String productName, String category, String description, String picUrl) {
-        this.productName = productName;
+    public Product(String product_name, String category, String description, String picUrl) {
+        this.productName = product_name;
         this.productCategory = category;
         this.productDescription = description;
         this.productPicUrl = picUrl;

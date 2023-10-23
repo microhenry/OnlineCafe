@@ -26,15 +26,15 @@ public class MenuController {
     public Result ShowMenu(@PathVariable String category){
         QueryDTO queryDTO=new QueryDTO();
         queryDTO.setPageNo(1);
-        queryDTO.setPageSize(50);   //TODO: PageSize和PageNo的值不应该为硬编码，可能需要从前端获取
+        queryDTO.setPageSize(100);
         queryDTO.setKeyword(category);
         if (Objects.equals(category, "all")){queryDTO.setKeyword("");}
         return new Result(200,"",menuService.selectProductPage(queryDTO));
     }
-    @PostMapping("/api/menu/product/{productname}")
-    public Result ShowProduct(@PathVariable String productname){
+    @PostMapping("/api/menu/product/{productName}")
+    public Result ShowProduct(@PathVariable String productName){
 
-        Product productSelect=menuService.selectProduct(productname).getRecords().get(0);
+        Product productSelect=menuService.selectProduct(productName).getRecords().get(0);
 
         return new Result(200,"",productSelect);
     }

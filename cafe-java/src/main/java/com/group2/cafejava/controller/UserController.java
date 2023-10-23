@@ -31,7 +31,7 @@ public class UserController {
     public Result userDetail(@PathVariable String loginName){
         QueryDTO queryDTO=new QueryDTO();
         queryDTO.setPageNo(1);
-        queryDTO.setPageSize(10);
+        queryDTO.setPageSize(100);
         queryDTO.setKeyword(loginName);
         List<User> userSelect=userService.selectUser(queryDTO).getRecords();
         User select=new User();
@@ -83,8 +83,5 @@ public class UserController {
         userService.batchDelete(ids);
         return new Result(200,"","");
     }
-//    @PostMapping("/api/user/detail")
-//    public Result userDetail(@RequestBody QueryDTO queryDTO){
-//        return new Result(200,"",userService.selectUserPage(queryDTO));
-//    }
+
 }

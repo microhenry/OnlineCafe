@@ -24,4 +24,11 @@ public class MenuServiceImpl implements MenuService {
         Page<Product> page=new Page<>(1,1);
         return productMapper.selectProduct(page,productname);
     }
+
+    @Override
+    public IPage<Product> selectProductRough(String productname) {
+        Page<Product> page=new Page<>(1,100);
+        return productMapper.selectProduct(page,productname);
+
+    }
 }

@@ -5,7 +5,7 @@
         select * from product
         <where>
             <if test="keyword !=null and keyword !='' ">
-                or productCategory like CONCAT('%',#{keyword},'%')
+                or product_category like CONCAT('%',#{keyword},'%')
             </if>
         </where>
     </select>
@@ -13,7 +13,7 @@
         select * from product
         <where>
             <if test="keyword !=null and keyword !='' ">
-                or productName like CONCAT('%',#{keyword},'%')
+                or product_name like CONCAT('%',#{keyword},'%')
             </if>
         </where>
     </select>

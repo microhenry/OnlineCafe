@@ -20,12 +20,7 @@ import java.util.UUID;
 @Service
 public class LoginServiceImpl implements LoginService {
     @Autowired
-
-
     private UserMapper userMapper;
-
-
-
     @Override
     public Result loginUser(LoginDTO loginDTO) {
         if (StringUtils.isEmpty(loginDTO.getLoginName())){
