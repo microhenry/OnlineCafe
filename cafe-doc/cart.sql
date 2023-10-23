@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `cart`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `cart` (
-  `cartID` int NOT NULL AUTO_INCREMENT,
-  `productID` int NOT NULL,
-  `productNum` int NOT NULL,
-  `userID` int NOT NULL,
-  `productName` varchar(50) NOT NULL,
-  PRIMARY KEY (`cartID`),
-  UNIQUE KEY `cart_cartID_uindex` (`cartID`)
+  `cart_id` int NOT NULL AUTO_INCREMENT,
+  `product_id` int NOT NULL,
+  `product_num` int NOT NULL,
+  `user_id` int NOT NULL,
+  `product_name` varchar(50) NOT NULL,
+  PRIMARY KEY (`cart_id`),
+  UNIQUE KEY `cart_cartID_uindex` (`cart_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-14 15:59:40
+-- Dump completed on 2023-10-23 19:43:38

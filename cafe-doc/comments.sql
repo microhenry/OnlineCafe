@@ -23,11 +23,11 @@ DROP TABLE IF EXISTS `comments`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `comments` (
-  `commentsID` int NOT NULL AUTO_INCREMENT,
-  `commentsMesg` varchar(300) DEFAULT NULL,
-  `commentsTime` datetime NOT NULL,
-  PRIMARY KEY (`commentsID`),
-  UNIQUE KEY `comments_commentsID_uindex` (`commentsID`)
+  `comments_id` int NOT NULL AUTO_INCREMENT,
+  `comments_mesg` varchar(300) DEFAULT NULL,
+  `comments_time` datetime NOT NULL,
+  PRIMARY KEY (`comments_id`),
+  UNIQUE KEY `comments_commentsID_uindex` (`comments_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -50,4 +50,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-14 15:58:59
+-- Dump completed on 2023-10-23 19:42:27

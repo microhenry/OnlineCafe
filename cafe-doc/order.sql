@@ -23,13 +23,13 @@ DROP TABLE IF EXISTS `order`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
 CREATE TABLE `order` (
-  `orderID` int NOT NULL AUTO_INCREMENT,
-  `orderName` varchar(20) NOT NULL,
-  `orderTime` datetime NOT NULL,
-  `orderPrice` double NOT NULL,
-  `orderComment` varchar(200) DEFAULT NULL,
-  PRIMARY KEY (`orderID`),
-  UNIQUE KEY `order_orderID_uindex` (`orderID`)
+  `order_id` int NOT NULL AUTO_INCREMENT,
+  `order_name` varchar(20) NOT NULL,
+  `order_time` datetime NOT NULL,
+  `order_price` double NOT NULL,
+  `order_comment` varchar(200) DEFAULT NULL,
+  PRIMARY KEY (`order_id`),
+  UNIQUE KEY `order_orderID_uindex` (`order_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
@@ -52,4 +52,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-14 15:58:25
+-- Dump completed on 2023-10-23 19:41:57
