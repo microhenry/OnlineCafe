@@ -91,6 +91,9 @@ public class Product {
                 ", productName='" + productName + '\'' +
                 ", category='" + productCategory + '\'' +
                 ", description='" + productDescription + '\'' +
-                ", picUrl='" + productPicUrl + '\'' + '}';
+                ", picUrl='" + productPicUrl + '\'' +
+                ", productPrice='" + productPrice + '\'' +
+                ", productSize='" + productSize + '\'' +
+                '}';
     }
 }

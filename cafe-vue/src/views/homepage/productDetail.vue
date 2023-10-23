@@ -77,7 +77,7 @@ export default {
         productDescription: "",
         productCategory: "",
         productPicURL: "",
-        productPrice: 0,
+        productPrice: "",
         productRate: 0,
       },
       orderForm: {
@@ -112,7 +112,6 @@ export default {
           if (res.data.code === 200) {
             this.productDetail = res.data.data;
             //TODO: following value should get from backend
-            this.productDetail.productPrice = 7.5;
             this.productDetail.productRate = 4.5;
           } else {
             this.$message.error(res.data.message);
