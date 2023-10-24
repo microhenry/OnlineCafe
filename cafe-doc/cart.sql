@@ -28,6 +28,7 @@ CREATE TABLE `cart` (
   `product_num` int NOT NULL,
   `user_id` int NOT NULL,
   `product_name` varchar(50) NOT NULL,
+  `product_size` varchar(5) NOT NULL DEFAULT 'M',
   PRIMARY KEY (`cart_id`),
   UNIQUE KEY `cart_cartID_uindex` (`cart_id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
@@ -39,7 +40,7 @@ CREATE TABLE `cart` (
 
 LOCK TABLES `cart` WRITE;
 /*!40000 ALTER TABLE `cart` DISABLE KEYS */;
-INSERT INTO `cart` VALUES (1,1,5,1,'Pink Drink');
+INSERT INTO `cart` VALUES (1,1,5,1,'Pink Drink','M');
 /*!40000 ALTER TABLE `cart` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
