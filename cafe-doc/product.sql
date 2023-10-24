@@ -27,7 +27,7 @@ CREATE TABLE `product` (
   `product_name` varchar(50) NOT NULL,
   `product_description` varchar(500) DEFAULT NULL,
   `product_category` varchar(30) NOT NULL,
-  `product_picURL` varchar(100) DEFAULT NULL,
+  `product_pic_url` varchar(100) DEFAULT NULL,
   `product_price` double NOT NULL DEFAULT '10',
   `product_size` varchar(5) NOT NULL DEFAULT 'M',
   PRIMARY KEY (`product_id`),
@@ -54,4 +54,4 @@ UNLOCK TABLES;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2023-10-23 20:23:03
+-- Dump completed on 2023-10-25  0:13:03
