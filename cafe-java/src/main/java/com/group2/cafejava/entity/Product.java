@@ -12,6 +12,24 @@ public class Product {
     private String productCategory;
     private String productDescription;
     private String productPicUrl;
+    private double productPrice;
+    private String productSize;
+
+    public double getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(double productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public String getProductSize() {
+        return productSize;
+    }
+
+    public void setProductSize(String productSize) {
+        this.productSize = productSize;
+    }
 
     public Integer getProductId() {
         return productId;
@@ -54,13 +72,16 @@ public class Product {
     }
 
     public Product() {
+
     }
 
-    public Product(String product_name, String category, String description, String picUrl) {
+    public Product(String product_name, String category, String description, String picUrl, double productPrice,String productSize) {
         this.productName = product_name;
         this.productCategory = category;
         this.productDescription = description;
         this.productPicUrl = picUrl;
+        this.productPrice=productPrice;
+        this.productSize = productSize;
     }
 
     @Override
@@ -70,6 +91,9 @@ public class Product {
                 ", productName='" + productName + '\'' +
                 ", category='" + productCategory + '\'' +
                 ", description='" + productDescription + '\'' +
-                ", picUrl='" + productPicUrl + '\'' + '}';
+                ", picUrl='" + productPicUrl + '\'' +
+                ", productPrice='" + productPrice + '\'' +
+                ", productSize='" + productSize + '\'' +
+                '}';
     }
 }

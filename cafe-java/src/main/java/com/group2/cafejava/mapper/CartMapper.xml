@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group2.cafejava.mapper.CartMapper">
+    <select id="selectCartPage" resultType="Cart">
+        select * from cart
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or user_id like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectCart" resultType="Cart">
+        select * from cart
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or user_id like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+</mapper>

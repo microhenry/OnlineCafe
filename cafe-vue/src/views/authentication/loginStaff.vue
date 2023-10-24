@@ -3,7 +3,7 @@
   <el-form class="login-container" label-width="auto" :model="loginForm" :rules="rules" ref="loginForm">
     <div class="login-reg-header">
       <el-button
-        icon="el-icon-back"
+        icon="el-icon-s-home"
         size="small"
         circle
         class="back-btn"
@@ -120,11 +120,10 @@ export default {
       this.$router.push({path:'/login'})
     },
     back(){
-      this.$router.back();
+      this.$router.push({path:'/'})
       console.log('back')
     },
   },
-
 };
 </script>
 

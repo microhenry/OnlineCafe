@@ -44,6 +44,7 @@
           <el-table-column prop="userName" label="User Name"></el-table-column>
           <el-table-column prop="loginName" label="Login Name"></el-table-column>
           <el-table-column prop="sex" label="Gender"></el-table-column>
+          <el-table-column prop="money" label="Balance"></el-table-column>
           <el-table-column prop="email" label="Email"></el-table-column>
           <el-table-column prop="address" label="Address"></el-table-column>
           <el-table-column label="Operation">
@@ -102,6 +103,9 @@
           <el-radio v-model="userForm.sex" label="Female">Female</el-radio>
           <el-radio v-model="userForm.sex" label="Other">Other</el-radio>
         </el-form-item>
+        <el-form-item label="Balance" prop="money">
+          <el-input v-model="userForm.money"></el-input>
+        </el-form-item>
         <el-form-item label="Email" prop="email">
           <el-input v-model="userForm.email"></el-input>
         </el-form-item>
@@ -130,6 +134,9 @@
           <el-radio v-model="editForm.sex" label="Male">Male</el-radio>
           <el-radio v-model="editForm.sex" label="Female">Female</el-radio>
           <el-radio v-model="editForm.sex" label="Other">Other</el-radio>
+        </el-form-item>
+        <el-form-item label="Balance" prop="money">
+          <el-input v-model="editForm.money"></el-input>
         </el-form-item>
         <el-form-item label="Email" prop="email">
           <el-input v-model="editForm.email"></el-input>
@@ -167,6 +174,7 @@ export default {
         userName: "",
         password: "",
         sex: "",
+        money: "",
         email: "",
         address: "",
       },
@@ -177,6 +185,7 @@ export default {
         userName: "",
         password: "",
         sex: "",
+        money: "",
         email: "",
         address: "",
       },
@@ -195,6 +204,9 @@ export default {
         sex : [
           { required: true, message: 'Must select a gender!', trigger: 'change' }
         ],
+        money : [
+          { required: true, message: 'Balance cannot be empty!', trigger: 'change' }
+        ],
         email : [
           { required: true, message: 'Email cannot be empty!', trigger: 'change' }
         ],
@@ -211,6 +223,9 @@ export default {
         ],
         sex : [
           { required: true, message: 'Must select a gender!', trigger: 'change' }
+        ],
+        money : [
+          { required: true, message: 'Balance cannot be empty!', trigger: 'change' }
         ],
         email : [
           { required: true, message: 'Email cannot be empty!', trigger: 'change' }
