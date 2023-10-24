@@ -44,6 +44,14 @@ export default new Router({
             requireAuth:true
           }
         },
+        {
+          path:'/dashboard/product',
+          name:'Product',
+          component:()=>import('@/views/dashboard/product'),
+          meta:{
+            requireAuth:true
+          }
+        },
       ]
     },
     {

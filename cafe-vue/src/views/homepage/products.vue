@@ -42,57 +42,58 @@
 
 <script>
   import { productMenuList} from "../../api/productMenu";
+  export const tabs = [
+      {
+        label: "All Products",
+        name: "all",
+      },
+      {
+        label: "Featured Beverages",
+        name: "Featured Beverages",
+      },
+      {
+        label: "Barista Favourites",
+        name: "Barista Favourites",
+      },
+      {
+        label: "Hot Coffees",
+        name: "Hot Coffees",
+      },
+      {
+        label: "Cold Coffees",
+        name: "Cold Coffees",
+      },
+      {
+        label: "Coffee Blended Frappuccino",
+        name: "Coffee Blended Frappuccino",
+      },
+      {
+        label: "Cream Blended Frappuccino",
+        name: "Cream Blended Frappuccino",
+      },
+      {
+        label: "Hot Teas",
+        name: "Hot Teas",
+      },
+      {
+        label: "Iced Teas",
+        name: "Iced Teas",
+      },
+      {
+        label: "Other Hot Beverages",
+        name: "Other Hot Beverages",
+      },
+      {
+        label: "Other Cold Beverages",
+        name: "Other Cold Beverages",
+      },
+    ];
   export default {
     data() {
       return {
         productMenuList: [],
         category: "all",
-        tabs: [
-          {
-            label: "All Products",
-            name: "all",
-          },
-          {
-            label: "Featured Beverages",
-            name: "Featured Beverages",
-          },
-          {
-            label: "Barista Favourites",
-            name: "Barista Favourites",
-          },
-          {
-            label: "Hot Coffees",
-            name: "Hot Coffees",
-          },
-          {
-            label: "Cold Coffees",
-            name: "Cold Coffees",
-          },
-          {
-            label: "Coffee Blended Frappuccino",
-            name: "Coffee Blended Frappuccino",
-          },
-          {
-            label: "Cream Blended Frappuccino",
-            name: "Cream Blended Frappuccino",
-          },
-          {
-            label: "Hot Teas",
-            name: "Hot Teas",
-          },
-          {
-            label: "Iced Teas",
-            name: "Iced Teas",
-          },
-          {
-            label: "Other Hot Beverages",
-            name: "Other Hot Beverages",
-          },
-          {
-            label: "Other Cold Beverages",
-            name: "Other Cold Beverages",
-          },
-        ],
+        tabs: tabs,
       };
     },
     created() {

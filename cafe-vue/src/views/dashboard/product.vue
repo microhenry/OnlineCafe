@@ -6,25 +6,25 @@
           <el-col :span="6">
             <!--search-->
             <el-input
-              placeholder="Please enter user information"
+              placeholder="Please enter product information"
               v-model="queryInfo.keyword"
               clearable
-              @clear="getUserList"
+              @clear="getProductList"
             >
               <el-button
                 slot="append"
                 icon="el-icon-search"
-                @click="getUserList"
+                @click="getProductList"
               ></el-button>
             </el-input>
           </el-col>
           <el-col :span="2.5">
             <el-button type="primary" @click="addDialogVisible = true"
-            >Add User</el-button
+            >Add Product</el-button
             >
           </el-col>
           <el-col :span="2.5">
-            <el-button type="danger" @click="batchDeleteUser"
+            <el-button type="danger" @click="batchDeleteProduct"
             >Batch Delete</el-button
             >
           </el-col>
@@ -33,19 +33,18 @@
       <el-col :span="24">
         <!--Table-->
         <el-table
-          :data="userList"
+          :data="productList"
           border
           stripe
           @selection-change="handleSelectionChange"
         >
           <el-table-column type="selection" width="55"> </el-table-column>
           <el-table-column type="index" label="No."></el-table-column>
-          <el-table-column prop="userName" label="User Name"></el-table-column>
-          <el-table-column prop="loginName" label="Login Name"></el-table-column>
-          <el-table-column prop="sex" label="Gender"></el-table-column>
-          <el-table-column prop="money" label="Balance"></el-table-column>
-          <el-table-column prop="email" label="Email"></el-table-column>
-          <el-table-column prop="address" label="Address"></el-table-column>
+          <el-table-column prop="productCategory" label="Product Category"></el-table-column>
+          <el-table-column prop="productName" label="Product Name"></el-table-column>
+          <el-table-column prop="productSize" label="Product Size"></el-table-column>
+          <el-table-column prop="productPrice" label="Product Price"></el-table-column>
+          <el-table-column prop="productPicUrl" label="Picture Url"></el-table-column>
           <el-table-column label="Operation">
             <template slot-scope="scope">
               <!--Edit Btn-->
@@ -60,7 +59,7 @@
                 type="danger"
                 size="mini"
                 icon="el-icon-delete"
-                @click="removeUserById(scope.row.id)"
+                @click="removeProductById(scope.row.productId)"
               ></el-button>
             </template>
           </el-table-column>
@@ -79,87 +78,105 @@
       >
       </el-pagination>
     </el-row>
-    <!--Add User Dialog-->
+    <!--Add Product Dialog-->
     <el-dialog
-      title="Add User"
+      title="Add Product"
       :visible.sync="addDialogVisible"
-      width="30%"
+      width="35%"
       @close="addDialogClosed"
+      :top="`5vh`"
     >
       <!--内容主体区域-->
-      <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="100px">
-        <el-form-item label="Login Name" prop="loginName">
-          <el-input v-model="userForm.loginName"></el-input>
+      <el-form :model="productForm" :rules="productRules" ref="productForm" label-width="25%">
+        <el-form-item label="Product Name" prop="productName">
+          <el-input v-model="productForm.productName"></el-input>
         </el-form-item>
-        <el-form-item label="User Name" prop="userName">
-          <el-input v-model="userForm.userName"></el-input>
+        <el-form-item label="Category" prop="productCategory">
+          <el-select v-model="productForm.productCategory" placeholder="Please select a product category.">
+            <el-option v-for="item in categoryOpinions" :key="item.name" :label="item.label" :value="item.name"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="Password" prop="password">
-          <el-input v-model="userForm.password" show-password></el-input>
+        <el-form-item label="Product Size" prop="productSize">
+          <el-radio v-model="productForm.productSize" label="S">S</el-radio>
+          <el-radio v-model="productForm.productSize" label="M">M</el-radio>
+          <el-radio v-model="productForm.productSize" label="L">L</el-radio>
         </el-form-item>
-        <el-form-item label="Gender" prop="sex">
-          <el-radio v-model="userForm.sex" label="Male">Male</el-radio>
-          <el-radio v-model="userForm.sex" label="Female">Female</el-radio>
-          <el-radio v-model="userForm.sex" label="Other">Other</el-radio>
+        <el-form-item label="Product Price" prop="productPrice">
+          <el-input-number
+            v-model="productForm.productPrice"
+            :precision="2"
+            :step="1"
+            :min="0.1"
+            :max="100"
+            label="Product Price"
+          />
         </el-form-item>
-        <el-form-item label="Balance" prop="money">
-          <el-input v-model="userForm.money"></el-input>
+        <el-form-item label="Picture Url" prop="productPicUrl">
+          <el-input v-model="productForm.productPicUrl"></el-input>
         </el-form-item>
-        <el-form-item label="Email" prop="email">
-          <el-input v-model="userForm.email"></el-input>
-        </el-form-item>
-        <el-form-item label="Address" prop="address">
-          <el-input v-model="userForm.address"></el-input>
+        <el-form-item label="Description" prop="productDescription">
+          <el-input type="textarea" :rows="3" v-model="productForm.productDescription"></el-input>
         </el-form-item>
       </el-form>
       <!--底部按钮区域-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="addUser('userForm')">Confirm</el-button>
+        <el-button type="primary" @click="addProduct('productForm')">Confirm</el-button>
       </span>
     </el-dialog>
 
-    <!--Edit User Dialog-->
-    <el-dialog title="Edit User" :visible.sync="editDialogVisible" width="30%">
+    <!--Edit Product Dialog-->
+    <el-dialog title="Edit Product" :visible.sync="editDialogVisible" width="35%" :top="`5vh`">
       <!--内容主体区域-->
-      <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="100px">
-        <el-form-item label="Login Name" prop="loginName">
-          <el-input v-model="editForm.loginName" :disabled="true"></el-input>
+      <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="25%">
+        <el-form-item label="Product Name" prop="productName">
+          <el-input v-model="editForm.productName"></el-input>
         </el-form-item>
-        <el-form-item label="User Name" prop="userName">
-          <el-input v-model="editForm.userName"></el-input>
+        <el-form-item label="Category" prop="productCategory">
+          <el-select v-model="editForm.productCategory" placeholder="Please select a product category.">
+            <el-option v-for="item in categoryOpinions" :key="item.name" :label="item.label" :value="item.name"></el-option>
+          </el-select>
         </el-form-item>
-        <el-form-item label="Gender" prop="sex">
-          <el-radio v-model="editForm.sex" label="Male">Male</el-radio>
-          <el-radio v-model="editForm.sex" label="Female">Female</el-radio>
-          <el-radio v-model="editForm.sex" label="Other">Other</el-radio>
+        <el-form-item label="Product Size" prop="productSize">
+          <el-radio v-model="editForm.productSize" label="S">S</el-radio>
+          <el-radio v-model="editForm.productSize" label="M">M</el-radio>
+          <el-radio v-model="editForm.productSize" label="L">L</el-radio>
         </el-form-item>
-        <el-form-item label="Balance" prop="money">
-          <el-input v-model="editForm.money"></el-input>
+        <el-form-item label="Product Price" prop="productPrice">
+          <el-input-number
+            v-model="editForm.productPrice"
+            :precision="2"
+            :step="1"
+            :min="0.1"
+            :max="100"
+            label="Product Price"
+          />
         </el-form-item>
-        <el-form-item label="Email" prop="email">
-          <el-input v-model="editForm.email"></el-input>
+        <el-form-item label="Picture Url" prop="productPicUrl">
+          <el-input v-model="editForm.productPicUrl"></el-input>
         </el-form-item>
-        <el-form-item label="Address" prop="address">
-          <el-input v-model="editForm.address"></el-input>
+        <el-form-item label="Description" prop="productDescription">
+          <el-input type="textarea" :rows="3" v-model="editForm.productDescription"></el-input>
         </el-form-item>
       </el-form>
       <!--底部按钮区域-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="editUser('editForm')">Confirm</el-button>
+        <el-button type="primary" @click="editProduct('editForm')">Confirm</el-button>
       </span>
     </el-dialog>
   </div>
 </template>
 
 <script>
-import { userList, userAdd, userUpdate, userDelete, userBatchDelete} from "@/api/user";
+import { productList, getProductDetail, addProduct, updateProduct, deleteProduct, batchDeleteProduct } from "@/api/productEdit";
+import { tabs } from "../homepage/products.vue";
 export default {
   data() {
     return {
-      userList: [], // 用户列表
+      productList: [], // 用户列表
       total: 0, // 用户总数
+      categoryOpinions: tabs.filter(tab => tab.name !== 'all'),
       // 获取用户列表的参数对象
       queryInfo: {
         keyword: "", // 查询参数
@@ -167,87 +184,81 @@ export default {
         pageSize: 5, // 每页显示条数
       },
       addDialogVisible: false, // 控制添加用户对话框是否显示
-      userForm: {
+      productForm: {
         //用户
-        loginName: "",
-        userName: "",
-        password: "",
-        sex: "",
-        money: "",
-        email: "",
-        address: "",
+        productName: "",
+        productCategory: "",
+        productDescription: "",
+        productSize: "",
+        productPrice: "9.90",
+        productPicUrl: "",
       },
       editDialogVisible: false, // 控制修改用户信息对话框是否显示
       editForm: {
-        id: "",
-        loginName: "",
-        userName: "",
-        password: "",
-        sex: "",
-        money: "",
-        email: "",
-        address: "",
+        productId: "",
+        productName: "",
+        productCategory: "",
+        productDescription: "",
+        productSize: "",
+        productPrice: "",
+        productPicUrl: "",
       },
       multipleSelection: [],
-      ids: [],
-      userRules: {
-        loginName : [
+      productIds: [],
+      productRules: {
+        productName : [
           { required: true, message: 'Login name cannot be empty!', trigger: 'change' }
         ],
-        userName : [
+        productCategory : [
           { required: true, message: 'User name cannot be empty!', trigger: 'change' }
         ],
-        password : [
-          { required: true, message: 'Password cannot be empty!', trigger: 'change' }
+        productDescription : [
+          { required: true, message: 'Description cannot be empty!', trigger: 'change' }
         ],
-        sex : [
+        productSize : [
           { required: true, message: 'Must select a gender!', trigger: 'change' }
         ],
-        money : [
+        productPrice : [
           { required: true, message: 'Balance cannot be empty!', trigger: 'change' }
         ],
-        email : [
-          { required: true, message: 'Email cannot be empty!', trigger: 'change' }
+        productPicUrl : [
+          { required: true, message: 'picUrl cannot be empty!', trigger: 'change' }
         ],
-        address : [
-          { required: true, message: 'Address cannot be empty!', trigger: 'change' }
-        ]
       },
       editRules: {
-        loginName : [
+        productName : [
           { required: true, message: 'Login name cannot be empty!', trigger: 'change' }
         ],
-        userName : [
+        productCategory : [
           { required: true, message: 'User name cannot be empty!', trigger: 'change' }
         ],
-        sex : [
+        productDescription : [
+          { required: true, message: 'Description cannot be empty!', trigger: 'change' }
+        ],
+        productSize : [
           { required: true, message: 'Must select a gender!', trigger: 'change' }
         ],
-        money : [
+        productPrice : [
           { required: true, message: 'Balance cannot be empty!', trigger: 'change' }
         ],
-        email : [
-          { required: true, message: 'Email cannot be empty!', trigger: 'change' }
+        productPicUrl : [
+          { required: true, message: 'picUrl cannot be empty!', trigger: 'change' }
         ],
-        address : [
-          { required: true, message: 'Address cannot be empty!', trigger: 'change' }
-        ]
       },
     };
   },
   created() {
     // 生命周期函数
-    this.getUserList();
+    this.getProductList();
   },
   methods: {
-    getUserList() {
-      userList(this.queryInfo)
+    getProductList() {
+      productList(this.queryInfo)
         .then((res) => {
           if (res.data.code === 200) {
             //用户列表
-            console.log(res.data.data);
-            this.userList = res.data.data.records;
-            this.total = res.data.data.total;
+            this.productList = res.data.data;
+            this.total = res.data.totalRecords;
           } else {
             this.$message.error(res.data.message);
           }
@@ -256,41 +267,45 @@ export default {
           console.log(err);
         });
     },
+    getProductNum(){
+      //根据productList长度获取product数量
+      return this.productList.length;
+    },
     // 监听 pageSize 改变的事件
     handleSizeChange(newSize) {
       // console.log(newSize)
       this.queryInfo.pageSize = newSize;
       // 重新发起请求用户列表
-      this.getUserList();
+      this.getProductList();
     },
     // 监听 当前页码值 改变的事件
     handleCurrentChange(newPage) {
       // console.log(newPage)
       this.queryInfo.pageNo = newPage;
       // 重新发起请求用户列表
-      this.getUserList();
+      this.getProductList();
     },
     //添加用户
-    addUser(formName) {
+    addProduct(formName) {
       console.log(formName)
       this.$refs[formName].validate((valid) => {
         console.log(valid)
         if (valid) {
-          userAdd(this.userForm)
+          addProduct(this.productForm)
             .then((res) => {
               if (res.data.code === 200) {
                 this.addDialogVisible = false;
-                this.getUserList();
+                this.getProductList();
                 this.$message({
-                  message: "Added user successfully.",
+                  message: "Added product successfully.",
                   type: "success",
                 });
               } else {
-                this.$message.error("Failed to add user.");
+                this.$message.error("Failed to add product.");
               }
             })
             .catch((err) => {
-              this.$message.error("Failed to add user.");
+              this.$message.error("Failed to add product.");
               console.log(err);
             });
         } else {
@@ -303,34 +318,34 @@ export default {
     // 监听 添加用户对话框的关闭事件
     addDialogClosed() {
       // 表单内容重置为空
-      this.$refs.userForm.resetFields();
+      this.$refs.productForm.resetFields();
     },
 
     // 监听 修改用户状态
-    showEditDialog(userinfo) {
+    showEditDialog(productInfo) {
       this.editDialogVisible = true;
-      console.log(userinfo);
-      this.editForm = userinfo;
+      console.log(productInfo);
+      this.editForm = productInfo;
     },
     //修改用户
-    editUser(formName) {
+    editProduct(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
-          userUpdate(this.editForm)
+          updateProduct(this.editForm)
             .then((res) => {
               if (res.data.code === 200) {
                 this.editDialogVisible = false;
-                this.getUserList();
+                this.getProductList();
                 this.$message({
-                  message: "Edited user successfully.",
+                  message: "Edited product successfully.",
                   type: "success",
                 });
               } else {
-                this.$message.error("Failed to edit user.");
+                this.$message.error("Failed to edit product.");
               }
             })
             .catch((err) => {
-              this.$message.error("Failed to edit user.");
+              this.$message.error("Failed to edit product.");
               console.loge(err);
             });
         } else {
@@ -340,11 +355,11 @@ export default {
       });
     },
     // 根据ID删除对应的用户信息
-    async removeUserById(id) {
-      console.log("id: "+id);
+    async removeProductById(productId) {
+      console.log("productId: "+productId);
       // 弹框 询问用户是否删除
       const confirmResult = await this.$confirm(
-        "This operation will permanently delete the user. Do you want to continue?",
+        "This operation will permanently delete the product. Do you want to continue?",
         "Warning",
         {
           confirmButtonText: "Confirm",
@@ -357,20 +372,20 @@ export default {
       // console.log(confirmResult)
       if (confirmResult === "confirm") {
         //删除用户
-        userDelete(id)
+        deleteProduct(productId)
           .then((res) => {
             if (res.data.code === 200) {
-              this.getUserList();
+              this.getProductList();
               this.$message({
-                message: "Deleted user successfully.",
+                message: "Deleted product successfully.",
                 type: "success",
               });
             } else {
-              this.$message.error("Failed to delete user.");
+              this.$message.error("Failed to delete product.");
             }
           })
           .catch((err) => {
-            this.$message.error("Failed to delete user.");
+            this.$message.error("Failed to delete product.");
             console.log(err);
           });
       }
@@ -381,15 +396,15 @@ export default {
       console.log(this.multipleSelection);
       //向被删除的ids赋值
       this.multipleSelection.forEach((item) => {
-        this.ids.push(item.id);
-        console.log(this.ids);
+        this.productIds.push(item.productId);
+        console.log(this.productIds);
       });
     },
     //批量删除用户
-    async batchDeleteUser(){
+    async batchDeleteProduct(){
       // 弹框 询问用户是否删除
       const confirmResult = await this.$confirm(
-        "This operation will permanently delete the user. Do you want to continue?",
+        "This operation will permanently delete the product. Do you want to continue?",
         "Warning",
         {
           confirmButtonText: "Confirm",
@@ -401,20 +416,20 @@ export default {
       // 如果用户取消删除，则返回值为字符串 cancel
       if (confirmResult === "confirm") {
         //批量删除用户
-        userBatchDelete(this.ids)
+        batchDeleteProduct(this.productIds)
           .then((res) => {
             if (res.data.code === 200) {
               this.$message({
-                message: "Deleted user successfully.",
+                message: "Deleted product successfully.",
                 type: "success",
               });
-              this.getUserList();
+              this.getProductList();
             } else {
-              this.$message.error("Failed to delete user.");
+              this.$message.error("Failed to delete product.");
             }
           })
           .catch((err) => {
-            this.$message.error("Failed to delete user.");
+            this.$message.error("Failed to delete product.");
             console.log(err);
           });
       }
@@ -433,5 +448,9 @@ export default {
 .el-card {
   box-shadow: 0 1px 1px rgba(0, 0, 0, 0.1) !important;
   height: 60pt;
+}
+
+.el-select {
+  width: 100%;
 }
 </style>
