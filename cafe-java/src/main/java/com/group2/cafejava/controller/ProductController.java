@@ -20,11 +20,7 @@ public class ProductController {
     private MenuService menuService;
 
     @PostMapping("/api/user/product/list")
-    public Result productList() {
-        QueryDTO queryDTO = new QueryDTO();
-        queryDTO.setPageNo(1);
-        queryDTO.setPageSize(100);
-        queryDTO.setKeyword("");
+    public Result productList(@RequestBody QueryDTO queryDTO) {
         List<Product> productSelect = menuService.selectProductPage(queryDTO).getRecords();
         return new Result(200, "", productSelect);
     }
