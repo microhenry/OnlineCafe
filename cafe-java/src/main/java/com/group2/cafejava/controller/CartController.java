@@ -30,6 +30,18 @@ public class CartController {
         return new Result(200,"",cartService.selectCartPage(queryDTO));
     }
 
+    @PostMapping("/api/cart/cartNumber/{userId}")
+    public Result cartNumber(@PathVariable Integer userId){
+        QueryDTO queryDTO=new QueryDTO();
+        queryDTO.setPageNo(1);
+        queryDTO.setPageSize(1000);
+        queryDTO.setKeyword(userId.toString());
+        IPage<Cart> cartPage = cartService.selectCartPage(queryDTO);
+        long totalRecords = cartPage.getTotal(); // Get the number of total records
+        return new Result(200, "",totalRecords);  // Return result with code, message, data, and total records
+    }
+
+
 
 //    @PostMapping("/api/user/detail/{loginName}")
 //    public Result userDetail(@PathVariable String loginName){

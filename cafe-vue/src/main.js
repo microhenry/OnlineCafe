@@ -54,7 +54,7 @@ router.beforeEach((to, from, next) => {
       }
     } else if(to.meta.requireUserAuth){
       //If the router require user authentication
-      if (store.state.token) {
+      if (store.state.token && store.state.isStaff === false) {
         //If store has the token
         next()
       } else {

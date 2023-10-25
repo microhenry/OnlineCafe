@@ -38,7 +38,9 @@
                 </span>
               </el-popover>
               <el-tooltip placement="bottom" trigger="hover" content="My Cart">
-                <el-button type="warning" icon="el-icon-shopping-cart-full" @click="myProfile('cart')"></el-button>
+                <el-badge :value="chartNum" :max="9" class="item" style="margin-right: 10px">
+                  <el-button type="warning" icon="el-icon-shopping-cart-full" @click="myProfile('cart')"></el-button>
+                </el-badge>
               </el-tooltip>
               <el-tooltip placement="bottom" trigger="hover" content="My Order">
                 <el-button type="success" icon="el-icon-tickets" @click="myProfile('order')"></el-button>
@@ -62,12 +64,16 @@
 </template>
 
 <script>
+import { cartNumber } from "../../api/cart";
+
 export default {
   name: "HomePage",
   computed: {
     isLoggedIn() {
+      console.log(this.$store.state.isStaff);
       // 使用$store来检测用户是否登录
-      if(!this.$store.state.token || this.$store.state.user === undefined || this.$store.state.user === '') {
+      if(!this.$store.state.token || this.$store.state.user === undefined || this.$store.state.user === ''
+        || this.$store.state.isStaff === undefined || this.$store.state.isStaff === true ) {
         // 登录状态：未登录
         return false;
       } else {
@@ -83,6 +89,7 @@ export default {
   },
   data() {
     return {
+      chartNum: 0,
       navList: [
         { name: "/home", title: "Home", icon: "el-icon-s-home" },
         { name: "/products", title: "Products", icon: "el-icon-goods" },
@@ -119,8 +126,26 @@ export default {
           this.$router.push({path: '/userpanel/profile'});
           break;
       }
+    },
+    getCartNumber() {
+      const userId = this.$store.state.user.id;
+      const data = {};
+      cartNumber(data, userId)
+        .then(response => {
+          console.log(response.data);
+          console.log(response.data.data);
+          this.chartNum = response.data.data;
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+  },
+  mounted() {
+    if(this.isLoggedIn){
+      this.getCartNumber();
     }
-  }
+  },
 };
 </script>
 
