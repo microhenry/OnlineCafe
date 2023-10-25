@@ -105,5 +105,10 @@ export default new Router({
         },
       ]
     },
+    {
+      path: '/:catchAll(.*)',
+      name: 'not-found',
+      component: () => import('@/components/NotFound.vue')
+    }
   ]
 })
