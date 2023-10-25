@@ -23,19 +23,31 @@
             {{ item.title }}
           </el-menu-item>
           <div class="button-container">
-            <el-button v-if="!isLoggedIn" type="primary" class="login-btn" @click="login">Login</el-button>
-            <el-button v-if="!isLoggedIn" class="login-btn" @click="signup">Sign up</el-button>
-            <span v-if="isLoggedIn" class="user-title" style="margin-right: 5px">Welcome,</span>
-            <el-popover
-              v-if="isLoggedIn"
-              placement="bottom"
-              trigger="hover">
-              <span>Balance: <span style="color: red">{{formattedMoney}}</span></span>
-              <span v-if="isLoggedIn" class="user-title" style="margin-right: 10px; color: dodgerblue" slot="reference">
-            {{ this.$store.state.user.loginName }}
-            </span>
-            </el-popover>
-            <el-button v-if="isLoggedIn" type="danger" class="logout-btn" @click="logout">Logout</el-button>
+            <div v-if="!isLoggedIn">
+              <el-button type="primary" class="login-btn" @click="login">Login</el-button>
+              <el-button class="login-btn" @click="signup">Sign up</el-button>
+            </div>
+            <div v-if="isLoggedIn">
+              <span class="user-title" style="margin-right: 5px">Welcome,</span>
+              <el-popover
+                placement="bottom"
+                trigger="hover">
+                <span>Balance: <span style="color: red">{{formattedMoney}}</span></span>
+                <span class="user-title" style="margin-right: 10px; color: dodgerblue" slot="reference">
+                  {{ this.$store.state.user.loginName }}
+                </span>
+              </el-popover>
+              <el-tooltip placement="bottom" trigger="hover" content="My Cart">
+                <el-button type="warning" icon="el-icon-shopping-cart-full" @click="myProfile('cart')"></el-button>
+              </el-tooltip>
+              <el-tooltip placement="bottom" trigger="hover" content="My Order">
+                <el-button type="success" icon="el-icon-tickets" @click="myProfile('order')"></el-button>
+              </el-tooltip>
+              <el-tooltip placement="bottom" trigger="hover" content="My Profile">
+                <el-button type="primary" icon="el-icon-user" @click="myProfile()"></el-button>
+              </el-tooltip>
+              <el-button type="danger" class="logout-btn" @click="logout">Logout</el-button>
+            </div>
           </div>
         </el-menu>
       </el-header>
@@ -64,8 +76,8 @@ export default {
       // return !!this.$store.state.token;
     },
     formattedMoney() {
+      // Reserve two decimal places for the balance
       let money = this.$store.state.user.money;
-      // 使用 toFixed 方法为余额保留两位小数
       return '$'+parseFloat(money).toFixed(2);
     },
   },
@@ -86,7 +98,7 @@ export default {
       this.$router.push({path: '/register'});
     },
     logout() {
-      // this.$router.replace({path: '/login'});
+      this.$router.replace({path: '/'});
       this.$store.commit('REMOVE_INFO');
       this.$message({
         showClose: true,
@@ -94,6 +106,19 @@ export default {
         center: true,
         type: 'success'
       });
+    },
+    myProfile(opinion) {
+      switch (opinion) {
+        case 'cart':
+          this.$router.push({path: '/userpanel/cart'});
+          break;
+        case 'order':
+          this.$router.push({path: '/userpanel/order'});
+          break;
+        default:
+          this.$router.push({path: '/userpanel/profile'});
+          break;
+      }
     }
   }
 };

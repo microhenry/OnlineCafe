@@ -54,3 +54,12 @@ export function userBatchDelete(data) {
     data
   })
 }
+
+//
+export function userDetail(data, loginName) {
+  return request({
+    url: '/user/detail/' + loginName,
+    method: 'post',
+    data,
+  })
+}

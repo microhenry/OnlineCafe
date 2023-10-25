@@ -99,9 +99,36 @@ export default new Router({
           path: '/userpanel',
           name: 'userPanel',
           component: () => import('@/views/homepage/userpanel/userpanel.vue'),
+          redirect: '/userpanel/profile',
           meta:{
             requireUserAuth:true
-          }
+          },
+          children:[
+            {
+              path: '/userpanel/profile',
+              name: 'profile',
+              component: () => import('@/views/homepage/userpanel/profile.vue'),
+              meta:{
+                requireUserAuth:true
+              },
+            },
+            {
+              path: '/userpanel/cart',
+              name: 'cart',
+              component: () => import('@/views/homepage/userpanel/cart.vue'),
+              meta:{
+                requireUserAuth:true
+              },
+            },
+            {
+              path: '/userpanel/order',
+              name: 'order',
+              component: () => import('@/views/homepage/userpanel/order.vue'),
+              meta:{
+                requireUserAuth:true
+              },
+            },
+          ]
         },
       ]
     },
