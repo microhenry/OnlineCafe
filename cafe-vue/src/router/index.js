@@ -24,7 +24,7 @@ export default new Router({
       name: 'Dashboard',
       component: Dashboard,
       meta: {
-        requireAuth: true
+        requireStaffAuth: true
       },
       redirect: '/dashboard/index',
       children:[
@@ -33,7 +33,7 @@ export default new Router({
           name:'Index',
           component:() => import('@/views/dashboard/index'),
           meta:{
-            requireAuth:true
+            requireStaffAuth:true
           }
         },
         {
@@ -41,7 +41,7 @@ export default new Router({
           name:'User',
           component:()=>import('@/views/dashboard/user'),
           meta:{
-            requireAuth:true
+            requireStaffAuth:true
           }
         },
         {
@@ -49,7 +49,7 @@ export default new Router({
           name:'Product',
           component:()=>import('@/views/dashboard/product'),
           meta:{
-            requireAuth:true
+            requireStaffAuth:true
           }
         },
       ]
@@ -94,6 +94,14 @@ export default new Router({
           path: '/products/:productId',
           name: 'productDetail',
           component: () => import('@/views/homepage/productDetail.vue'),
+        },
+        {
+          path: '/userpanel',
+          name: 'userPanel',
+          component: () => import('@/views/homepage/userpanel/userpanel.vue'),
+          meta:{
+            requireUserAuth:true
+          }
         },
       ]
     },

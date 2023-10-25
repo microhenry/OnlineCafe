@@ -84,14 +84,14 @@ export default {
               let data=resp.data.data;
               console.log(data);
               let token=data.token;
-              let staff=data.staff;
+              let user=data.staff;
               //存储token
               _this.$store.commit('SET_TOKENN', token);
               //存储user，优雅一点的做法是token和user分开获取
-              _this.$store.commit('SET_STAFF', staff);
-              console.log("_this.$store.state.token"+_this.$store.state.token);
-              console.log("store.state.staff: "+store.state.staff);
-              console.log(store.state.staff === '');
+              _this.$store.commit('SET_STAFF', user);
+              // console.log("_this.$store.state.token"+_this.$store.state.token);
+              // console.log("store.state.staff: "+store.state.staff);
+              // console.log(store.state.staff === '');
               var path = this.$route.query.redirect
               this.$router.push({path: path === '/dashboard' || path === undefined ? '/dashboard' : path})
               this.$message({

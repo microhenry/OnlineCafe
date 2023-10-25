@@ -17,25 +17,25 @@ export default new Vuex.Store({
     },
     SET_USER: (state, user) => {
       state.user = user
-      state.staff = undefined;
+      state.isStaff = false;
       sessionStorage.setItem("user", JSON.stringify(user))
-      sessionStorage.setItem("staff", JSON.stringify(''))
+      sessionStorage.setItem("isStaff", JSON.stringify(false))
       console.log("SET_USER: "+state.user)
     },
-    SET_STAFF: (state, staff) => {
-      state.staff = staff
-      state.user = undefined;
-      sessionStorage.setItem("staff", JSON.stringify(staff))
-      sessionStorage.setItem("user", JSON.stringify(''))
-      console.log("SET_STAFF: "+state.staff)
+    SET_STAFF: (state, user) => {
+      state.user = user;
+      state.isStaff = true
+      sessionStorage.setItem("user", JSON.stringify(user))
+      sessionStorage.setItem("isStaff", JSON.stringify(true))
+      // console.log("SET_STAFF: "+state.staff)
     },
     REMOVE_INFO : (state) => {
       state.token = ''
       state.user = {}
-      state.staff = {}
+      state.isStaff = false
       sessionStorage.setItem("token", '')
       sessionStorage.setItem("user", JSON.stringify(''))
-      sessionStorage.setItem("staff", JSON.stringify(''))
+      sessionStorage.setItem("isStaff", JSON.stringify(false))
     },
   },
   getters: {

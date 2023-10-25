@@ -4,11 +4,11 @@
     <el-header style="margin-right: 15px; width: 100%">
       <span class="nav-logo">Cafe</span>
       <span class="head-title">Online Cafe Ordering Application</span>
-      <span class="user-title">{{ this.$store.state.staff.userName }}</span>
+      <span class="user-title">{{ this.$store.state.user.userName }}</span>
       <el-button type="danger" class="logout-btn" @click="logout">Logout</el-button>
       <el-avatar
         style="float: right;"
-      > {{ this.$store.state.staff.userName }} </el-avatar>
+      > {{ this.$store.state.user.userName }} </el-avatar>
 
     </el-header>
     <el-container>

@@ -174,18 +174,16 @@ import { tabs } from "../homepage/products.vue";
 export default {
   data() {
     return {
-      productList: [], // 用户列表
-      total: 0, // 用户总数
+      productList: [],
+      total: 0,
       categoryOpinions: tabs.filter(tab => tab.name !== 'all'),
-      // 获取用户列表的参数对象
       queryInfo: {
-        keyword: "", // 查询参数
-        pageNo: 1, // 当前页码
-        pageSize: 5, // 每页显示条数
+        keyword: "",
+        pageNo: 1,
+        pageSize: 5,
       },
-      addDialogVisible: false, // 控制添加用户对话框是否显示
+      addDialogVisible: false,
       productForm: {
-        //用户
         productName: "",
         productCategory: "",
         productDescription: "",
@@ -193,7 +191,7 @@ export default {
         productPrice: "9.90",
         productPicUrl: "",
       },
-      editDialogVisible: false, // 控制修改用户信息对话框是否显示
+      editDialogVisible: false,
       editForm: {
         productId: "",
         productName: "",
@@ -248,7 +246,6 @@ export default {
     };
   },
   created() {
-    // 生命周期函数
     this.getProductList();
   },
   methods: {
@@ -256,7 +253,7 @@ export default {
       productList(this.queryInfo)
         .then((res) => {
           if (res.data.code === 200) {
-            //用户列表
+            // Get the product list
             this.productList = res.data.data;
             this.total = res.data.totalRecords;
           } else {
@@ -267,25 +264,20 @@ export default {
           console.log(err);
         });
     },
-    getProductNum(){
-      //根据productList长度获取product数量
-      return this.productList.length;
-    },
     // 监听 pageSize 改变的事件
+    // Listen the event of changing pageSize
     handleSizeChange(newSize) {
       // console.log(newSize)
       this.queryInfo.pageSize = newSize;
-      // 重新发起请求用户列表
       this.getProductList();
     },
     // 监听 当前页码值 改变的事件
     handleCurrentChange(newPage) {
       // console.log(newPage)
       this.queryInfo.pageNo = newPage;
-      // 重新发起请求用户列表
       this.getProductList();
     },
-    //添加用户
+    // Add product
     addProduct(formName) {
       console.log(formName)
       this.$refs[formName].validate((valid) => {
@@ -315,19 +307,19 @@ export default {
       });
     },
 
-    // 监听 添加用户对话框的关闭事件
+    // Listen the event of closing add dialog
     addDialogClosed() {
       // 表单内容重置为空
       this.$refs.productForm.resetFields();
     },
 
-    // 监听 修改用户状态
+    // Listen the event of clicking edit button
     showEditDialog(productInfo) {
       this.editDialogVisible = true;
       console.log(productInfo);
       this.editForm = productInfo;
     },
-    //修改用户
+    // Edit product
     editProduct(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -354,10 +346,10 @@ export default {
         }
       });
     },
-    // 根据ID删除对应的用户信息
+    // Delete product by id
     async removeProductById(productId) {
       console.log("productId: "+productId);
-      // 弹框 询问用户是否删除
+      // Confirm dialog
       const confirmResult = await this.$confirm(
         "This operation will permanently delete the product. Do you want to continue?",
         "Warning",
@@ -367,11 +359,7 @@ export default {
           type: "warning",
         }
       ).catch((err) => err);
-      // 如果用户确认删除，则返回值为字符串 confirm
-      // 如果用户取消删除，则返回值为字符串 cancel
-      // console.log(confirmResult)
       if (confirmResult === "confirm") {
-        //删除用户
         deleteProduct(productId)
           .then((res) => {
             if (res.data.code === 200) {
@@ -400,7 +388,7 @@ export default {
         console.log(this.productIds);
       });
     },
-    //批量删除用户
+    // Batch delete product
     async batchDeleteProduct(){
       // 弹框 询问用户是否删除
       const confirmResult = await this.$confirm(
@@ -412,10 +400,7 @@ export default {
           type: "warning",
         }
       ).catch((err) => err);
-      // 如果用户确认删除，则返回值为字符串 confirm
-      // 如果用户取消删除，则返回值为字符串 cancel
       if (confirmResult === "confirm") {
-        //批量删除用户
         batchDeleteProduct(this.productIds)
           .then((res) => {
             if (res.data.code === 200) {

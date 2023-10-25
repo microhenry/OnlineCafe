@@ -25,14 +25,14 @@ Vue.use(ElementUI, { locale })
 
 //hook
 router.beforeEach((to, from, next) => {
-    if (to.meta.requireAuth) {
-      console.log("1.requireAuth")
-      //If the router require authentication
+    if (to.meta.requireStaffAuth) {
+      console.log("1.requireStaffAuth")
+      //If the router require staff authentication
       if (store.state.token) {
         //If store has the token
         console.log("2.store has the token")
         //TODO: Find better validation methods.
-        if(store.state.staff === undefined  || store.state.staff === ''){
+        if(store.state.isStaff === false){
           console.log("3.store has no staff")
           Vue.prototype.$message.error("Error: Please login to your staff account.");
           console.log("4.redirect to:"+ to.fullPath)
@@ -41,7 +41,7 @@ router.beforeEach((to, from, next) => {
             query: { redirect: to.fullPath }
           })
         } else {
-          console.log("3.store has the staff:" + store.state.staff)
+          // console.log("3.store has the staff:" + store.state.staff)
           next()
         }
       } else {
@@ -49,6 +49,19 @@ router.beforeEach((to, from, next) => {
         Vue.prototype.$message.error("Error: Please login to your staff account.");
         next({
           path: 'loginstaff',
+          query: { redirect: to.fullPath }
+        })
+      }
+    } else if(to.meta.requireUserAuth){
+      //If the router require user authentication
+      if (store.state.token) {
+        //If store has the token
+        next()
+      } else {
+        //If store has no token, redirect to the login page.
+        Vue.prototype.$message.error("Error: Please login to your customer account.");
+        next({
+          path: 'login',
           query: { redirect: to.fullPath }
         })
       }
