@@ -132,8 +132,6 @@ export default {
       const data = {};
       cartNumber(data, userId)
         .then(response => {
-          console.log(response.data);
-          console.log(response.data.data);
           this.chartNum = response.data.data;
         })
         .catch(error => {

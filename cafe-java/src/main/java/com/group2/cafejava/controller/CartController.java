@@ -27,7 +27,13 @@ public class CartController {
      */
     @PostMapping("/api/cart/list")
     public Result cartList(@RequestBody QueryDTO queryDTO){
-        return new Result(200,"",cartService.selectCartPage(queryDTO));
+//        return new Result(200,"",cartService.selectCartPage(queryDTO));
+        IPage<Cart> cartPage = cartService.selectCartPage(queryDTO);
+        List<Cart> cartSelect = cartPage.getRecords();
+        long totalRecords = cartPage.getTotal(); // Get the number of total records
+        Result result = new Result(200, "", cartSelect, totalRecords);   // Set total records to result
+        result.setTotalRecords(totalRecords);
+        return result;  // Return result with code, message, data, and total records
     }
 
     @PostMapping("/api/cart/cartNumber/{userId}")
