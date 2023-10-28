@@ -18,4 +18,12 @@
             </if>
         </where>
     </select>
+    <select id="selectProductById" resultType="Product">
+        select * from product
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or product_id like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
 </mapper>

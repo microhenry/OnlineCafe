@@ -8,6 +8,7 @@ export default new Vuex.Store({
     token: sessionStorage.getItem("token"),
     user: JSON.parse(sessionStorage.getItem("user")),
     isStaff: JSON.parse(sessionStorage.getItem("isStaff")),
+    cartNum: 0,
   },
   mutations: {
     // set
@@ -37,6 +38,9 @@ export default new Vuex.Store({
       sessionStorage.setItem("token", '')
       sessionStorage.setItem("user", JSON.stringify(''))
       sessionStorage.setItem("isStaff", JSON.stringify(false))
+    },
+    updateCartNum(state, cartNum) {
+      state.cartNum = cartNum;
     },
   },
   getters: {

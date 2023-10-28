@@ -7,4 +7,5 @@ import com.group2.cafejava.entity.Product;
 public interface ProductMapper extends BaseMapper<Product> {
     IPage<Product> selectProductPage(Page<Product> page,String keyword);
     IPage<Product> selectProduct(Page<Product> page,String keyword);
+    IPage<Product> selectProductById(Page<Product> page,String keyword);
 }

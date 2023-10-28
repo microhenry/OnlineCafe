@@ -38,7 +38,7 @@
                 </span>
               </el-popover>
               <el-tooltip placement="bottom" trigger="hover" content="My Cart">
-                <el-badge :value="chartNum" :max="9" class="item" style="margin-right: 10px">
+                <el-badge :value="dynamicCartNum" :max="9" class="item" style="margin-right: 10px">
                   <el-button type="warning" icon="el-icon-shopping-cart-full" @click="myProfile('cart')"></el-button>
                 </el-badge>
               </el-tooltip>
@@ -86,10 +86,13 @@ export default {
       let money = this.$store.state.user.money;
       return '$'+parseFloat(money).toFixed(2);
     },
+    dynamicCartNum() {
+      return Number(this.$store.state.cartNum);
+    },
   },
   data() {
     return {
-      chartNum: 0,
+      cartNum: 0,
       navList: [
         { name: "/home", title: "Home", icon: "el-icon-s-home" },
         { name: "/products", title: "Products", icon: "el-icon-goods" },
@@ -132,7 +135,8 @@ export default {
       const data = {};
       cartNumber(data, userId)
         .then(response => {
-          this.chartNum = response.data.data;
+          this.cartNum = response.data.data;
+          this.$store.commit('updateCartNum', this.cartNum);
         })
         .catch(error => {
           console.log(error);
@@ -144,6 +148,7 @@ export default {
       this.getCartNumber();
     }
   },
+
 };
 </script>
 

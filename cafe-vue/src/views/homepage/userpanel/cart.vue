@@ -89,7 +89,8 @@
 </template>
 
 <script>
-import { cartNumber, cartList, addCart, updateCart, deleteCart, batchDeleteCart } from "@/api/cart";
+import { cartNumber, cartList, cartNewList, addCart, updateCart, deleteCart, batchDeleteCart } from "@/api/cart";
+import homepage from "../homepage.vue";
 export default {
   data() {
     return {
@@ -127,8 +128,25 @@ export default {
   methods: {
     getCartList() {
       this.queryInfo.keyword = this.$store.state.user.id;
-      cartList(this.queryInfo)
+      // cartList(this.queryInfo)
+      //   .then((res) => {
+      //     if (res.data.code === 200) {
+      //       console.log(this.queryInfo);
+      //       // Get the cart list
+      //       this.cartList = res.data.data;
+      //       // this.cartList.productPrice = 1;
+      //       this.total = res.data.totalRecords;
+      //     } else {
+      //       this.$message.error(res.data.message);
+      //     }
+      //   })
+      //   .catch((err) => {
+      //     console.log(err);
+      //   });
+      console.log(this.queryInfo);
+      cartNewList(this.queryInfo)
         .then((res) => {
+          console.log(res);
           if (res.data.code === 200) {
             console.log(this.queryInfo);
             // Get the cart list
@@ -190,6 +208,9 @@ export default {
         }
       });
     },
+    callGetCartNumber() {
+      homepage.methods.getCartNumber.call(this);
+    },
     // Delete cart by id
     async removeCartById(cartId) {
       console.log("cartId: "+cartId);
@@ -207,11 +228,12 @@ export default {
         deleteCart(cartId)
           .then((res) => {
             if (res.data.code === 200) {
-              this.getCartList();
               this.$message({
                 message: "Deleted cart successfully.",
                 type: "success",
               });
+              this.getCartList();
+              this.callGetCartNumber();
             } else {
               this.$message.error("Failed to delete cart.");
             }
@@ -253,6 +275,7 @@ export default {
                 type: "success",
               });
               this.getCartList();
+              this.callGetCartNumber();
             } else {
               this.$message.error("Failed to delete cart.");
             }

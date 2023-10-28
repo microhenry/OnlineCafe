@@ -16,6 +16,14 @@ export function cartList(data) {
   })
 }
 
+export function cartNewList(data) {
+  return request({
+    url: '/cartNew/list',
+    method: 'post',
+    data
+  })
+}
+
 export function addCart(data) {
   return request({
     url: '/cart/add',

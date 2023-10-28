@@ -81,15 +81,15 @@ public class CartNew {
         this.productPrice = productPrice;
     }
 
-    public void setCartNew(Integer cartId, Integer productId, Integer productNum, Integer userId, String productName,String productSize,double productPrice) {
-        this.cartId = cartId;
-        this.productId = productId;
-        this.productNum = productNum;
-        this.userId = userId;
-        this.productName = productName;
-        this.productSize = productSize;
-        this.productPrice = productPrice;
-    }
+//    public void setCartNew(Integer cartId, Integer productId, Integer productNum, Integer userId, String productName,String productSize,double productPrice) {
+//        this.cartId = cartId;
+//        this.productId = productId;
+//        this.productNum = productNum;
+//        this.userId = userId;
+//        this.productName = productName;
+//        this.productSize = productSize;
+//        this.productPrice = productPrice;
+//    }
 
     @Override
     public String toString() {

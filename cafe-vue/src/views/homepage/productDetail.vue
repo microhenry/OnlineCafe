@@ -34,14 +34,14 @@
             <h2>Customize:</h2>
             <el-form-item>
               <el-radio-group v-model="orderForm.size" fill="#33ccff">
-                <el-radio-button label="small">Small</el-radio-button>
-                <el-radio-button label="medium">Medium</el-radio-button>
-                <el-radio-button label="large">Large</el-radio-button>
+                <el-radio-button label="S">Small</el-radio-button>
+                <el-radio-button label="M">Medium</el-radio-button>
+                <el-radio-button label="L">Large</el-radio-button>
               </el-radio-group>
             </el-form-item>
           </el-form>
           <el-input-number v-model="orderForm.num" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
-          <el-button type="primary">Add to Cart</el-button>
+          <el-button type="primary" @click="addToCart">Add to Cart</el-button>
         </el-row>
 
       </el-col>
@@ -67,6 +67,8 @@
 
 <script>
 import { getProductDetail } from "../../api/productMenu";
+import {addCart} from "../../api/cart";
+import homepage from './homepage.vue';
 export default {
   data() {
     return {
@@ -80,8 +82,15 @@ export default {
         productPrice: "",
         productRate: 0,
       },
+      cartForm: {
+        productId: "",
+        productNum: "",
+        userId: "",
+        productName: "",
+        productSize: "",
+      },
       orderForm: {
-        size: "medium",
+        size: "M",
         num: 0,
       },
       categoryColors: {
@@ -97,6 +106,9 @@ export default {
         "Other Cold Beverages": "color: #fff; background-color: #ff3366;"
       },
     };
+  },
+  computed: {
+
   },
   created() {
     this.productParamName = this.$route.params.productId;
@@ -136,6 +148,61 @@ export default {
     getCategoryClass(category) {
       console.log(this.categoryColors[category]);
       return this.categoryColors[category];
+    },
+    addToCart(){
+      console.log(this.isLoggedIn());
+      if (this.isLoggedIn()) {
+        this.cartForm.userId = this.$store.state.user.id;
+        this.cartForm.productId = this.productDetail.productId;
+        this.cartForm.productNum = this.orderForm.num;
+        this.cartForm.productSize = this.orderForm.size;
+        this.cartForm.productName = this.productDetail.productName;
+        addCart(this.cartForm)
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.callGetCartNumber();
+              this.$message({
+                showClose: true,
+                message: 'Add to cart successfully.',
+                center: true,
+                type: 'success'
+              });
+            } else {
+              this.$message.error(res.data.message);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        console.log("Please login first.");
+        this.$router.push({
+          path: '/login',
+          query: {
+            redirect: this.$route.fullPath // 将当前路径作为参数传递给登录页面
+          }
+        });
+        this.$message({
+          type: 'info',
+          message: 'Please login first.'
+        });
+      }
+    },
+    isLoggedIn() {
+      console.log(this.$store.state);
+      // 使用$store来检测用户是否登录
+      if(!this.$store.state.token || this.$store.state.user === undefined || this.$store.state.user === ''
+        || this.$store.state.isStaff === undefined || this.$store.state.isStaff === true ) {
+        console.log("未登录");
+        // 登录状态：未登录
+        return false;
+      } else {
+        return true;
+      }
+      // return !!this.$store.state.token;
+    },
+    callGetCartNumber() {
+      homepage.methods.getCartNumber.call(this);
     },
   }
 }

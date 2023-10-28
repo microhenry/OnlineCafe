@@ -46,22 +46,32 @@ public class CartController {
 
         IPage<Cart> cartPage = cartService.selectCartPage(queryDTO);
         List<Cart> cartSelect = cartPage.getRecords();
+        long totalRecords = cartPage.getTotal(); // Get the number of total records
+//        List<CartNew> cartNewSelect = new ArrayList<>(cartSelect.size());
         List<CartNew> cartNewSelect = new ArrayList<>();
 
         for (int i = 0; i < cartSelect.size(); i++) {
-            QueryDTO queryDTO1 = new QueryDTO();
-            queryDTO.setPageNo(1);
-            queryDTO.setPageSize(1000);
-            queryDTO.setKeyword(cartSelect.get(i).getProductName());
+            QueryDTO queryProductDTO = new QueryDTO();
+            queryProductDTO.setPageNo(1);
+            queryProductDTO.setPageSize(1000);
+            String productId = String.valueOf(cartSelect.get(i).getProductId());
+            queryProductDTO.setKeyword(productId);
 
 
-            IPage<Product> productPage = menuService.selectProductPage(queryDTO1);
+            IPage<Product> productPage = menuService.selectProductById(queryProductDTO);
             List<Product> productSelect = productPage.getRecords();
+            Product product = productSelect.get(0);
 
-            cartNewSelect.get(i).setCartNew(cartSelect.get(i).getCartId(),cartSelect.get(i).getProductId(),cartSelect.get(i).getProductNum(),cartSelect.get(i).getUserId(),cartSelect.get(i).getProductName(),cartSelect.get(i).getProductSize(),productSelect.get(0).getProductPrice());
-
+            // Add new cart item to cartNewSelect
+            cartNewSelect.add(new CartNew(cartSelect.get(i).getCartId(),
+                    cartSelect.get(i).getProductId(),
+                    cartSelect.get(i).getProductNum(),
+                    cartSelect.get(i).getUserId(),
+                    product.getProductName(),
+                    cartSelect.get(i).getProductSize(),
+                    product.getProductPrice()));
         }
-        Result result = new Result(200, "", cartNewSelect);
+        Result result = new Result(200, "", cartNewSelect, totalRecords);
         return result;
 
 

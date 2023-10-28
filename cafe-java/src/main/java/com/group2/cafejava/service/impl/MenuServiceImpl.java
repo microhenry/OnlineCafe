@@ -31,4 +31,10 @@ public class MenuServiceImpl implements MenuService {
         return productMapper.selectProduct(page,productname);
 
     }
+
+    public IPage<Product> selectProductById(QueryDTO queryDTO) {
+        Page<Product> page=new Page<>(queryDTO.getPageNo(),queryDTO.getPageSize());
+        return productMapper.selectProductById(page,queryDTO.getKeyword());
+    }
+
 }
