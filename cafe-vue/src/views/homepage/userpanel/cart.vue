@@ -132,10 +132,9 @@ export default {
           if (res.data.code === 200) {
             console.log(this.queryInfo);
             // Get the cart list
-            this.cartList = res.data.data.records;
+            this.cartList = res.data.data;
             // this.cartList.productPrice = 1;
-            console.log(res.data);
-            this.total = res.data.data.total;
+            this.total = res.data.totalRecords;
           } else {
             this.$message.error(res.data.message);
           }
