@@ -3,22 +3,27 @@ package com.group2.cafejava.controller;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.group2.cafejava.dto.QueryDTO;
 import com.group2.cafejava.entity.Cart;
-import com.group2.cafejava.entity.User;
+import com.group2.cafejava.entity.CartNew;
+import com.group2.cafejava.entity.Product;
 import com.group2.cafejava.result.Result;
 import com.group2.cafejava.service.CartService;
-import com.group2.cafejava.service.UserService;
+import com.group2.cafejava.service.MenuService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 public class CartController {
     @Autowired
     private CartService cartService;
+
+    @Autowired
+    private MenuService menuService;
 
     /**
      * 分页查询
@@ -32,9 +37,36 @@ public class CartController {
         List<Cart> cartSelect = cartPage.getRecords();
         long totalRecords = cartPage.getTotal(); // Get the number of total records
         Result result = new Result(200, "", cartSelect, totalRecords);   // Set total records to result
-        result.setTotalRecords(totalRecords);
         return result;  // Return result with code, message, data, and total records
     }
+
+    @PostMapping("/api/cartNew/list")
+    public Result cartNewList(@RequestBody QueryDTO queryDTO){
+
+
+        IPage<Cart> cartPage = cartService.selectCartPage(queryDTO);
+        List<Cart> cartSelect = cartPage.getRecords();
+        List<CartNew> cartNewSelect = new ArrayList<>();
+
+        for (int i = 0; i < cartSelect.size(); i++) {
+            QueryDTO queryDTO1 = new QueryDTO();
+            queryDTO.setPageNo(1);
+            queryDTO.setPageSize(1000);
+            queryDTO.setKeyword(cartSelect.get(i).getProductName());
+
+
+            IPage<Product> productPage = menuService.selectProductPage(queryDTO1);
+            List<Product> productSelect = productPage.getRecords();
+
+            cartNewSelect.get(i).setCartNew(cartSelect.get(i).getCartId(),cartSelect.get(i).getProductId(),cartSelect.get(i).getProductNum(),cartSelect.get(i).getUserId(),cartSelect.get(i).getProductName(),cartSelect.get(i).getProductSize(),productSelect.get(0).getProductPrice());
+
+        }
+        Result result = new Result(200, "", cartNewSelect);
+        return result;
+
+
+    }
+
 
     @PostMapping("/api/cart/cartNumber/{userId}")
     public Result cartNumber(@PathVariable Integer userId){
@@ -46,6 +78,8 @@ public class CartController {
         long totalRecords = cartPage.getTotal(); // Get the number of total records
         return new Result(200, "",totalRecords);  // Return result with code, message, data, and total records
     }
+
+
 
 
 
