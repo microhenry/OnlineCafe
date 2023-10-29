@@ -9,6 +9,8 @@ import java.util.List;
 public interface CartService {
     IPage<Cart> selectCartPage(QueryDTO queryDTO);
     IPage<Cart> selectCart(QueryDTO queryDTO);
+
+    IPage<Cart> selectCartWithSameProductId(QueryDTO queryDTO);
     void batchDelete(List<Integer> ids);
     Integer addCart(Cart cart);
 

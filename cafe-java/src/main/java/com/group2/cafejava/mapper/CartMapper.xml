@@ -17,4 +17,12 @@
             </if>
         </where>
     </select>
+    <select id="selectCartWithSameProductId" resultType="Cart">
+        select * from cart
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or product_id = #{keyword}
+            </if>
+        </where>
+    </select>
 </mapper>

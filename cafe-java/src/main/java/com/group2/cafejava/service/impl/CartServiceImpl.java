@@ -65,6 +65,14 @@ public class CartServiceImpl implements CartService {
         return cartMapper.selectCart(page,queryDTO.getKeyword());
     }
 
+    @Override
+    public IPage<Cart> selectCartWithSameProductId(QueryDTO queryDTO) {
+        Page<Cart> page=new Page<>(queryDTO.getPageNo(),queryDTO.getPageSize());
+        return cartMapper.selectCartWithSameProductId(page,queryDTO.getKeyword());
+    }
+
+
+
 
 
 
