@@ -378,12 +378,12 @@ export default {
     //批量选中事件处理
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(this.multipleSelection);
+      const newIds = [];
       //向被删除的ids赋值
       this.multipleSelection.forEach((item) => {
-        this.ids.push(item.id);
-        console.log(this.ids);
+        newIds.push(item.id);
       });
+      this.ids = newIds;
     },
     //批量删除用户
     async batchDeleteUser(){

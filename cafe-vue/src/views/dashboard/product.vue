@@ -348,7 +348,6 @@ export default {
     },
     // Delete product by id
     async removeProductById(productId) {
-      console.log("productId: "+productId);
       // Confirm dialog
       const confirmResult = await this.$confirm(
         "This operation will permanently delete the product. Do you want to continue?",
@@ -380,13 +379,21 @@ export default {
     },
     //批量选中事件处理
     handleSelectionChange(val) {
+      // this.multipleSelection = val;
+      // console.log(this.multipleSelection);
+      // //向被删除的ids赋值
+      // this.multipleSelection.forEach((item) => {
+      //   this.productIds.push(item.productId);
+      //   console.log(this.productIds);
+      // });
+
       this.multipleSelection = val;
-      console.log(this.multipleSelection);
+      const newProductIds = [];
       //向被删除的ids赋值
       this.multipleSelection.forEach((item) => {
-        this.productIds.push(item.productId);
-        console.log(this.productIds);
+        newProductIds.push(item.productId);
       });
+      this.productIds = newProductIds;
     },
     // Batch delete product
     async batchDeleteProduct(){
@@ -401,6 +408,8 @@ export default {
         }
       ).catch((err) => err);
       if (confirmResult === "confirm") {
+        console.log("productIds: ");
+        console.log(this.productIds);
         batchDeleteProduct(this.productIds)
           .then((res) => {
             if (res.data.code === 200) {

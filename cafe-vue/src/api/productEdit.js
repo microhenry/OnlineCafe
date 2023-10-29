@@ -41,7 +41,9 @@ export function deleteProduct(id) {
   return request({
     url: '/user/product/delete',
     method: 'post',
-    id
+    params: {
+      id
+    }
   })
 }
 

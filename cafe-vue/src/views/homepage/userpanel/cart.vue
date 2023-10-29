@@ -278,11 +278,12 @@ export default {
     //批量选中事件处理
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(this.multipleSelection);
+      const newCartIds = [];
       //向被删除的ids赋值
       this.multipleSelection.forEach((item) => {
-        this.cartIds.push(item.cartId);
+        newCartIds.push(item.cartId);
       });
+      this.cartIds = newCartIds;
       // Calculate the total price
       this.totalPrice = 0;
       this.multipleSelection.forEach((item) => {
