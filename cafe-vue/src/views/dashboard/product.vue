@@ -43,7 +43,11 @@
           <el-table-column prop="productCategory" label="Product Category"></el-table-column>
           <el-table-column prop="productName" label="Product Name"></el-table-column>
           <el-table-column prop="productSize" label="Product Size"></el-table-column>
-          <el-table-column prop="productPrice" label="Product Price"></el-table-column>
+          <el-table-column prop="productPrice" label="Product Price">
+            <template slot-scope="scope">
+              {{ formattedPrice(scope.row.productPrice) }}
+            </template>
+          </el-table-column>
           <el-table-column prop="productPicUrl" label="Picture Url"></el-table-column>
           <el-table-column label="Operation">
             <template slot-scope="scope">
@@ -263,6 +267,9 @@ export default {
         .catch((err) => {
           console.log(err);
         });
+    },
+    formattedPrice(price) {
+      return '$'+parseFloat(price).toFixed(2);
     },
     // 监听 pageSize 改变的事件
     // Listen the event of changing pageSize

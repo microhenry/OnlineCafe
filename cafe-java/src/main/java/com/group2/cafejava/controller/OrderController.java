@@ -40,16 +40,18 @@ public class OrderController {
     public Result orderList(@RequestBody QueryDTO queryDTO) {
         IPage<Order> orderPage = orderService.selectOrderPage(queryDTO);
         List<Order> orderSelect = orderPage.getRecords();
+        long totalRecords = orderPage.getTotal(); // Get the number of total records
         List<OrderFragmentToFront> orderFragmentToFronts=convertToFront(orderSelect);
-        return new Result(200, "", orderFragmentToFronts);
+        return new Result(200, "", orderFragmentToFronts, totalRecords);
     }
     //单人order（顾客）
     @PostMapping("/api/order/list")
     public Result orderOneCustomer(@RequestBody QueryDTO queryDTO) {
         IPage<Order> orderPage = orderService.selectOrderPageOneCustomer(queryDTO);
         List<Order> orderSelect = orderPage.getRecords();
+        long totalRecords = orderPage.getTotal(); // Get the number of total records
         List<OrderFragmentToFront> orderFragmentToFronts=convertToFront(orderSelect);
-        return new Result(200, "", orderFragmentToFronts);
+        return new Result(200, "", orderFragmentToFronts, totalRecords);
     }
 //单个order细节（全部都可用）
     @PostMapping("/api/order/list/detail")

@@ -78,7 +78,7 @@
         @size-change="handleSizeChange"
         @current-change="handleCurrentChange"
         :current-page="queryInfo.pageNo"
-        :page-sizes="[1, 2, 5, 10]"
+        :page-sizes="[1, 5, 10, 20]"
         :page-size="queryInfo.pageSize"
         layout="total, sizes, prev, pager, next, jumper"
         :total="total"
@@ -123,7 +123,7 @@ export default {
       queryInfo: {
         keyword: "",
         pageNo: 1,
-        pageSize: 5,
+        pageSize: 10,
       },
       submitDialogVisible: false,
       editForm: {
@@ -214,6 +214,7 @@ export default {
             .then((res) => {
               if (res.data.code === 200) {
                 this.$message({
+                  showClose: true,
                   message: "Submitted order successfully.",
                   type: "success",
                 });
@@ -240,6 +241,7 @@ export default {
           if (res.data.code === 200) {
             this.getCartList();
             this.$message({
+              showClose: true,
               message: successMessage,
               type: "success",
             });
@@ -298,6 +300,7 @@ export default {
           .then((res) => {
             if (res.data.code === 200) {
               this.$message({
+                showClose: true,
                 message: "Deleted cart successfully.",
                 type: "success",
               });
@@ -345,6 +348,7 @@ export default {
           .then((res) => {
             if (res.data.code === 200) {
               this.$message({
+                showClose: true,
                 message: "Deleted cart successfully.",
                 type: "success",
               });
