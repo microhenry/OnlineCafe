@@ -28,4 +28,13 @@ public class QueryDTO {
     public void setKeyword(String keyword) {
         this.keyword = keyword;
     }
+
+    public QueryDTO(Integer pageNo, Integer pageSize, String keyword) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+        this.keyword = keyword;
+    }
+
+    public QueryDTO() {
+    }
 }

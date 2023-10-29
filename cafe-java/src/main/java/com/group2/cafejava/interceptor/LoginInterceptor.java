@@ -20,10 +20,10 @@ public class LoginInterceptor implements HandlerInterceptor {
         //从header中获取token
         String token = request.getHeader("token");
         //如果token为空
-        if (StringUtils.isBlank(token)) {
-            setReturn(response,400,"用户未登录，请先登录");
-            return false;
-        }
+//        if (StringUtils.isBlank(token)) {
+//            setReturn(response,400,"用户未登录，请先登录");
+//            return false;
+//        }
         //在实际使用中还会:
         // 1、校验token是否能够解密出用户信息来获取访问者
         // 2、token是否已经过期

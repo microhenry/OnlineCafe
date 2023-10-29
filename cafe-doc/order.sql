@@ -19,16 +19,15 @@
 -- Table structure for table `order`
 --
 
-DROP TABLE IF EXISTS `order`;
+DROP TABLE IF EXISTS `order1`;
 /*!40101 SET @saved_cs_client     = @@character_set_client */;
 /*!50503 SET character_set_client = utf8mb4 */;
-CREATE TABLE `order` (
+CREATE TABLE `order1` (
   `order_id` int NOT NULL AUTO_INCREMENT,
-  `order_customer_name` varchar(20) NOT NULL,
   `order_customer_id` int DEFAULT NULL,
   `order_price` double NOT NULL,
   `order_comment` varchar(200) DEFAULT NULL,
-  `order_time` datetime NOT NULL,
+  `order_time` varchar(200) NOT NULL,
   `order_info_name` varchar(300) DEFAULT NULL,
   `order_info_size` varchar(100) DEFAULT NULL,
   `order_info_number` varchar(100) DEFAULT NULL,
@@ -44,10 +43,9 @@ CREATE TABLE `order` (
 -- Dumping data for table `order`
 --
 
-LOCK TABLES `order` WRITE;
-/*!40000 ALTER TABLE `order` DISABLE KEYS */;
-INSERT INTO `order` VALUES (1,'C1',NULL,100,NULL,'2020-01-12 11:01:01',NULL,NULL,NULL,NULL,NULL,NULL);
-/*!40000 ALTER TABLE `order` ENABLE KEYS */;
+LOCK TABLES `order1` WRITE;
+/*!40000 ALTER TABLE `order1` DISABLE KEYS */;
+/*!40000 ALTER TABLE `order1` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
 

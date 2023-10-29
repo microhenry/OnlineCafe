@@ -16,6 +16,9 @@ public class Cart {
     private String productName;
     private String productSize;
 
+
+
+
     public String getProductSize() {
         return productSize;
     }
@@ -74,6 +77,7 @@ public class Cart {
         this.userId = userId;
         this.productName = productName;
         this.productSize = productSize;
+
     }
 
     @Override

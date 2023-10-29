@@ -117,6 +117,10 @@ public class CartController {
     @PostMapping("/api/cart/add")
     public Result addCart(@RequestBody Cart cart){
 
+        //如果相同就合并为一个
+
+
+
         return new Result(200,"",cartService.addCart(cart));
     }
 
