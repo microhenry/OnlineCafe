@@ -5,7 +5,7 @@
         select * from cart
         <where>
             <if test="keyword !=null and keyword !='' ">
-                or user_id like CONCAT('%',#{keyword},'%')
+                or user_id = #{keyword}
             </if>
         </where>
     </select>
@@ -13,7 +13,7 @@
         select * from cart
         <where>
             <if test="keyword !=null and keyword !='' ">
-                or user_id like CONCAT('%',#{keyword},'%')
+                or user_id = #{keyword}
             </if>
         </where>
     </select>

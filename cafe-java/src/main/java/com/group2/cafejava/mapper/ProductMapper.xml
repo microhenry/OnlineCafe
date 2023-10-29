@@ -22,7 +22,7 @@
         select * from product
         <where>
             <if test="keyword !=null and keyword !='' ">
-                or product_id like CONCAT('%',#{keyword},'%')
+                or product_id = #{keyword}
             </if>
         </where>
     </select>

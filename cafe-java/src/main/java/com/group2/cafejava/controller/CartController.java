@@ -60,6 +60,9 @@ public class CartController {
 
             IPage<Product> productPage = menuService.selectProductById(queryProductDTO);
             List<Product> productSelect = productPage.getRecords();
+            if (productSelect.size() == 0) {
+                continue;
+            }
             Product product = productSelect.get(0);
 
             // Add new cart item to cartNewSelect
