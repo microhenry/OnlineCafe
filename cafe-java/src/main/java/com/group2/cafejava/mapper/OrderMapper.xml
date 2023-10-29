@@ -5,7 +5,7 @@
         select * from order1
         <where>
             <if test="keyword !=null and keyword !=' a' ">
-                or order_id like CONCAT('%',#{keyword},'%')
+                or order_id = #{keyword}
             </if>
         </where>
     </select>
@@ -13,7 +13,7 @@
         select * from order1
         <where>
             <if test="keyword !=null and keyword !='' ">
-                or order_customer_id like CONCAT('%',#{keyword},'%')
+                or order_customer_id = #{keyword}
             </if>
         </where>
     </select>
@@ -21,7 +21,7 @@
         select * from order1
         <where>
             <if test="keyword !=null and keyword !='' ">
-                or user_id like CONCAT('%',#{keyword},'%')
+                or user_id like = #{keyword}
             </if>
         </where>
     </select>
