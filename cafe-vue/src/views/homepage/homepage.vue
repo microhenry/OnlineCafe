@@ -29,14 +29,17 @@
             </div>
             <div v-if="isLoggedIn">
               <span class="user-title" style="margin-right: 5px">Welcome,</span>
-              <el-popover
-                placement="bottom"
-                trigger="hover">
-                <span>Balance: <span style="color: red">{{formattedMoney}}</span></span>
-                <span class="user-title" style="margin-right: 10px; color: dodgerblue" slot="reference">
+<!--              <el-popover-->
+<!--                placement="bottom"-->
+<!--                trigger="hover">-->
+<!--                <span>Balance: <span style="color: red">{{formattedMoney}}</span></span>-->
+<!--                <span class="user-title" style="margin-right: 10px; color: dodgerblue" slot="reference">-->
+<!--                  {{ this.$store.state.user.loginName }}-->
+<!--                </span>-->
+<!--              </el-popover>-->
+              <span class="user-title" style="margin-right: 10px; color: dodgerblue" slot="reference">
                   {{ this.$store.state.user.loginName }}
                 </span>
-              </el-popover>
               <el-tooltip placement="bottom" trigger="hover" content="My Cart">
                 <el-badge :value="dynamicCartNum" :max="9" class="item" style="margin-right: 10px">
                   <el-button type="warning" icon="el-icon-shopping-cart-full" @click="myProfile('cart')"></el-button>
@@ -57,7 +60,7 @@
         <router-view></router-view>
       </el-main>
       <el-footer>
-        © 2023 Online Coffee Shop. All rights reserved.
+        © 2023 Co-Coffee Shop. All rights reserved.
       </el-footer>
     </el-container>
   </div>

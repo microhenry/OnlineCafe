@@ -42,13 +42,6 @@
           </el-table-column>
           <el-table-column label="Delete" min-width="10%">
             <template slot-scope="scope">
-<!--              &lt;!&ndash;Edit Btn&ndash;&gt;-->
-<!--              <el-button-->
-<!--                type="primary"-->
-<!--                size="mini"-->
-<!--                icon="el-icon-edit"-->
-<!--                @click="showEditDialog(scope.row)"-->
-<!--              ></el-button>-->
               <!--Delete Btn-->
               <el-button
                 type="danger"
@@ -63,14 +56,14 @@
       <el-col :span="24" style="margin-top: 20px; margin-bottom: 20px">
         <el-row :gutter="9" type="flex" justify="end">
           <el-col :span="2.5">
-            <div >
+            <div>
               <el-tag type="info" effect="plain" style="height: 100%; line-height: 40px; font-size: 15px">
                 <span style="color: red">Total: <span style="color: darkblue">{{ formattedPrice(totalPrice) }}</span></span>
               </el-tag>
             </div>
           </el-col>
           <el-col :span="2.5">
-            <el-button type="primary" @click="" :disabled="multipleSelection.length === 0"
+            <el-button type="primary" @click="showSubmitDialog()" :disabled="multipleSelection.length === 0"
             >Submit Order</el-button>
           </el-col>
           <el-col :span="2.5" style="margin-left: 10px">
@@ -93,31 +86,34 @@
       </el-pagination>
     </el-row>
 
-<!--    &lt;!&ndash;Edit Cart Dialog&ndash;&gt;-->
-<!--    <el-dialog title="Edit Cart" :visible.sync="editDialogVisible" width="35%" :top="`5vh`">-->
-<!--      &lt;!&ndash;内容主体区域&ndash;&gt;-->
-<!--      <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="25%">-->
-<!--        <el-form-item label="Product Num" prop="productName">-->
-<!--          <el-input v-model="editForm.productNum"></el-input>-->
-<!--        </el-form-item>-->
-<!--        <el-form-item label="Product Size" prop="productSize">-->
-<!--          <el-radio v-model="editForm.productSize" label="S">S</el-radio>-->
-<!--          <el-radio v-model="editForm.productSize" label="M">M</el-radio>-->
-<!--          <el-radio v-model="editForm.productSize" label="L">L</el-radio>-->
-<!--        </el-form-item>-->
-<!--      </el-form>-->
-<!--      &lt;!&ndash;底部按钮区域&ndash;&gt;-->
-<!--      <span slot="footer" class="dialog-footer">-->
-<!--        <el-button @click="editDialogVisible = false">Cancel</el-button>-->
-<!--        <el-button type="primary" @click="editCart('editForm')">Confirm</el-button>-->
-<!--      </span>-->
-<!--    </el-dialog>-->
+    <!--Confirm Order Dialog-->
+    <el-dialog title="Confirm Order" :visible.sync="submitDialogVisible" width="35%" :top="`5vh`">
+      <!--内容主体区域-->
+      <el-descriptions :column="2" border :label-style="labelStyle" :contentStyle="contentStyle" style="margin: 0 10px 20px 10px">
+        <el-descriptions-item label="Total Product(s):">{{ multipleSelection.length }}</el-descriptions-item>
+        <el-descriptions-item label="Total Price:">{{ formattedPrice(totalPrice) }}</el-descriptions-item>
+      </el-descriptions>
+      <el-form :model="orderForm" :rules="submitOrderRules" ref="orderForm" label-width="130px">
+        <el-form-item label="Delivery Address" prop="orderAddress">
+          <el-input v-model="orderForm.orderAddress" placeholder="Please enter your delivery address"></el-input>
+        </el-form-item>
+        <el-form-item label="Order Comment">
+          <el-input v-model="orderForm.orderComment" type="textarea" placeholder="Please enter your order comment"></el-input>
+        </el-form-item>
+      </el-form>
+      <!--底部按钮区域-->
+      <span slot="footer" class="dialog-footer">
+        <el-button @click="submitDialogVisible = false">Cancel</el-button>
+        <el-button type="primary" @click="submitOrder('orderForm')">Confirm</el-button>
+      </span>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import { cartNumber, cartList, cartNewList, addCart, updateCart, deleteCart, batchDeleteCart } from "@/api/cart";
 import homepage from "../homepage.vue";
+import { addOrder } from "@/api/order";
 export default {
   data() {
     return {
@@ -129,7 +125,7 @@ export default {
         pageNo: 1,
         pageSize: 5,
       },
-      editDialogVisible: false,
+      submitDialogVisible: false,
       editForm: {
         cartId: "",
         productId: "",
@@ -137,6 +133,12 @@ export default {
         userId: "",
         productName: "",
         productSize: "",
+      },
+      orderForm: {
+        cartIds: [],
+        userId: "",
+        orderComment: "",
+        orderAddress: "",
       },
       multipleSelection: [],
       cartIds: [],
@@ -147,6 +149,20 @@ export default {
         productSize : [
           { required: true, message: 'Product size cannot be empty!', trigger: 'change' }
         ],
+      },
+      submitOrderRules: {
+        orderAddress : [
+          { required: true, message: 'Order address cannot be empty!', trigger: 'change' }
+        ],
+      },
+      labelStyle: {
+        width: '30%',
+        color: 'black',
+        'font-weight': 'bold'
+      },
+      contentStyle: {
+        width: '20%',
+        color: 'red'
       },
     }
   },
@@ -186,29 +202,42 @@ export default {
       this.getCartList();
     },
     // Listen the event of clicking edit button
-    showEditDialog(cartInfo) {
-      this.editDialogVisible = true;
-      this.editForm = cartInfo;
+    showSubmitDialog(cartInfo) {
+      this.submitDialogVisible = true;
     },
-    // // Edit cart
-    // editCart(formName) {
-    //   console.log("editForm: ");
-    //   console.log(this.editForm);
-    //   console.log(formName);
-    //   this.$refs[formName].validate((valid) => {
-    //     if (valid) {
-    //       this.postUpdateRequest('Edited cart successfully.');
-    //     } else {
-    //       console.log('error submit!!');
-    //       return false;
-    //     }
-    //   });
-    // },
+    submitOrder(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          this.orderForm.cartIds = this.cartIds;
+          this.orderForm.userId = this.$store.state.user.id;
+          addOrder(this.orderForm)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.$message({
+                  message: "Submitted order successfully.",
+                  type: "success",
+                });
+                this.submitDialogVisible = false;
+                this.getCartList();
+                this.callGetCartNumber();
+              } else {
+                this.$message.error("Failed to submit order.");
+              }
+            })
+            .catch((err) => {
+              this.$message.error("Failed to submit order.");
+              console.log(err);
+            });
+        } else {
+          console.log("error submit!!");
+          return false;
+        }
+      });
+    },
     postUpdateRequest(successMessage){
       updateCart(this.editForm)
         .then((res) => {
           if (res.data.code === 200) {
-            this.editDialogVisible = false;
             this.getCartList();
             this.$message({
               message: successMessage,
