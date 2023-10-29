@@ -70,11 +70,11 @@
             </div>
           </el-col>
           <el-col :span="2.5">
-            <el-button type="primary" @click="" disabled
+            <el-button type="primary" @click="" :disabled="multipleSelection.length === 0"
             >Submit Order</el-button>
           </el-col>
           <el-col :span="2.5" style="margin-left: 10px">
-            <el-button type="danger" @click="batchDeleteCart"
+            <el-button type="danger" @click="batchDeleteCart" :disabled="multipleSelection.length === 0"
             >Batch Delete</el-button>
           </el-col>
         </el-row>

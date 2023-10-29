@@ -24,7 +24,7 @@
             >
           </el-col>
           <el-col :span="2.5">
-            <el-button type="danger" @click="batchDeleteUser"
+            <el-button type="danger" @click="batchDeleteUser" :disabled="multipleSelection.length === 0"
             >Batch Delete</el-button
             >
           </el-col>
