@@ -21,26 +21,46 @@
         <!--Table-->
         <el-table
           :data="cartList"
-          border
+          :header-cell-style="{'text-align':'center'}"
+          :cell-style="{'text-align':'center'}"
           stripe
           @selection-change="handleSelectionChange"
         >
-          <el-table-column type="selection" width="55"> </el-table-column>
-          <el-table-column type="index" label="No."></el-table-column>
-          <el-table-column prop="productId" label="Product Id"></el-table-column>
-          <el-table-column prop="productName" label="Product Name"></el-table-column>
-          <el-table-column prop="productPrice" label="Product Price"></el-table-column>
-          <el-table-column prop="productNum" label="Product Num"></el-table-column>
-          <el-table-column prop="productSize" label="Product Size"></el-table-column>
-          <el-table-column label="Operation">
+          <el-table-column type="selection" min-width="3%"> </el-table-column>
+          <el-table-column type="index" label="No." min-width="3%"></el-table-column>
+          <el-table-column prop="productId" label="Product Id" min-width="10%"></el-table-column>
+          <el-table-column prop="productName" label="Product Name" min-width="20%">
             <template slot-scope="scope">
-              <!--Edit Btn-->
-              <el-button
-                type="primary"
-                size="mini"
-                icon="el-icon-edit"
-                @click="showEditDialog(scope.row)"
-              ></el-button>
+              <el-link type="primary" @click.native="goToProductDetail(scope.row.productName)">{{ scope.row.productName }}</el-link>
+            </template>
+          </el-table-column>
+
+          <el-table-column prop="productPrice" label="Product Price" min-width="10%">
+            <template slot-scope="scope">{{ formattedPrice(scope.row.productPrice) }}</template>
+          </el-table-column>
+          <el-table-column prop="productNum" label="Product Num" min-width="15%">
+            <template slot-scope="scope">
+              <el-input-number v-model="scope.row.productNum" @change="changeProductNum(scope.row)" size="small" :min="1" :max="10" label="ProductNum"></el-input-number>
+            </template>
+          </el-table-column>
+          <el-table-column prop="productSize" label="Product Size" min-width="20%">
+            <template slot-scope="scope">
+              <el-radio-group v-model="scope.row.productSize" size="mini" fill="#33ccff" @change="changeProductSize(scope.row)">
+                <el-radio-button label="S">Small</el-radio-button>
+                <el-radio-button label="M">Medium</el-radio-button>
+                <el-radio-button label="L">Large</el-radio-button>
+              </el-radio-group>
+            </template>
+          </el-table-column>
+          <el-table-column label="Delete" min-width="10%">
+            <template slot-scope="scope">
+<!--              &lt;!&ndash;Edit Btn&ndash;&gt;-->
+<!--              <el-button-->
+<!--                type="primary"-->
+<!--                size="mini"-->
+<!--                icon="el-icon-edit"-->
+<!--                @click="showEditDialog(scope.row)"-->
+<!--              ></el-button>-->
               <!--Delete Btn-->
               <el-button
                 type="danger"
@@ -66,25 +86,25 @@
       </el-pagination>
     </el-row>
 
-    <!--Edit Cart Dialog-->
-    <el-dialog title="Edit Cart" :visible.sync="editDialogVisible" width="35%" :top="`5vh`">
-      <!--内容主体区域-->
-      <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="25%">
-        <el-form-item label="Product Num" prop="productName">
-          <el-input v-model="editForm.productNum"></el-input>
-        </el-form-item>
-        <el-form-item label="Product Size" prop="productSize">
-          <el-radio v-model="editForm.productSize" label="S">S</el-radio>
-          <el-radio v-model="editForm.productSize" label="M">M</el-radio>
-          <el-radio v-model="editForm.productSize" label="L">L</el-radio>
-        </el-form-item>
-      </el-form>
-      <!--底部按钮区域-->
-      <span slot="footer" class="dialog-footer">
-        <el-button @click="editDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="editCart('editForm')">Confirm</el-button>
-      </span>
-    </el-dialog>
+<!--    &lt;!&ndash;Edit Cart Dialog&ndash;&gt;-->
+<!--    <el-dialog title="Edit Cart" :visible.sync="editDialogVisible" width="35%" :top="`5vh`">-->
+<!--      &lt;!&ndash;内容主体区域&ndash;&gt;-->
+<!--      <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="25%">-->
+<!--        <el-form-item label="Product Num" prop="productName">-->
+<!--          <el-input v-model="editForm.productNum"></el-input>-->
+<!--        </el-form-item>-->
+<!--        <el-form-item label="Product Size" prop="productSize">-->
+<!--          <el-radio v-model="editForm.productSize" label="S">S</el-radio>-->
+<!--          <el-radio v-model="editForm.productSize" label="M">M</el-radio>-->
+<!--          <el-radio v-model="editForm.productSize" label="L">L</el-radio>-->
+<!--        </el-form-item>-->
+<!--      </el-form>-->
+<!--      &lt;!&ndash;底部按钮区域&ndash;&gt;-->
+<!--      <span slot="footer" class="dialog-footer">-->
+<!--        <el-button @click="editDialogVisible = false">Cancel</el-button>-->
+<!--        <el-button type="primary" @click="editCart('editForm')">Confirm</el-button>-->
+<!--      </span>-->
+<!--    </el-dialog>-->
   </div>
 </template>
 
@@ -128,27 +148,10 @@ export default {
   methods: {
     getCartList() {
       this.queryInfo.keyword = this.$store.state.user.id;
-      // cartList(this.queryInfo)
-      //   .then((res) => {
-      //     if (res.data.code === 200) {
-      //       console.log(this.queryInfo);
-      //       // Get the cart list
-      //       this.cartList = res.data.data;
-      //       // this.cartList.productPrice = 1;
-      //       this.total = res.data.totalRecords;
-      //     } else {
-      //       this.$message.error(res.data.message);
-      //     }
-      //   })
-      //   .catch((err) => {
-      //     console.log(err);
-      //   });
       console.log(this.queryInfo);
       cartNewList(this.queryInfo)
         .then((res) => {
-          console.log(res);
           if (res.data.code === 200) {
-            console.log(this.queryInfo);
             // Get the cart list
             this.cartList = res.data.data;
             // this.cartList.productPrice = 1;
@@ -176,40 +179,60 @@ export default {
     },
     // Listen the event of clicking edit button
     showEditDialog(cartInfo) {
-      console.log(cartInfo);
       this.editDialogVisible = true;
-      console.log(cartInfo);
       this.editForm = cartInfo;
     },
-    // Edit cart
-    editCart(formName) {
-      this.$refs[formName].validate((valid) => {
-        if (valid) {
-          updateCart(this.editForm)
-            .then((res) => {
-              if (res.data.code === 200) {
-                this.editDialogVisible = false;
-                this.getCartList();
-                this.$message({
-                  message: "Edited cart successfully.",
-                  type: "success",
-                });
-              } else {
-                this.$message.error("Failed to edit cart.");
-              }
-            })
-            .catch((err) => {
-              this.$message.error("Failed to edit cart.");
-              console.loge(err);
+    // // Edit cart
+    // editCart(formName) {
+    //   console.log("editForm: ");
+    //   console.log(this.editForm);
+    //   console.log(formName);
+    //   this.$refs[formName].validate((valid) => {
+    //     if (valid) {
+    //       this.postUpdateRequest('Edited cart successfully.');
+    //     } else {
+    //       console.log('error submit!!');
+    //       return false;
+    //     }
+    //   });
+    // },
+    postUpdateRequest(successMessage){
+      updateCart(this.editForm)
+        .then((res) => {
+          if (res.data.code === 200) {
+            this.editDialogVisible = false;
+            this.getCartList();
+            this.$message({
+              message: successMessage,
+              type: "success",
             });
-        } else {
-          console.log('error submit!!');
-          return false;
-        }
-      });
+          } else {
+            this.$message.error("Failed to edit cart.");
+          }
+        })
+        .catch((err) => {
+          this.$message.error("Failed to edit cart.");
+          console.log(err);
+        });
     },
     callGetCartNumber() {
       homepage.methods.getCartNumber.call(this);
+    },
+    changeProductNum(cartInfo){
+      this.editForm = cartInfo;
+      this.postUpdateRequest('Edited product quantity successfully.');
+    },
+    changeProductSize(cartInfo){
+      this.editForm = cartInfo;
+      this.postUpdateRequest('Edited product size successfully.');
+    },
+    formattedPrice(price) {
+      return '$'+parseFloat(price).toFixed(2);
+    },
+    goToProductDetail(productId) {
+      // 使用 Vue Router 导航到商品详情页面，并传递商品的唯一标识
+      console.log(productId);
+      this.$router.push({ name: 'productDetail', params: { productId } });
     },
     // Delete cart by id
     async removeCartById(cartId) {
@@ -285,7 +308,7 @@ export default {
             console.log(err);
           });
       }
-    }
+    },
   },
 }
 </script>

@@ -19,7 +19,7 @@
         <el-card>
           <h1>{{ productDetail.productName }}</h1>
           <p>{{ productDetail.productDescription }}</p>
-          <h2>${{ productDetail.productPrice }} / cup</h2>
+          <h2>{{ formattedPrice(productDetail.productPrice) }} / cup</h2>
 
           <el-rate
             v-model="productDetail.productRate"
@@ -40,7 +40,7 @@
               </el-radio-group>
             </el-form-item>
           </el-form>
-          <el-input-number v-model="orderForm.num" @change="handleChange" :min="1" :max="10" label="描述文字"></el-input-number>
+          <el-input-number v-model="orderForm.num" @change="handleChange" :min="1" :max="10" label="ProductNum"></el-input-number>
           <el-button type="primary" @click="addToCart">Add to Cart</el-button>
         </el-row>
 
@@ -203,6 +203,9 @@ export default {
     },
     callGetCartNumber() {
       homepage.methods.getCartNumber.call(this);
+    },
+    formattedPrice(price) {
+      return '$'+parseFloat(price).toFixed(2);
     },
   }
 }
