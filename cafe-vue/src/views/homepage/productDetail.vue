@@ -19,24 +19,16 @@
         <el-card>
           <h1>{{ productDetail.productName }}</h1>
           <p>{{ productDetail.productDescription }}</p>
-          <h2>{{ formattedPrice(productDetail.productPrice) }} / cup</h2>
-
-          <el-rate
-            v-model="productDetail.productRate"
-            disabled
-            show-score
-            text-color="#ff9900"
-            score-template="{value}">
-          </el-rate>
+          <h2>{{ formattedPrice(getAdjustedPrice(productDetail.productPrice, this.orderForm.size)) }} / cup</h2>
         </el-card>
         <el-row>
           <el-form ref="orderForm" :model="orderForm">
             <h2>Customize:</h2>
             <el-form-item>
               <el-radio-group v-model="orderForm.size" fill="#33ccff">
-                <el-radio-button label="S">Small</el-radio-button>
-                <el-radio-button label="M">Medium</el-radio-button>
-                <el-radio-button label="L">Large</el-radio-button>
+                <el-radio-button label="S"><i class="el-icon-coffee el-icon-coffee-small"></i> Small</el-radio-button>
+                <el-radio-button label="M"><i class="el-icon-coffee el-icon-coffee-medium"></i> Medium</el-radio-button>
+                <el-radio-button label="L"><i class="el-icon-coffee el-icon-coffee-large"></i> Large</el-radio-button>
               </el-radio-group>
             </el-form-item>
           </el-form>
@@ -62,6 +54,18 @@
 
 .productColInfo > :first-child {
   background: #f3f3f3;
+}
+
+.el-icon-coffee-small{
+  font-size: 10px;
+}
+
+.el-icon-coffee-medium{
+  font-size: 12px;
+}
+
+.el-icon-coffee-large{
+  font-size: 14px;
 }
 </style>
 
@@ -206,6 +210,15 @@ export default {
     },
     formattedPrice(price) {
       return '$'+parseFloat(price).toFixed(2);
+    },
+    getAdjustedPrice(price, size) {
+      let adjustedPrice = parseFloat(price);
+      if (size === 'M') {
+        adjustedPrice += 2;
+      } else if (size === 'L') {
+        adjustedPrice += 4;
+      }
+      return adjustedPrice;
     },
   }
 }

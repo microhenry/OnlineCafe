@@ -24,19 +24,19 @@
           </el-table-column>
 
           <el-table-column prop="productPrice" label="Product Price" min-width="10%">
-            <template slot-scope="scope">{{ formattedPrice(scope.row.productPrice) }}</template>
+            <template slot-scope="scope">{{ formattedPrice(getAdjustedPrice(scope.row.productPrice, scope.row.productSize)) }}</template>
           </el-table-column>
           <el-table-column prop="productNum" label="Product Num" min-width="15%">
             <template slot-scope="scope">
               <el-input-number v-model="scope.row.productNum" @change="changeProductNum(scope.row)" size="small" :min="1" :max="10" label="ProductNum"></el-input-number>
             </template>
           </el-table-column>
-          <el-table-column prop="productSize" label="Product Size" min-width="20%">
+          <el-table-column prop="productSize" label="Product Size" min-width="25%">
             <template slot-scope="scope">
-              <el-radio-group v-model="scope.row.productSize" size="mini" fill="#33ccff" @change="changeProductSize(scope.row)">
-                <el-radio-button label="S">Small</el-radio-button>
-                <el-radio-button label="M">Medium</el-radio-button>
-                <el-radio-button label="L">Large</el-radio-button>
+              <el-radio-group v-model="scope.row.productSize" size="medium" fill="#33ccff" @change="changeProductSize(scope.row)">
+                <el-radio-button label="S"><i class="el-icon-coffee el-icon-coffee-small"></i> Small</el-radio-button>
+                <el-radio-button label="M"><i class="el-icon-coffee el-icon-coffee-medium"></i> Medium</el-radio-button>
+                <el-radio-button label="L"><i class="el-icon-coffee el-icon-coffee-large"></i> Large</el-radio-button>
               </el-radio-group>
             </template>
           </el-table-column>
@@ -237,6 +237,15 @@ export default {
     formattedPrice(price) {
       return '$'+parseFloat(price).toFixed(2);
     },
+    getAdjustedPrice(price, size) {
+      let adjustedPrice = parseFloat(price);
+      if (size === 'M') {
+        adjustedPrice += 2;
+      } else if (size === 'L') {
+        adjustedPrice += 4;
+      }
+      return adjustedPrice;
+    },
     goToProductDetail(productId) {
       // 使用 Vue Router 导航到商品详情页面，并传递商品的唯一标识
       console.log(productId);
@@ -287,7 +296,7 @@ export default {
       // Calculate the total price
       this.totalPrice = 0;
       this.multipleSelection.forEach((item) => {
-        this.totalPrice += item.productPrice * item.productNum;
+        this.totalPrice += this.getAdjustedPrice(item.productPrice, item.productSize) * item.productNum;
       });
     },
     // Batch delete cart
@@ -327,5 +336,15 @@ export default {
 </script>
 
 <style scoped>
+.el-icon-coffee-small{
+  font-size: 10px;
+}
 
+.el-icon-coffee-medium{
+  font-size: 12px;
+}
+
+.el-icon-coffee-large{
+  font-size: 14px;
+}
 </style>
