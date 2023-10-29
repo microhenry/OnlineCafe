@@ -10,13 +10,19 @@
         <el-table
           :data="orderList"
           :header-cell-style="{'text-align':'center'}"
-          :cell-style="{'text-align':'center'}"
+          :cell-style="{'text-align':'center', 'font-weight': 'bold'}"
           :default-sort="{prop: 'orderTime', order: 'descending'}"
           stripe
         >
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-card>
+                <el-steps :active="props.row.orderStatus === 'In Process' ? 1 : props.row.orderStatus === 'In Delivery' ? 2 : 4" finish-status="success" align-center>
+                  <el-step title="Submitted" description="You have submitted the order"></el-step>
+                  <el-step title="In Process" description="Order is being processed"></el-step>
+                  <el-step title="In Delivery" description="Order is being delivered"></el-step>
+                  <el-step title="Done" description="Order completed"></el-step>
+                </el-steps>
                 <el-table
                   :data="props.row.orderInfos"
                   :header-cell-style="{'text-align':'center'}"
@@ -261,6 +267,6 @@ export default {
 <style scoped>
 .el-card {
   width: 90%;
-  margin: 0 auto;
+  margin: 0 auto 20px;
 }
 </style>
