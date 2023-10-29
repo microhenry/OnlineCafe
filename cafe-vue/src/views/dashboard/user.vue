@@ -19,12 +19,11 @@
             </el-input>
           </el-col>
           <el-col :span="2.5">
-            <el-button type="primary" @click="addDialogVisible = true"
-            >Add User</el-button
-            >
+            <el-button type="primary" @click="addDialogVisible = true" icon="el-icon-plus">Add User</el-button>
           </el-col>
           <el-col :span="2.5">
             <el-button type="danger" @click="batchDeleteUser" :disabled="multipleSelection.length === 0"
+                       :icon="multipleSelection.length === 0 ? 'el-icon-delete' : 'el-icon-delete-solid'"
             >Batch Delete</el-button
             >
           </el-col>
@@ -43,7 +42,11 @@
           <el-table-column prop="userName" label="User Name"></el-table-column>
           <el-table-column prop="loginName" label="Login Name"></el-table-column>
           <el-table-column prop="sex" label="Gender"></el-table-column>
-          <el-table-column prop="money" label="Balance"></el-table-column>
+          <el-table-column prop="money" label="Balance">
+            <template slot-scope="scope">
+              {{formattedMoney(scope.row.money)}}
+            </template>
+          </el-table-column>
           <el-table-column prop="email" label="Email"></el-table-column>
           <el-table-column prop="address" label="Address"></el-table-column>
           <el-table-column label="Operation">
@@ -85,6 +88,7 @@
       :visible.sync="addDialogVisible"
       width="30%"
       @close="addDialogClosed"
+      :top="`5vh`"
     >
       <!--内容主体区域-->
       <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="100px">
@@ -103,7 +107,7 @@
           <el-radio v-model="userForm.sex" label="Other">Other</el-radio>
         </el-form-item>
         <el-form-item label="Balance" prop="money">
-          <el-input v-model="userForm.money"></el-input>
+          <el-input-number v-model="userForm.money" :min="0" :max="10000" :step="50"></el-input-number>
         </el-form-item>
         <el-form-item label="Email" prop="email">
           <el-input v-model="userForm.email"></el-input>
@@ -120,7 +124,7 @@
     </el-dialog>
 
     <!--Edit User Dialog-->
-    <el-dialog title="Edit User" :visible.sync="editDialogVisible" width="30%">
+    <el-dialog title="Edit User" :visible.sync="editDialogVisible" width="30%" @close="editDialogClosed">
       <!--内容主体区域-->
       <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="100px">
         <el-form-item label="Login Name" prop="loginName">
@@ -135,7 +139,7 @@
           <el-radio v-model="editForm.sex" label="Other">Other</el-radio>
         </el-form-item>
         <el-form-item label="Balance" prop="money">
-          <el-input v-model="editForm.money"></el-input>
+          <el-input-number v-model="editForm.money" :min="0" :max="10000" :step="50"></el-input-number>
         </el-form-item>
         <el-form-item label="Email" prop="email">
           <el-input v-model="editForm.email"></el-input>
@@ -256,6 +260,9 @@ export default {
           console.log(err);
         });
     },
+    formattedMoney(money) {
+      return '$'+parseFloat(money).toFixed(2);
+    },
     // 监听 pageSize 改变的事件
     handleSizeChange(newSize) {
       // console.log(newSize)
@@ -304,6 +311,9 @@ export default {
     addDialogClosed() {
       // 表单内容重置为空
       this.$refs.userForm.resetFields();
+    },
+    editDialogClosed() {
+      this.$refs.editForm.resetFields();
     },
 
     // 监听 修改用户状态

@@ -19,12 +19,11 @@
             </el-input>
           </el-col>
           <el-col :span="2.5">
-            <el-button type="primary" @click="addDialogVisible = true"
-            >Add Product</el-button
-            >
+            <el-button type="primary" @click="addDialogVisible = true" icon="el-icon-plus">Add User</el-button>
           </el-col>
           <el-col :span="2.5">
             <el-button type="danger" @click="batchDeleteProduct" :disabled="multipleSelection.length === 0"
+                       :icon="multipleSelection.length === 0 ? 'el-icon-delete' : 'el-icon-delete-solid'"
             >Batch Delete</el-button
             >
           </el-col>
@@ -34,22 +33,24 @@
         <!--Table-->
         <el-table
           :data="productList"
+          :header-cell-style="{'text-align':'center'}"
+          :cell-style="{'text-align':'center'}"
           border
           stripe
           @selection-change="handleSelectionChange"
         >
-          <el-table-column type="selection" width="55"> </el-table-column>
-          <el-table-column type="index" label="No."></el-table-column>
-          <el-table-column prop="productCategory" label="Product Category"></el-table-column>
-          <el-table-column prop="productName" label="Product Name"></el-table-column>
-          <el-table-column prop="productSize" label="Product Size"></el-table-column>
-          <el-table-column prop="productPrice" label="Product Price">
+          <el-table-column type="selection" width="55" min-width="3%"> </el-table-column>
+          <el-table-column type="index" label="No." min-width="3%"></el-table-column>
+          <el-table-column prop="productCategory" label="Product Category" min-width="15%"></el-table-column>
+          <el-table-column prop="productName" label="Product Name" min-width="25%"></el-table-column>
+<!--          <el-table-column prop="productSize" label="Product Size" min-width="15%"></el-table-column>-->
+          <el-table-column prop="productPrice" label="Product Price" min-width="10%">
             <template slot-scope="scope">
               {{ formattedPrice(scope.row.productPrice) }}
             </template>
           </el-table-column>
-          <el-table-column prop="productPicUrl" label="Picture Url"></el-table-column>
-          <el-table-column label="Operation">
+          <el-table-column prop="productPicUrl" label="Picture Url" min-width="25%"></el-table-column>
+          <el-table-column label="Operation" min-width="10%">
             <template slot-scope="scope">
               <!--Edit Btn-->
               <el-button
@@ -130,7 +131,7 @@
     </el-dialog>
 
     <!--Edit Product Dialog-->
-    <el-dialog title="Edit Product" :visible.sync="editDialogVisible" width="35%" :top="`5vh`">
+    <el-dialog title="Edit Product" :visible.sync="editDialogVisible" width="35%" :top="`5vh`" @close="editDialogClosed">
       <!--内容主体区域-->
       <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="25%">
         <el-form-item label="Product Name" prop="productName">
@@ -319,6 +320,9 @@ export default {
       // 表单内容重置为空
       this.$refs.productForm.resetFields();
     },
+    editDialogClosed() {
+      this.$refs.editForm.resetFields();
+    },
 
     // Listen the event of clicking edit button
     showEditDialog(productInfo) {
@@ -434,7 +438,7 @@ export default {
             console.log(err);
           });
       }
-    }
+    },
   },
 };
 </script>

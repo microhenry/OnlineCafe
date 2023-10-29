@@ -9,6 +9,7 @@
         <el-row :gutter="20">
           <el-col :span="2.5">
             <el-button type="danger" @click="batchDeleteOrder" :disabled="multipleSelection.length === 0"
+                       :icon="multipleSelection.length === 0 ? 'el-icon-delete' : 'el-icon-delete-solid'"
             >Batch Delete</el-button
             >
           </el-col>
@@ -121,7 +122,7 @@
     </el-row>
 
     <!--Edit Order Dialog-->
-    <el-dialog title="Edit Order Status" :visible.sync="submitDialogVisible" width="35%" :top="`20vh`">
+    <el-dialog title="Edit Order Status" :visible.sync="submitDialogVisible" width="35%" :top="`20vh`" @close="editDialogClosed">
       <el-form :model="editForm" :rules="submitOrderRules" ref="orderForm" label-width="130px">
         <el-form-item label="Order Status" prop="orderStatus">
           <el-radio-group v-model="editForm.orderStatus">
@@ -221,6 +222,9 @@ export default {
       // console.log(newPage)
       this.queryInfo.pageNo = newPage;
       this.getOrderList();
+    },
+    editDialogClosed() {
+      this.$refs["orderForm"].resetFields();
     },
     // Listen the event of clicking edit button
     showSubmitDialog(orderInfo) {
