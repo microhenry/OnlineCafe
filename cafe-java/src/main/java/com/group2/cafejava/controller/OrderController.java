@@ -78,7 +78,8 @@ public class OrderController {
         order.setOrderComment(orderFragmentFromFront.getOrderComment());
         order.setOrderTime(sdf.format(date));
         order.setOrderAddress(orderFragmentFromFront.getOrderAddress());
-        order.setOrderStatus("On Progress");
+        order.setOrderStatus("In Process");
+
         StringBuilder orderInfoName= new StringBuilder();
         StringBuilder orderInfoSize=new StringBuilder();
         StringBuilder orderInfoNumber=new StringBuilder();
@@ -90,11 +91,11 @@ public class OrderController {
             Integer productid=cart.getProductId();
             Double price=productMapper.selectById(productid).getProductPrice();
            switch (cart.getProductSize()){
-               case "S":
-                   price-=2;
+               case "M":
+                   price+=2;
                    break;
                case "L":
-                   price+=2;
+                   price+=4;
                    break;
                default:
                    break;
@@ -140,7 +141,7 @@ public class OrderController {
     @PostMapping("/api/order/update")
     public Result updateOrder(@RequestBody Order order) {
         Order order1=orderMapper.selectById(order.getOrderId());
-        if (order1.getOrderStatus().equals("On Progress")){
+        if (order1.getOrderStatus().equals("In Process")){
         if (!order.getOrderAddress().equals("null")){order1.setOrderAddress(order.getOrderAddress());}
         if (!order.getOrderComment().equals("null")){order1.setOrderComment(order.getOrderComment());}}
 
