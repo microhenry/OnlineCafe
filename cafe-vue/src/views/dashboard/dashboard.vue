@@ -47,6 +47,7 @@ export default {
         { name: "/dashboard/index", title: "Home", icon: "el-icon-s-home" },
         { name: "/dashboard/user", title: "User Management",icon:"el-icon-s-custom" },
         { name: "/dashboard/product", title: "Product Management",icon:"el-icon-milk-tea" },
+        { name: "/dashboard/order", title: "Order Management",icon:"el-icon-s-order" },
       ],
     };
   },

@@ -52,6 +52,14 @@ export default new Router({
             requireStaffAuth:true
           }
         },
+        {
+          path:'/dashboard/order',
+          name:'Order',
+          component:()=>import('@/views/dashboard/order'),
+          meta:{
+            requireStaffAuth:true
+          }
+        },
       ]
     },
     {

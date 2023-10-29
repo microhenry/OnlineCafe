@@ -6,6 +6,15 @@
   <div>
     <el-row>
       <el-col :span="24">
+        <el-row :gutter="20">
+          <el-col :span="2.5">
+            <el-button type="danger" @click="batchDeleteOrder" :disabled="multipleSelection.length === 0"
+            >Batch Delete</el-button
+            >
+          </el-col>
+        </el-row>
+      </el-col>
+      <el-col :span="24">
         <!--Table-->
         <el-table
           :data="orderList"
@@ -13,12 +22,14 @@
           :cell-style="{'text-align':'center', 'font-weight': 'bold'}"
           :default-sort="{prop: 'orderTime', order: 'descending'}"
           stripe
+          @selection-change="handleSelectionChange"
         >
+          <el-table-column type="selection" min-width="3%"> </el-table-column>
           <el-table-column type="expand">
             <template slot-scope="props">
               <el-card>
                 <el-steps :active="props.row.orderStatus === 'In Process' ? 1 : props.row.orderStatus === 'In Delivery' ? 2 : 4" finish-status="success" align-center>
-                  <el-step title="Submitted" description="You have submitted the order"></el-step>
+                  <el-step title="Submitted" description="User has submitted the order"></el-step>
                   <el-step title="In Process" description="Order is being processed"></el-step>
                   <el-step title="In Delivery" description="Order is being delivered"></el-step>
                   <el-step title="Done" description="Order completed"></el-step>
@@ -58,8 +69,9 @@
             </template>
           </el-table-column>
           <el-table-column type="index" label="No." min-width="3%"></el-table-column>
-          <el-table-column prop="orderId" label="Order ID" min-width="10%"></el-table-column>
+          <el-table-column prop="orderId" label="Order ID" min-width="8%"></el-table-column>
           <el-table-column prop="orderTime" label="Order Time" sortable min-width="15%"></el-table-column>
+          <el-table-column prop="orderCustomerId" label="CustomerId" min-width="10%"></el-table-column>
           <el-table-column prop="orderPrice" label="Order Price" min-width="10%">
             <template slot-scope="scope">
               {{ formattedPrice(scope.row.orderPrice) }}
@@ -88,7 +100,6 @@
                 type="primary"
                 size="mini"
                 icon="el-icon-edit"
-                :disabled="scope.row.orderStatus !== 'In Process'"
                 @click="showSubmitDialog(scope.row)"
               ></el-button>
             </template>
@@ -110,13 +121,14 @@
     </el-row>
 
     <!--Edit Order Dialog-->
-    <el-dialog title="Edit Order" :visible.sync="submitDialogVisible" width="35%" :top="`5vh`">
+    <el-dialog title="Edit Order Status" :visible.sync="submitDialogVisible" width="35%" :top="`20vh`">
       <el-form :model="editForm" :rules="submitOrderRules" ref="orderForm" label-width="130px">
-        <el-form-item label="Delivery Address" prop="orderAddress">
-          <el-input v-model="editForm.orderAddress" placeholder="Please enter your delivery address"></el-input>
-        </el-form-item>
-        <el-form-item label="Order Comment">
-          <el-input v-model="editForm.orderComment" type="textarea" placeholder="Please enter your order comment"></el-input>
+        <el-form-item label="Order Status" prop="orderStatus">
+          <el-radio-group v-model="editForm.orderStatus">
+            <el-radio-button label="In Process">In Process</el-radio-button>
+            <el-radio-button label="In Delivery">In Delivery</el-radio-button>
+            <el-radio-button label="Done">Done</el-radio-button>
+          </el-radio-group>
         </el-form-item>
       </el-form>
       <!--底部按钮区域-->
@@ -129,8 +141,8 @@
 </template>
 
 <script>
-import homepage from "../homepage.vue";
-import { getCustomerOrderList, getOrderDetail, updateOrder } from "@/api/order";
+import { getOrderList, getCustomerOrderList, getOrderDetail, updateOrder } from "@/api/order";
+import {batchDeleteOrder, deleteOrder} from "../../api/order";
 export default {
   data() {
     return {
@@ -146,9 +158,11 @@ export default {
         orderAddress: "",
         orderComment: "",
       },
+      multipleSelection: [],
+      orderIds: [],
       submitOrderRules: {
-        orderAddress : [
-          { required: true, message: 'Order address cannot be empty!', trigger: 'change' }
+        orderStatus : [
+          { required: true, message: 'Order status cannot be empty!', trigger: 'change' }
         ],
       },
       labelStyle: {
@@ -167,10 +181,10 @@ export default {
   },
   methods: {
     getOrderList() {
-      this.queryInfo.keyword = this.$store.state.user.id;
       console.log(this.queryInfo);
-      getCustomerOrderList(this.queryInfo)
+      getOrderList(this.queryInfo)
         .then((res) => {
+          console.log(res);
           if (res.data.code === 200) {
             // Get the order list
             console.log(res.data.data);
@@ -226,7 +240,6 @@ export default {
                 });
                 this.submitDialogVisible = false;
                 this.getOrderList();
-                this.callGetCartNumber();
               } else {
                 this.$message.error("Failed to submit order.");
               }
@@ -241,9 +254,6 @@ export default {
         }
       });
     },
-    callGetCartNumber() {
-      homepage.methods.getCartNumber.call(this);
-    },
     formattedPrice(price) {
       return '$'+parseFloat(price).toFixed(2);
     },
@@ -254,6 +264,77 @@ export default {
     },
     filterTag(value, row) {
       return row.orderStatus === value;
+    },
+    // Delete order by id
+    async removeOrderById(orderId) {
+      const confirmResult = await this.$confirm(
+        "Are you sure to delete this order?",
+        "Warning",
+        {
+          confirmButtonText: "Confirm",
+          cancelButtonText: "Cancel",
+          type: "warning",
+        }
+      ).catch((err) => err);
+      if (confirmResult === "confirm") {
+        deleteOrder(orderId)
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.$message({
+                showClose: true,
+                message: "Delete order successfully.",
+                type: "success",
+              });
+              this.getOrderList();
+            } else {
+              this.$message.error("Failed to delete order.");
+            }
+          })
+          .catch((err) => {
+            this.$message.error("Failed to delete order.");
+            console.log(err);
+          });
+      }
+    },
+    //批量选中事件处理
+    handleSelectionChange(val) {
+      this.multipleSelection = val;
+      this.newOrderIds = [];
+      this.multipleSelection.forEach((item) => {
+        this.newOrderIds.push(item.orderId);
+      });
+      this.orderIds = this.newOrderIds;
+    },
+    // Batch delete order
+    async batchDeleteOrder(){
+      const confirmResult = await this.$confirm(
+        "Are you sure to delete these orders?",
+        "Warning",
+        {
+          confirmButtonText: "Confirm",
+          cancelButtonText: "Cancel",
+          type: "warning",
+        }
+      ).catch((err) => err);
+      if (confirmResult === "confirm") {
+        batchDeleteOrder(this.orderIds)
+          .then((res) => {
+            if (res.data.code === 200) {
+              this.$message({
+                showClose: true,
+                message: "Delete orders successfully.",
+                type: "success",
+              });
+              this.getOrderList();
+            } else {
+              this.$message.error("Failed to delete orders.");
+            }
+          })
+          .catch((err) => {
+            this.$message.error("Failed to delete orders.");
+            console.log(err);
+          });
+      }
     },
   },
 }
