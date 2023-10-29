@@ -221,6 +221,8 @@ export default {
                 this.submitDialogVisible = false;
                 this.getCartList();
                 this.callGetCartNumber();
+              } else if (res.data.code === 400) {
+                this.$message.error(res.data.message);
               } else {
                 this.$message.error("Failed to submit order.");
               }

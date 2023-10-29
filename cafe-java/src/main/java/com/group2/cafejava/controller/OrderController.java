@@ -125,7 +125,7 @@ public class OrderController {
         Double money=user.getMoney();
         money-=orderPrice;
         if (money<0){
-            return new Result(200, "not enough money", -1);
+            return new Result(400, "Insufficient balance", -1);
         }
         else {
             user.setMoney(money);
