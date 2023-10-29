@@ -5,13 +5,14 @@
 <template>
   <div class="index">
     <el-container>
-      <el-header>
+      <el-header style="background-color: #fff3da">
         <el-menu
           :default-active="$route.path"
           router
           text-color="black"
           active-text-color="red"
           mode="horizontal"
+          background-color="#fff3da"
           style="display: flex;"
         >
           <el-menu-item
@@ -29,14 +30,6 @@
             </div>
             <div v-if="isLoggedIn">
               <span class="user-title" style="margin-right: 5px">Welcome,</span>
-<!--              <el-popover-->
-<!--                placement="bottom"-->
-<!--                trigger="hover">-->
-<!--                <span>Balance: <span style="color: red">{{formattedMoney}}</span></span>-->
-<!--                <span class="user-title" style="margin-right: 10px; color: dodgerblue" slot="reference">-->
-<!--                  {{ this.$store.state.user.loginName }}-->
-<!--                </span>-->
-<!--              </el-popover>-->
               <span class="user-title" style="margin-right: 10px; color: dodgerblue" slot="reference">
                   {{ this.$store.state.user.loginName }}
                 </span>

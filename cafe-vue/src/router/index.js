@@ -26,7 +26,7 @@ export default new Router({
       meta: {
         requireStaffAuth: true
       },
-      redirect: '/dashboard/index',
+      redirect: '/dashboard/user',
       children:[
         {
           path:'/dashboard/index',
@@ -81,7 +81,7 @@ export default new Router({
       path: '/homepage',
       name: 'Homepage',
       component: Homepage,
-      redirect: '/products',
+      redirect: '/home',
       children:[
         {
           path:'/home',
