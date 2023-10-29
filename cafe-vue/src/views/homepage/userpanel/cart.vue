@@ -6,18 +6,6 @@
   <div>
     <el-row>
       <el-col :span="24">
-        <el-row :gutter="20">
-          <el-col :span="2.5">
-            <el-button type="primary" @click="" disabled
-            >Submit Order</el-button>
-          </el-col>
-          <el-col :span="2.5">
-            <el-button type="danger" @click="batchDeleteCart"
-            >Batch Delete</el-button>
-          </el-col>
-        </el-row>
-      </el-col>
-      <el-col :span="24">
         <!--Table-->
         <el-table
           :data="cartList"
@@ -72,6 +60,25 @@
           </el-table-column>
         </el-table>
       </el-col>
+      <el-col :span="24" style="margin-top: 20px; margin-bottom: 20px">
+        <el-row :gutter="9" type="flex" justify="end">
+          <el-col :span="2.5">
+            <div >
+              <el-tag type="info" effect="plain" style="height: 100%; line-height: 40px; font-size: 15px">
+                <span style="color: red">Total: <span style="color: darkblue">{{ formattedPrice(totalPrice) }}</span></span>
+              </el-tag>
+            </div>
+          </el-col>
+          <el-col :span="2.5">
+            <el-button type="primary" @click="" disabled
+            >Submit Order</el-button>
+          </el-col>
+          <el-col :span="2.5" style="margin-left: 10px">
+            <el-button type="danger" @click="batchDeleteCart"
+            >Batch Delete</el-button>
+          </el-col>
+        </el-row>
+      </el-col>
     </el-row>
     <el-row>
       <el-pagination
@@ -116,6 +123,7 @@ export default {
     return {
       cartList: [],
       total: 0,
+      totalPrice: 0,
       queryInfo: {
         keyword: "",
         pageNo: 1,
@@ -274,7 +282,11 @@ export default {
       //向被删除的ids赋值
       this.multipleSelection.forEach((item) => {
         this.cartIds.push(item.cartId);
-        console.log(this.cartIds);
+      });
+      // Calculate the total price
+      this.totalPrice = 0;
+      this.multipleSelection.forEach((item) => {
+        this.totalPrice += item.productPrice * item.productNum;
       });
     },
     // Batch delete cart
