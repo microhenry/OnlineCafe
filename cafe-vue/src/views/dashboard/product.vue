@@ -19,7 +19,7 @@
             </el-input>
           </el-col>
           <el-col :span="2.5">
-            <el-button type="primary" @click="addDialogVisible = true" icon="el-icon-plus">Add User</el-button>
+            <el-button type="primary" @click="addDialogVisible = true" icon="el-icon-plus">Add Product</el-button>
           </el-col>
           <el-col :span="2.5">
             <el-button type="danger" @click="batchDeleteProduct" :disabled="multipleSelection.length === 0"
