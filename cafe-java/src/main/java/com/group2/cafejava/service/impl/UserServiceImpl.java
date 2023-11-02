@@ -28,7 +28,9 @@ public class UserServiceImpl implements UserService {
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("login_name", user.getLoginName());
         User uer=userMapper.selectOne(wrapper);
-        if (uer==null){return userMapper.insert(user);}
+        if (uer==null){
+            user.setMoney(200);
+            return userMapper.insert(user);}
         else{
             return -1;
         }

@@ -114,8 +114,9 @@ public class OrderController {
                 orderInfoNumber.append(",");
                 orderInfoPrice.append(",");
             }
-            cartMapper.deleteById(cart.getCartId());
+
         }
+
         order.setOrderPrice(orderPrice);
         order.setOrderInfoName(String.valueOf(orderInfoName));
         order.setOrderInfoSize(String.valueOf(orderInfoSize));
@@ -125,10 +126,13 @@ public class OrderController {
         Double money=user.getMoney();
         money-=orderPrice;
         if (money<0){
+
             return new Result(400, "Insufficient balance", -1);
         }
         else {
+
             user.setMoney(money);
+            cartMapper.deleteBatchIds(ids);
             userMapper.updateById(user);
         return new Result(200, "", orderService.addOrder(order));}
 
