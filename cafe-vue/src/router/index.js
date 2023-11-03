@@ -1,10 +1,9 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-//导入登录页面组件
+// Import views
 import Login from '@/views/authentication/login.vue'
 import Register from "@/views/authentication/register"
 import LoginStaff from '@/views/authentication/loginStaff.vue'
-import Dashboard from '@/views/dashboard/dashboard.vue'
 import Homepage from "../views/homepage/homepage.vue";
 
 
@@ -13,16 +12,16 @@ Vue.use(Router)
 export default new Router({
   routes: [
     {
+      // Default router
       path: '/',
       name: 'Default',
       redirect: '/homepage',
-      component: Dashboard
     },
     {
-      // home页面并不需要被访问，只是作为其它组件的父组件
+      // Dashboard router
       path: '/dashboard',
       name: 'Dashboard',
-      component: Dashboard,
+      component:() => import('@/views/dashboard/dashboard'),
       meta: {
         requireStaffAuth: true
       },

@@ -90,7 +90,6 @@
       @close="addDialogClosed"
       :top="`5vh`"
     >
-      <!--内容主体区域-->
       <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="100px">
         <el-form-item label="Login Name" prop="loginName">
           <el-input v-model="userForm.loginName"></el-input>
@@ -116,7 +115,7 @@
           <el-input v-model="userForm.address"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="addUser('userForm')">Confirm</el-button>
@@ -125,7 +124,6 @@
 
     <!--Edit User Dialog-->
     <el-dialog title="Edit User" :visible.sync="editDialogVisible" width="30%" @close="editDialogClosed">
-      <!--内容主体区域-->
       <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="100px">
         <el-form-item label="Login Name" prop="loginName">
           <el-input v-model="editForm.loginName" :disabled="true"></el-input>
@@ -148,7 +146,7 @@
           <el-input v-model="editForm.address"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="editUser('editForm')">Confirm</el-button>
@@ -162,17 +160,15 @@ import { userList, userAdd, userUpdate, userDelete, userBatchDelete} from "@/api
 export default {
   data() {
     return {
-      userList: [], // 用户列表
-      total: 0, // 用户总数
-      // 获取用户列表的参数对象
+      userList: [],
+      total: 0,
       queryInfo: {
-        keyword: "", // 查询参数
-        pageNo: 1, // 当前页码
-        pageSize: 5, // 每页显示条数
+        keyword: "",
+        pageNo: 1,
+        pageSize: 5,
       },
-      addDialogVisible: false, // 控制添加用户对话框是否显示
+      addDialogVisible: false,
       userForm: {
-        //用户
         loginName: "",
         userName: "",
         password: "",
@@ -181,7 +177,7 @@ export default {
         email: "",
         address: "",
       },
-      editDialogVisible: false, // 控制修改用户信息对话框是否显示
+      editDialogVisible: false,
       editForm: {
         id: "",
         loginName: "",
@@ -240,7 +236,6 @@ export default {
     };
   },
   created() {
-    // 生命周期函数
     this.getUserList();
   },
   methods: {
@@ -248,8 +243,6 @@ export default {
       userList(this.queryInfo)
         .then((res) => {
           if (res.data.code === 200) {
-            //用户列表
-            console.log(res.data.data);
             this.userList = res.data.data.records;
             this.total = res.data.data.total;
           } else {
@@ -263,25 +256,19 @@ export default {
     formattedMoney(money) {
       return '$'+parseFloat(money).toFixed(2);
     },
-    // 监听 pageSize 改变的事件
+    // Listen the event of changing pageSize
     handleSizeChange(newSize) {
-      // console.log(newSize)
       this.queryInfo.pageSize = newSize;
-      // 重新发起请求用户列表
       this.getUserList();
     },
-    // 监听 当前页码值 改变的事件
+    // Listen the event of changing pageNo
     handleCurrentChange(newPage) {
-      // console.log(newPage)
       this.queryInfo.pageNo = newPage;
-      // 重新发起请求用户列表
       this.getUserList();
     },
-    //添加用户
+    // Add user
     addUser(formName) {
-      console.log(formName)
       this.$refs[formName].validate((valid) => {
-        console.log(valid)
         if (valid) {
           userAdd(this.userForm)
             .then((res) => {
@@ -307,7 +294,7 @@ export default {
       });
     },
 
-    // 监听 添加用户对话框的关闭事件
+    // Listen the event of closing add dialog
     addDialogClosed() {
       // 表单内容重置为空
       this.$refs.userForm.resetFields();
@@ -316,13 +303,11 @@ export default {
       this.$refs.editForm.resetFields();
     },
 
-    // 监听 修改用户状态
     showEditDialog(userinfo) {
       this.editDialogVisible = true;
-      console.log(userinfo);
       this.editForm = userinfo;
     },
-    //修改用户
+    // Edit user
     editUser(formName) {
       this.$refs[formName].validate((valid) => {
         if (valid) {
@@ -349,10 +334,9 @@ export default {
         }
       });
     },
-    // 根据ID删除对应的用户信息
+    // Delete user by id
     async removeUserById(id) {
-      console.log("id: "+id);
-      // 弹框 询问用户是否删除
+      // Confirm dialog
       const confirmResult = await this.$confirm(
         "This operation will permanently delete the user. Do you want to continue?",
         "Warning",
@@ -362,11 +346,7 @@ export default {
           type: "warning",
         }
       ).catch((err) => err);
-      // 如果用户确认删除，则返回值为字符串 confirm
-      // 如果用户取消删除，则返回值为字符串 cancel
-      // console.log(confirmResult)
       if (confirmResult === "confirm") {
-        //删除用户
         userDelete(id)
           .then((res) => {
             if (res.data.code === 200) {
@@ -385,19 +365,18 @@ export default {
           });
       }
     },
-    //批量选中事件处理
+    // Listen the event of changing selection
     handleSelectionChange(val) {
       this.multipleSelection = val;
       const newIds = [];
-      //向被删除的ids赋值
       this.multipleSelection.forEach((item) => {
         newIds.push(item.id);
       });
       this.ids = newIds;
     },
-    //批量删除用户
+    // Batch delete user
     async batchDeleteUser(){
-      // 弹框 询问用户是否删除
+      // Confirm dialog
       const confirmResult = await this.$confirm(
         "This operation will permanently delete the user. Do you want to continue?",
         "Warning",
@@ -407,10 +386,7 @@ export default {
           type: "warning",
         }
       ).catch((err) => err);
-      // 如果用户确认删除，则返回值为字符串 confirm
-      // 如果用户取消删除，则返回值为字符串 cancel
       if (confirmResult === "confirm") {
-        //批量删除用户
         userBatchDelete(this.ids)
           .then((res) => {
             if (res.data.code === 200) {

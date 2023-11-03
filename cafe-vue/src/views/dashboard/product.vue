@@ -91,7 +91,6 @@
       @close="addDialogClosed"
       :top="`5vh`"
     >
-      <!--内容主体区域-->
       <el-form :model="productForm" :rules="productRules" ref="productForm" label-width="25%">
         <el-form-item label="Product Name" prop="productName">
           <el-input v-model="productForm.productName"></el-input>
@@ -123,7 +122,7 @@
           <el-input type="textarea" :rows="3" v-model="productForm.productDescription"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="addProduct('productForm')">Confirm</el-button>
@@ -132,7 +131,6 @@
 
     <!--Edit Product Dialog-->
     <el-dialog title="Edit Product" :visible.sync="editDialogVisible" width="35%" :top="`5vh`" @close="editDialogClosed">
-      <!--内容主体区域-->
       <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="25%">
         <el-form-item label="Product Name" prop="productName">
           <el-input v-model="editForm.productName"></el-input>
@@ -164,7 +162,7 @@
           <el-input type="textarea" :rows="3" v-model="editForm.productDescription"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="editProduct('editForm')">Confirm</el-button>
@@ -272,24 +270,19 @@ export default {
     formattedPrice(price) {
       return '$'+parseFloat(price).toFixed(2);
     },
-    // 监听 pageSize 改变的事件
     // Listen the event of changing pageSize
     handleSizeChange(newSize) {
-      // console.log(newSize)
       this.queryInfo.pageSize = newSize;
       this.getProductList();
     },
-    // 监听 当前页码值 改变的事件
+    // Listen the event of changing pageNo
     handleCurrentChange(newPage) {
-      // console.log(newPage)
       this.queryInfo.pageNo = newPage;
       this.getProductList();
     },
     // Add product
     addProduct(formName) {
-      console.log(formName)
       this.$refs[formName].validate((valid) => {
-        console.log(valid)
         if (valid) {
           addProduct(this.productForm)
             .then((res) => {
@@ -317,17 +310,15 @@ export default {
 
     // Listen the event of closing add dialog
     addDialogClosed() {
-      // 表单内容重置为空
+      // Reset the form
       this.$refs.productForm.resetFields();
     },
     editDialogClosed() {
       this.$refs.editForm.resetFields();
     },
 
-    // Listen the event of clicking edit button
     showEditDialog(productInfo) {
       this.editDialogVisible = true;
-      console.log(productInfo);
       this.editForm = productInfo;
     },
     // Edit product
@@ -388,19 +379,10 @@ export default {
           });
       }
     },
-    //批量选中事件处理
+    // Listen the event of changing selection
     handleSelectionChange(val) {
-      // this.multipleSelection = val;
-      // console.log(this.multipleSelection);
-      // //向被删除的ids赋值
-      // this.multipleSelection.forEach((item) => {
-      //   this.productIds.push(item.productId);
-      //   console.log(this.productIds);
-      // });
-
       this.multipleSelection = val;
       const newProductIds = [];
-      //向被删除的ids赋值
       this.multipleSelection.forEach((item) => {
         newProductIds.push(item.productId);
       });
@@ -408,7 +390,7 @@ export default {
     },
     // Batch delete product
     async batchDeleteProduct(){
-      // 弹框 询问用户是否删除
+      // Confirm dialog
       const confirmResult = await this.$confirm(
         "This operation will permanently delete the product. Do you want to continue?",
         "Warning",
@@ -419,8 +401,6 @@ export default {
         }
       ).catch((err) => err);
       if (confirmResult === "confirm") {
-        console.log("productIds: ");
-        console.log(this.productIds);
         batchDeleteProduct(this.productIds)
           .then((res) => {
             if (res.data.code === 200) {

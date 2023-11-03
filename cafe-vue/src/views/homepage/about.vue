@@ -60,8 +60,8 @@
 
 .About_title{
   background-image: url("../../assets/img/background.jpg");
-  background-size: cover; /* 控制背景图片的大小，cover 会填充整个 div */
-  background-position: center; /* 控制背景图片的位置，这里将其居中 */
+  background-size: cover;
+  background-position: center;
   color: white;
   text-align: center;
   height: 150px;
@@ -77,36 +77,34 @@
   font-size: 35px;
 }
 .image-container{
-  width: 200px; /* 设置容器宽度 */
-  height: 200px; /* 设置容器高度，以创建一个圆形容器 */
-  border-radius: 50%; /* 将容器变为圆形 */
-  overflow: hidden; /* 隐藏图片溢出的部分 */
+  width: 200px;
+  height: 200px;
+  border-radius: 50%;
+  overflow: hidden;
   transition: transform 0.5s;
   margin-top: 10px;
   margin-left: 30%;
 }
 .rotating-image {
-  width: 100%; /* 图片宽度占满容器 */
-  height: 100%; /* 图片高度占满容器 */
+  width: 100%;
+  height: 100%;
 }
 
 .image-container:hover {
-  transform: rotate(90deg); /* 鼠标悬停时旋转容器 */
+  transform: rotate(90deg);
 }
 .content{
   text-align: left;
   margin-top: -1px;
 }
-/**
-* 这是设置右边的元素
-*/
+
 .limitheight{
   height: 700px;
 }
 .right-image-coinater{
   margin-top: 3%;
   margin-left: 10%;
-  height:45%; /* 设置图片容器的高度为 el-col 的 33% */
+  height:45%;
   width: 80%;
   background: #ffffff;
   border-radius: 5px;
@@ -119,16 +117,14 @@
 
 .right-picture{
 
-  width: 100%; /* 图片宽度占满容器 */
-  height: 70%; /* 图片高度占满容器 */
-  object-fit: cover; /* 保持图片的纵横比并填充容器 */
-  transition: transform 1s; /* 添加变换效果 */
-  /* 默认缩放为正常大小 */
+  width: 100%;
+  height: 70%;
+  object-fit: cover;
+  transition: transform 1s;
   transform: scale(1);
 }
 .right-picture:hover {
-  /* 鼠标悬停时放大 1.1 倍 */
-  transform: scale(1.2); /* 可根据需要调整放大的程度 */
+  transform: scale(1.2);
   transform-origin: center center;
 }
 

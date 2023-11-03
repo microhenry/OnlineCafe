@@ -123,7 +123,7 @@
         }
       },
       goToProductDetail(productId) {
-        // 使用 Vue Router 导航到商品详情页面，并传递商品的唯一标识
+        // Use the router to navigate to the product detail page
         this.$router.push({ name: 'productDetail', params: { productId } });
       },
     },

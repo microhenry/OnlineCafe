@@ -15,21 +15,18 @@ export default new Vuex.Store({
     SET_TOKENN: (state, token) => {
       state.token = token
       sessionStorage.setItem("token", token)
-      console.log("SET_TOKENN: "+state.token)
     },
     SET_USER: (state, user) => {
       state.user = user
       state.isStaff = false;
       sessionStorage.setItem("user", JSON.stringify(user))
       sessionStorage.setItem("isStaff", JSON.stringify(false))
-      console.log("SET_USER: "+state.user)
     },
     SET_STAFF: (state, user) => {
       state.user = user;
       state.isStaff = true
       sessionStorage.setItem("user", JSON.stringify(user))
       sessionStorage.setItem("isStaff", JSON.stringify(true))
-      // console.log("SET_STAFF: "+state.staff)
     },
     REMOVE_INFO : (state) => {
       state.token = ''

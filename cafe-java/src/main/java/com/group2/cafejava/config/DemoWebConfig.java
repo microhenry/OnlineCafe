@@ -15,15 +15,15 @@ public class DemoWebConfig implements WebMvcConfigurer {
 
 
     /**
-     * 拦截器配置
+     * interceptor configuration
      *
      * @param registry
      */
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
-        //添加拦截器
+        // Add interceptor
         registry.addInterceptor(new LoginInterceptor()).addPathPatterns("/api/**")
-                //放行路径，可以添加多个
+                // Exclude path for interceptor
                 .excludePathPatterns("/api/loginUser", "/api/loginStaff", "/api/user/**", "/api/menu/**","/api/cart/**");
     }
 

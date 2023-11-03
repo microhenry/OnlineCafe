@@ -81,17 +81,14 @@ export default {
             password: this.loginForm.password,
           }).then((resp) => {
             let code=resp.data.code;
-            console.log(code)
             if(code===200){
               let data=resp.data.data;
-              console.log(data);
               let token=data.token;
               let user=data.user;
-              //存储token
+              // Store token
               _this.$store.commit('SET_TOKENN', token);
-              //存储user，优雅一点的做法是token和user分开获取
+              // Store user info
               _this.$store.commit('SET_USER', user);
-              console.log(_this.$store.state.token);
               var path = this.$route.query.redirect
               this.$router.push({path: path === '/' || path === undefined ? '/' : path})
               this.$message({
@@ -100,7 +97,6 @@ export default {
                 center: true,
                 type: 'success'
               });
-              console.log('success')
             } else {
               this.$message({
                 showClose: true,
@@ -123,8 +119,8 @@ export default {
       this.$router.push({path:'/loginstaff'})
     },
     back(){
+      // Use the router to return to the previous page
       this.$router.back();
-      console.log('back')
     },
   },
 

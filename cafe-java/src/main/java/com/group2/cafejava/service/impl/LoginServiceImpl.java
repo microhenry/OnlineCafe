@@ -31,17 +31,16 @@ public class LoginServiceImpl implements LoginService {
             System.out.println("Password cannot be empty!");
             return new Result(400,"Password cannot be empty!","");
         }
-        //通过登录名查询用户
+        // Query user by login name
         QueryWrapper<User> wrapper = new QueryWrapper<>();
         wrapper.eq("login_name", loginDTO.getLoginName());
         User uer=userMapper.selectOne(wrapper);
-        //比较密码
+        // Compare password
         System.out.println(uer == null);
         if (uer!=null&&uer.getPassword().equals(loginDTO.getPassword())){
             LoginVO loginVO=new LoginVO();
             loginVO.setId(uer.getId());
-            //这里token直接用一个uuid
-            //使用jwt的情况下，会生成一个jwt token,jwt token里会包含用户的信息
+            // Generate a uuid for token
             loginVO.setToken(UUID.randomUUID().toString());
             loginVO.setUser(uer);
             return new Result(200,"",loginVO);
@@ -62,17 +61,16 @@ public class LoginServiceImpl implements LoginService {
             System.out.println("Password cannot be empty!");
             return new Result(400,"Password cannot be empty!","");
         }
-        //通过登录名查询用户
+        // Query user by login name
         QueryWrapper<Staff> wrapper1 = new QueryWrapper<>();
         wrapper1.eq("login_name", loginDTO.getLoginName());
         Staff staff=staffMapper.selectOne(wrapper1);
-        //比较密码
+        // Compare password
         System.out.println(staff == null);
         if (staff!=null&&staff.getPassword().equals(loginDTO.getPassword())){
             LoginStaffVO loginStaffVO=new LoginStaffVO();
             loginStaffVO.setId(staff.getId());
-            //这里token直接用一个uuid
-            //使用jwt的情况下，会生成一个jwt token,jwt token里会包含用户的信息
+            // Generate a uuid for token
             loginStaffVO.setToken(UUID.randomUUID().toString());
             loginStaffVO.setStaff(staff);
             return new Result(200,"",loginStaffVO);

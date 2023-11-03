@@ -26,22 +26,17 @@ Vue.use(ElementUI, { locale })
 //hook
 router.beforeEach((to, from, next) => {
     if (to.meta.requireStaffAuth) {
-      console.log("1.requireStaffAuth")
       //If the router require staff authentication
       if (store.state.token) {
         //If store has the token
-        console.log("2.store has the token")
         //TODO: Find better validation methods.
         if(store.state.isStaff === false){
-          console.log("3.store has no staff")
           Vue.prototype.$message.error("Error: Please login to your staff account.");
-          console.log("4.redirect to:"+ to.fullPath)
           next({
             path: 'loginstaff',
             query: { redirect: to.fullPath }
           })
         } else {
-          // console.log("3.store has the staff:" + store.state.staff)
           next()
         }
       } else {

@@ -19,7 +19,7 @@ public class UserController {
     private UserService userService;
 
     /**
-     * 分页查询
+     * Query
      * @param queryDTO
      * @return
      */
@@ -44,7 +44,7 @@ public class UserController {
         return new Result(200,"",select);
     }
     /**
-     * 添加
+     * Add
      * @param user
      * @return
      */
@@ -54,7 +54,7 @@ public class UserController {
     }
 
     /**
-     * 更新
+     * Update
      * @param user
      * @return
      */
@@ -64,7 +64,7 @@ public class UserController {
     }
 
     /**
-     * 删除
+     * Delete
      * @param id
      * @return
      */
@@ -74,7 +74,7 @@ public class UserController {
     }
 
     /**
-     * 批量删除
+     * Batch delete
      * @param ids
      * @return
      */

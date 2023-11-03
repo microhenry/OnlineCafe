@@ -35,7 +35,7 @@ public class OrderController {
     private UserMapper userMapper;
 
 
-    //全部order(管理员)
+    // Get all orders for staff
     @PostMapping("/api/user/order/list")
     public Result orderList(@RequestBody QueryDTO queryDTO) {
         IPage<Order> orderPage = orderService.selectOrderPage(queryDTO);
@@ -44,7 +44,7 @@ public class OrderController {
         List<OrderFragmentToFront> orderFragmentToFronts=convertToFront(orderSelect);
         return new Result(200, "", orderFragmentToFronts, totalRecords);
     }
-    //单人order（顾客）
+    // Get all orders for customer
     @PostMapping("/api/order/list")
     public Result orderOneCustomer(@RequestBody QueryDTO queryDTO) {
         IPage<Order> orderPage = orderService.selectOrderPageOneCustomer(queryDTO);
@@ -53,7 +53,7 @@ public class OrderController {
         List<OrderFragmentToFront> orderFragmentToFronts=convertToFront(orderSelect);
         return new Result(200, "", orderFragmentToFronts, totalRecords);
     }
-//单个order细节（全部都可用）
+    // Get order detail
     @PostMapping("/api/order/list/detail")
     public Result orderDetail(@RequestBody QueryDTO queryDTO) {
         //QueryDTO queryDTO=new QueryDTO(1,10,orderId);
@@ -65,16 +65,16 @@ public class OrderController {
 
 
     /**
-     * 添加
+     * Add
      */
 
     @PostMapping("/api/order/add")
     public Result addOrder(@RequestBody OrderFragmentFromFront orderFragmentFromFront) {
         List<Integer> ids= orderFragmentFromFront.getCartIds();
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// 格式化时间
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");// Set time format
        // sdf.applyPattern();
-        Date date = new Date();// 获取当前时间
+        Date date = new Date();// Get system time
         Order order = new Order();
         order.setOrderCustomerId(orderFragmentFromFront.getUserId());
         order.setOrderComment(orderFragmentFromFront.getOrderComment());
@@ -139,7 +139,7 @@ public class OrderController {
     }
 
 //    /**
-//     * 更新
+//     * Update
 //     *
 //     * @param product
 //     * @return
@@ -156,7 +156,7 @@ public class OrderController {
     }
 //
 //    /**
-//     * 删除
+//     * Delete
 //     *
 //     * @param id
 //     * @return
@@ -167,7 +167,7 @@ public class OrderController {
     }
 //
 //    /**
-//     * 批量删除
+//     * Batch delete
 //     *
 //     * @param ids
 //     * @return

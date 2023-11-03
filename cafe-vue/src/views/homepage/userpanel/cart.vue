@@ -88,7 +88,6 @@
 
     <!--Confirm Order Dialog-->
     <el-dialog title="Confirm Order" :visible.sync="submitDialogVisible" width="35%" :top="`5vh`">
-      <!--内容主体区域-->
       <el-descriptions :column="2" border :label-style="labelStyle" :contentStyle="contentStyle" style="margin: 0 10px 20px 10px">
         <el-descriptions-item label="Total Product(s):">{{ multipleSelection.length }}</el-descriptions-item>
         <el-descriptions-item label="Total Price:">{{ formattedPrice(totalPrice) }}</el-descriptions-item>
@@ -101,7 +100,7 @@
           <el-input v-model="orderForm.orderComment" type="textarea" placeholder="Please enter your order comment"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="submitDialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="submitOrder('orderForm')">Confirm</el-button>
@@ -172,7 +171,6 @@ export default {
   methods: {
     getCartList() {
       this.queryInfo.keyword = this.$store.state.user.id;
-      console.log(this.queryInfo);
       cartNewList(this.queryInfo)
         .then((res) => {
           if (res.data.code === 200) {
@@ -188,20 +186,17 @@ export default {
           console.log(err);
         });
     },
-    // 监听 pageSize 改变的事件
     // Listen the event of changing pageSize
     handleSizeChange(newSize) {
-      // console.log(newSize)
       this.queryInfo.pageSize = newSize;
       this.getCartList();
     },
-    // 监听 当前页码值 改变的事件
+    // Listen the event of changing pageNo
     handleCurrentChange(newPage) {
-      // console.log(newPage)
       this.queryInfo.pageNo = newPage;
       this.getCartList();
     },
-    // Listen the event of clicking edit button
+
     showSubmitDialog(cartInfo) {
       this.submitDialogVisible = true;
     },
@@ -280,13 +275,10 @@ export default {
       return adjustedPrice;
     },
     goToProductDetail(productId) {
-      // 使用 Vue Router 导航到商品详情页面，并传递商品的唯一标识
-      console.log(productId);
       this.$router.push({ name: 'productDetail', params: { productId } });
     },
     // Delete cart by id
     async removeCartById(cartId) {
-      console.log("cartId: "+cartId);
       // Confirm dialog
       const confirmResult = await this.$confirm(
         "This operation will permanently delete the cart. Do you want to continue?",
@@ -318,11 +310,10 @@ export default {
           });
       }
     },
-    //批量选中事件处理
+    // Listen the event of changing selection
     handleSelectionChange(val) {
       this.multipleSelection = val;
       const newCartIds = [];
-      //向被删除的ids赋值
       this.multipleSelection.forEach((item) => {
         newCartIds.push(item.cartId);
       });
@@ -335,7 +326,7 @@ export default {
     },
     // Batch delete cart
     async batchDeleteCart(){
-      // 弹框 询问用户是否删除
+      // Confirm dialog
       const confirmResult = await this.$confirm(
         "This operation will permanently delete the cart. Do you want to continue?",
         "Warning",

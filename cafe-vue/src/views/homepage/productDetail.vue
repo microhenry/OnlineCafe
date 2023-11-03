@@ -150,11 +150,9 @@ export default {
       console.log(val);
     },
     getCategoryClass(category) {
-      console.log(this.categoryColors[category]);
       return this.categoryColors[category];
     },
     addToCart(){
-      console.log(this.isLoggedIn());
       if (this.isLoggedIn()) {
         this.cartForm.userId = this.$store.state.user.id;
         this.cartForm.productId = this.productDetail.productId;
@@ -179,11 +177,10 @@ export default {
             console.log(err);
           });
       } else {
-        console.log("Please login first.");
         this.$router.push({
           path: '/login',
           query: {
-            redirect: this.$route.fullPath // 将当前路径作为参数传递给登录页面
+            redirect: this.$route.fullPath
           }
         });
         this.$message({
@@ -193,17 +190,13 @@ export default {
       }
     },
     isLoggedIn() {
-      console.log(this.$store.state);
-      // 使用$store来检测用户是否登录
+      // Check if the user is logged in
       if(!this.$store.state.token || this.$store.state.user === undefined || this.$store.state.user === ''
         || this.$store.state.isStaff === undefined || this.$store.state.isStaff === true ) {
-        console.log("未登录");
-        // 登录状态：未登录
         return false;
       } else {
         return true;
       }
-      // return !!this.$store.state.token;
     },
     callGetCartNumber() {
       homepage.methods.getCartNumber.call(this);

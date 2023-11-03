@@ -3,13 +3,13 @@ package com.group2.cafejava.result;
 import java.io.Serializable;
 
 public class Result implements Serializable {
-    //响应码
+    // Return code
     private Integer code;
-    //信息
+    // Return message
     private String message;
-    //返回数据
+    // Return data
     private Object data;
-    // Length of the records
+    // Length of the records (used for pagination)
     private long totalRecords;
 
     public Result(Integer code, String message, Object data) {

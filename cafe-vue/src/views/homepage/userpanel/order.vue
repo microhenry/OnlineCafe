@@ -119,7 +119,7 @@
           <el-input v-model="editForm.orderComment" type="textarea" placeholder="Please enter your order comment"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="submitDialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="updateOrder('orderForm')">Confirm</el-button>
@@ -168,12 +168,10 @@ export default {
   methods: {
     getOrderList() {
       this.queryInfo.keyword = this.$store.state.user.id;
-      console.log(this.queryInfo);
       getCustomerOrderList(this.queryInfo)
         .then((res) => {
           if (res.data.code === 200) {
             // Get the order list
-            console.log(res.data.data);
             this.orderList = res.data.data;
             this.total = res.data.totalRecords;
           } else {
@@ -192,23 +190,19 @@ export default {
       } else if (size === 'L') {
         return 'Large';
       } else {
-        return size; // 如果需要处理其他情况
+        return size;
       }
     },
-    // 监听 pageSize 改变的事件
     // Listen the event of changing pageSize
     handleSizeChange(newSize) {
-      // console.log(newSize)
       this.queryInfo.pageSize = newSize;
       this.getOrderList();
     },
-    // 监听 当前页码值 改变的事件
+    // Listen the event of changing pageNo
     handleCurrentChange(newPage) {
-      // console.log(newPage)
       this.queryInfo.pageNo = newPage;
       this.getOrderList();
     },
-    // Listen the event of clicking edit button
     showSubmitDialog(orderInfo) {
       this.submitDialogVisible = true;
       this.editForm = orderInfo;
@@ -248,8 +242,6 @@ export default {
       return '$'+parseFloat(price).toFixed(2);
     },
     goToProductDetail(productId) {
-      // 使用 Vue Router 导航到商品详情页面，并传递商品的唯一标识
-      console.log(productId);
       this.$router.push({ name: 'productDetail', params: { productId } });
     },
     filterTag(value, row) {

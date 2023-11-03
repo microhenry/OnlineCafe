@@ -66,7 +66,7 @@
 
 }
 .carousel-item img {
-  object-fit: cover; /* 使用cover选项以填充整个容器 */
+  object-fit: cover;
   width: 100%;
   height: 100%;
 }

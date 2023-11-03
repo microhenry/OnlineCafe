@@ -9,16 +9,10 @@
         <el-menu
           :default-active="$route.path"
           router
-          text-color="black"
-          active-text-color="red"
-          mode="horizontal"
-          background-color="#fff3da"
-          style="display: flex;"
+          text-color="black" active-text-color="red" mode="horizontal" background-color="#fff3da" style="display: flex;"
         >
           <el-menu-item
-            v-for="(item, i) in navList"
-            :key="i"
-            :index="item.name"
+            v-for="(item, i) in navList" :key="i" :index="item.name"
           >
             <i :class="item.icon"></i>
             {{ item.title }}
@@ -66,16 +60,13 @@ export default {
   name: "HomePage",
   computed: {
     isLoggedIn() {
-      console.log(this.$store.state.isStaff);
-      // 使用$store来检测用户是否登录
+      // Check if the user is logged in
       if(!this.$store.state.token || this.$store.state.user === undefined || this.$store.state.user === ''
         || this.$store.state.isStaff === undefined || this.$store.state.isStaff === true ) {
-        // 登录状态：未登录
         return false;
       } else {
         return true;
       }
-      // return !!this.$store.state.token;
     },
     formattedMoney() {
       // Reserve two decimal places for the balance
@@ -83,6 +74,7 @@ export default {
       return '$'+parseFloat(money).toFixed(2);
     },
     dynamicCartNum() {
+      // Get the cart number from the store
       return Number(this.$store.state.cartNum);
     },
   },
@@ -132,6 +124,7 @@ export default {
       cartNumber(data, userId)
         .then(response => {
           this.cartNum = response.data.data;
+          // update the cart number in the store
           this.$store.commit('updateCartNum', this.cartNum);
         })
         .catch(error => {
@@ -151,8 +144,8 @@ export default {
 <style scoped>
 .button-container {
   display: flex;
-  justify-content: flex-end; /* 右对齐 */
-  align-items: center; /* 垂直居中对齐，可选 */
+  justify-content: flex-end;
+  align-items: center;
   flex: 1;
 }
 

@@ -39,7 +39,7 @@ public class ProductController {
     }
 
     /**
-     * 添加
+     * Add
      *
      * @param product
      * @return
@@ -53,7 +53,7 @@ public class ProductController {
     }
 
     /**
-     * 更新
+     * Update
      *
      * @param product
      * @return
@@ -64,7 +64,7 @@ public class ProductController {
     }
 
     /**
-     * 删除
+     * Delete
      *
      * @param id
      * @return
@@ -75,7 +75,7 @@ public class ProductController {
     }
 
     /**
-     * 批量删除
+     * Batch delete
      *
      * @param ids
      * @return

@@ -49,7 +49,6 @@ export default {
         center: true,
         type: 'success'
       });
-      console.log(this.$store.state.user)
     }
   }
 };

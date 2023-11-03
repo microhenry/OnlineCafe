@@ -92,43 +92,18 @@ public class CartController {
         return new Result(200, "",totalRecords);  // Return result with code, message, data, and total records
     }
 
-
-
-
-
-//    @PostMapping("/api/user/detail/{loginName}")
-//    public Result userDetail(@PathVariable String loginName){
-//        QueryDTO queryDTO=new QueryDTO();
-//        queryDTO.setPageNo(1);
-//        queryDTO.setPageSize(100);
-//        queryDTO.setKeyword(loginName);
-//        List<User> userSelect=userService.selectUser(queryDTO).getRecords();
-//        User select=new User();
-//        for (User i:userSelect){
-//            if (i.getLoginName().equals(loginName)){
-//                select=i;
-//                break;
-//            }
-//        }
-//        return new Result(200,"",select);
-//    }
     /**
-     * 添加
+     * Add
      * @param cart
      * @return
      */
     @PostMapping("/api/cart/add")
     public Result addCart(@RequestBody Cart cart){
-
-        //如果相同就合并为一个
-
-
-
         return new Result(200,"",cartService.addCart(cart));
     }
 
     /**
-     * 更新
+     * Update
      * @param cart
      * @return
      */
@@ -138,7 +113,7 @@ public class CartController {
     }
 
     /**
-     * 删除
+     * Delete
      * @param id
      * @return
      */
@@ -148,7 +123,7 @@ public class CartController {
     }
 
     /**
-     * 批量删除
+     * Batch delete
      * @param ids
      * @return
      */

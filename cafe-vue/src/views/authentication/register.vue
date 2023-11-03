@@ -1,6 +1,5 @@
 <template>
   <body id="register-page">
-  <!--内容主体区域-->
   <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="auto" class="login-container">
     <div class="login-reg-header">
       <el-button
@@ -91,7 +90,7 @@ export default {
       }, 100)
     }
     return {
-      userList: [], // 用户列表
+      userList: [],
       userForm: {
         //用户
         loginName: "",
@@ -124,30 +123,9 @@ export default {
       responseResult: [],
     };
   },
-  created() {
-    // 生命周期函数
-    //this.getUserList();
-  },
   methods: {
-    // getUserList() {
-    //   userList(this.queryInfo)
-    //     .then((res) => {
-    //       if (res.data.code === 200) {
-    //         //用户列表
-    //         this.userList = res.data.data.records;
-    //         this.total = res.data.data.total;
-    //       } else {
-    //         this.$message.error(res.data.message);
-    //       }
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //     });
-    // },
     addUser(formName) {
-      console.log(formName)
       this.$refs[formName].validate((valid) => {
-        console.log(valid)
         if (valid) {
           userAdd(this.userForm)
             .then((res) => {
@@ -181,7 +159,6 @@ export default {
     },
     back(){
       this.$router.back();
-      console.log('back')
     },
   },
 

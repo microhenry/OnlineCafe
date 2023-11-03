@@ -31,7 +31,6 @@
 
     <!--Edit User Dialog-->
     <el-dialog title="Edit Profile" :visible.sync="editDialogVisible" width="30%">
-      <!--内容主体区域-->
       <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="100px">
         <el-form-item label="Login Name" prop="loginName">
           <el-input v-model="editForm.loginName" :disabled="true"></el-input>
@@ -51,7 +50,7 @@
           <el-input v-model="editForm.address"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="editUser('editForm')">Confirm</el-button>
@@ -60,7 +59,6 @@
 
     <!--Change Password Dialog-->
     <el-dialog title="Change Password" :visible.sync="changePasswordDialogVisible" width="30%">
-      <!--内容主体区域-->
       <el-form :model="passwordForm" :rules="changePasswordRules" ref="passwordForm" label-width="140px">
         <el-form-item label="Old Password" prop="oldPassword">
           <el-input v-model="passwordForm.oldPassword" type="password" show-password></el-input>
@@ -72,7 +70,7 @@
           <el-input v-model="passwordForm.confirmPassword" type="password" show-password></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="changePasswordDialogVisible = false">Cancel</el-button>
         <el-button type="primary" @click="changePassword('passwordForm')">Confirm</el-button>
@@ -164,7 +162,6 @@ export default {
     }
   },
   created() {
-    // 生命周期函数
     this.loginName = this.$store.state.user.loginName;
     this.getUserDetails();
   },
