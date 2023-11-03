@@ -43,7 +43,8 @@ CREATE TABLE `user` (
 
 LOCK TABLES `user` WRITE;
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
-INSERT INTO `user` VALUES (1,'M1','m1','M1','M','1234567890','Tianjin City',0),(3,'C1','c1','C1','M','1357924680','GuangRong Road',0);
+INSERT INTO `user` VALUES (1,'M1','m1','M1','Male','1234567890@test.com','Tianjin City',200);
+INSERT INTO `user` VALUES (2,'M2','m2','M2','Male','1234567890@test.com','Albany, Auckland',200);
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;

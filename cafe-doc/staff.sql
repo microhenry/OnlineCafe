@@ -43,7 +43,8 @@ CREATE TABLE `staff` (
 
 LOCK TABLES `staff` WRITE;
 /*!40000 ALTER TABLE `staff` DISABLE KEYS */;
-INSERT INTO `staff` VALUES (1,'S1','S1','M','0987654321','Auckland','s1',0);
+INSERT INTO `staff` VALUES (1,'S1','S1','Male','1234567890@test.com','Auckland','s1',200);
+INSERT INTO `staff` VALUES (2,'S2','S2','Male','1234567890@test.com','Auckland','s2',200);
 /*!40000 ALTER TABLE `staff` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!40103 SET TIME_ZONE=@OLD_TIME_ZONE */;
