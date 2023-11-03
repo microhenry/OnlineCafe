@@ -27,7 +27,6 @@ service.interceptors.request.use(
 // Response interception
 axios.interceptors.response.use(response => {
     let res = response.data;
-    console.log(res)
 
     if (res.code === 200) {
       return response
@@ -42,6 +41,7 @@ axios.interceptors.response.use(response => {
     }
 
     if (error.response.status === 401) {
+      // Uses the router to jump to the login page if user is not logged in.
       router.push("/login")
     }
     return Promise.reject(error)

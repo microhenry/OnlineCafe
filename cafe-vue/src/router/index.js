@@ -1,53 +1,148 @@
 import Vue from 'vue'
 import Router from 'vue-router'
-import HelloWorld from '@/components/HelloWorld'
-//导入登录页面组件
-import Login from '@/views/login.vue'
-import Home from '@/views/home.vue'
+// Import views
+import Login from '@/views/authentication/login.vue'
+import Register from "@/views/authentication/register"
+import LoginStaff from '@/views/authentication/loginStaff.vue'
+import Homepage from "../views/homepage/homepage.vue";
+
 
 Vue.use(Router)
 
 export default new Router({
   routes: [
     {
+      // Default router
       path: '/',
       name: 'Default',
-      redirect: '/home',
-      component: Home
+      redirect: '/homepage',
     },
     {
-      // home页面并不需要被访问，只是作为其它组件的父组件
-      path: '/home',
-      name: 'Home',
-      component: Home,
+      // Dashboard router
+      path: '/dashboard',
+      name: 'Dashboard',
+      component:() => import('@/views/dashboard/dashboard'),
       meta: {
-        requireAuth: true
+        requireStaffAuth: true
       },
-      redirect: '/index',
+      redirect: '/dashboard/user',
       children:[
         {
-          path:'/index',
+          path:'/dashboard/index',
           name:'Index',
-          component:() => import('@/views/home/index'),
+          component:() => import('@/views/dashboard/index'),
           meta:{
-            requireAuth:true
+            requireStaffAuth:true
           }
         },
         {
-          path:'/user',
+          path:'/dashboard/user',
           name:'User',
-          component:()=>import('@/views/user/index'),
+          component:()=>import('@/views/dashboard/user'),
           meta:{
-            requireAuth:true
+            requireStaffAuth:true
           }
-        }
+        },
+        {
+          path:'/dashboard/product',
+          name:'Product',
+          component:()=>import('@/views/dashboard/product'),
+          meta:{
+            requireStaffAuth:true
+          }
+        },
+        {
+          path:'/dashboard/order',
+          name:'Order',
+          component:()=>import('@/views/dashboard/order'),
+          meta:{
+            requireStaffAuth:true
+          }
+        },
       ]
     },
-    //Login Router
     {
       path:'/login',
       name: 'Login',
       component: Login
+    },
+    {
+      path:'/register',
+      name:'Register',
+      component: Register
+    },
+    {
+      path:'/loginstaff',
+      name: 'LoginStaff',
+      component: LoginStaff
+    },
+    {
+      path: '/homepage',
+      name: 'Homepage',
+      component: Homepage,
+      redirect: '/home',
+      children:[
+        {
+          path:'/home',
+          name:'Home',
+          component:() => import('@/views/homepage/home'),
+        },
+        {
+          path:'/products',
+          name:'Products',
+          component:() => import('@/views/homepage/products'),
+        },
+        {
+          path:'/about',
+          name:'About',
+          component:() => import('@/views/homepage/about'),
+        },
+        {
+          path: '/products/:productId',
+          name: 'productDetail',
+          component: () => import('@/views/homepage/productDetail.vue'),
+        },
+        {
+          path: '/userpanel',
+          name: 'userPanel',
+          component: () => import('@/views/homepage/userpanel/userpanel.vue'),
+          redirect: '/userpanel/profile',
+          meta:{
+            requireUserAuth:true
+          },
+          children:[
+            {
+              path: '/userpanel/profile',
+              name: 'profile',
+              component: () => import('@/views/homepage/userpanel/profile.vue'),
+              meta:{
+                requireUserAuth:true
+              },
+            },
+            {
+              path: '/userpanel/cart',
+              name: 'cart',
+              component: () => import('@/views/homepage/userpanel/cart.vue'),
+              meta:{
+                requireUserAuth:true
+              },
+            },
+            {
+              path: '/userpanel/order',
+              name: 'order',
+              component: () => import('@/views/homepage/userpanel/order.vue'),
+              meta:{
+                requireUserAuth:true
+              },
+            },
+          ]
+        },
+      ]
+    },
+    {
+      path: '/:catchAll(.*)',
+      name: 'not-found',
+      component: () => import('@/components/NotFound.vue')
     }
   ]
 })

@@ -2,7 +2,7 @@ import request from '@/utils/request'
 
 export function userLogin(data) {
   return request({
-    url: '/login',
+    url: '/loginUser',
     method: 'post',
     data
   })
@@ -52,5 +52,14 @@ export function userBatchDelete(data) {
     url: '/user/delete/batch',
     method: 'post',
     data
+  })
+}
+
+//
+export function userDetail(data, loginName) {
+  return request({
+    url: '/user/detail/' + loginName,
+    method: 'post',
+    data,
   })
 }

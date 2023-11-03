@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.group2.cafejava.mapper.ProductMapper">
+    <select id="selectProductPage" resultType="Product">
+        select * from product
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or product_category like CONCAT('%',#{keyword},'%')
+                or product_name like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectProduct" resultType="Product">
+        select * from product
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or product_name like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
+    <select id="selectProductById" resultType="Product">
+        select * from product
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or product_id = #{keyword}
+            </if>
+        </where>
+    </select>
+</mapper>

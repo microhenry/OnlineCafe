@@ -8,4 +8,5 @@ import org.apache.ibatis.annotations.Mapper;
 
 public interface UserMapper extends BaseMapper<User> {
     IPage<User> selectUserPage(Page<User> page,String keyword);
+    IPage<User> selectUser(Page<User> page,String keyword);
 }

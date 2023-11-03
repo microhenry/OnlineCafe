@@ -1,5 +1,6 @@
 package com.group2.cafejava.service.impl;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.group2.cafejava.dto.QueryDTO;
 import com.group2.cafejava.entity.User;
 import com.group2.cafejava.mapper.UserMapper;
@@ -24,7 +25,15 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Integer addUser(User user) {
-        return userMapper.insert(user);
+        QueryWrapper<User> wrapper = new QueryWrapper<>();
+        wrapper.eq("login_name", user.getLoginName());
+        User uer=userMapper.selectOne(wrapper);
+        if (uer==null){
+            user.setMoney(200);
+            return userMapper.insert(user);}
+        else{
+            return -1;
+        }
     }
 
     @Override
@@ -40,6 +49,12 @@ public class UserServiceImpl implements UserService {
     @Override
     public void batchDelete(List<Integer> ids) {
         userMapper.deleteBatchIds(ids);
+    }
+
+    @Override
+    public IPage<User> selectUser(QueryDTO queryDTO) {
+        Page<User> page=new Page<>(queryDTO.getPageNo(),queryDTO.getPageSize());
+        return userMapper.selectUser(page,queryDTO.getKeyword());
     }
 
 }

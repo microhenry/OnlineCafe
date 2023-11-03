@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <el-row>
       <el-col :span="24">
         <el-row :gutter="20">
@@ -20,12 +19,11 @@
             </el-input>
           </el-col>
           <el-col :span="2.5">
-            <el-button type="primary" @click="addDialogVisible = true"
-            >Add User</el-button
-            >
+            <el-button type="primary" @click="addDialogVisible = true" icon="el-icon-plus">Add User</el-button>
           </el-col>
           <el-col :span="2.5">
-            <el-button type="danger" @click="batchDeleteUser"
+            <el-button type="danger" @click="batchDeleteUser" :disabled="multipleSelection.length === 0"
+                       :icon="multipleSelection.length === 0 ? 'el-icon-delete' : 'el-icon-delete-solid'"
             >Batch Delete</el-button
             >
           </el-col>
@@ -44,6 +42,11 @@
           <el-table-column prop="userName" label="User Name"></el-table-column>
           <el-table-column prop="loginName" label="Login Name"></el-table-column>
           <el-table-column prop="sex" label="Gender"></el-table-column>
+          <el-table-column prop="money" label="Balance">
+            <template slot-scope="scope">
+              {{formattedMoney(scope.row.money)}}
+            </template>
+          </el-table-column>
           <el-table-column prop="email" label="Email"></el-table-column>
           <el-table-column prop="address" label="Address"></el-table-column>
           <el-table-column label="Operation">
@@ -85,9 +88,9 @@
       :visible.sync="addDialogVisible"
       width="30%"
       @close="addDialogClosed"
+      :top="`5vh`"
     >
-      <!--内容主体区域-->
-      <el-form :model="userForm" label-width="90px">
+      <el-form :model="userForm" :rules="userRules" ref="userForm" label-width="100px">
         <el-form-item label="Login Name" prop="loginName">
           <el-input v-model="userForm.loginName"></el-input>
         </el-form-item>
@@ -102,6 +105,9 @@
           <el-radio v-model="userForm.sex" label="Female">Female</el-radio>
           <el-radio v-model="userForm.sex" label="Other">Other</el-radio>
         </el-form-item>
+        <el-form-item label="Balance" prop="money">
+          <el-input-number v-model="userForm.money" :min="0" :max="10000" :step="50"></el-input-number>
+        </el-form-item>
         <el-form-item label="Email" prop="email">
           <el-input v-model="userForm.email"></el-input>
         </el-form-item>
@@ -109,16 +115,16 @@
           <el-input v-model="userForm.address"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="addDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="addUser">Confirm</el-button>
+        <el-button type="primary" @click="addUser('userForm')">Confirm</el-button>
       </span>
     </el-dialog>
-    <!--修改用户的对话框-->
-    <el-dialog title="Edit User" :visible.sync="editDialogVisible" width="30%">
-      <!--内容主体区域-->
-      <el-form :model="editForm" label-width="90px">
+
+    <!--Edit User Dialog-->
+    <el-dialog title="Edit User" :visible.sync="editDialogVisible" width="30%" @close="editDialogClosed">
+      <el-form :model="editForm" :rules="editRules" ref="editForm" label-width="100px">
         <el-form-item label="Login Name" prop="loginName">
           <el-input v-model="editForm.loginName" :disabled="true"></el-input>
         </el-form-item>
@@ -130,6 +136,9 @@
           <el-radio v-model="editForm.sex" label="Female">Female</el-radio>
           <el-radio v-model="editForm.sex" label="Other">Other</el-radio>
         </el-form-item>
+        <el-form-item label="Balance" prop="money">
+          <el-input-number v-model="editForm.money" :min="0" :max="10000" :step="50"></el-input-number>
+        </el-form-item>
         <el-form-item label="Email" prop="email">
           <el-input v-model="editForm.email"></el-input>
         </el-form-item>
@@ -137,10 +146,10 @@
           <el-input v-model="editForm.address"></el-input>
         </el-form-item>
       </el-form>
-      <!--底部按钮区域-->
+      <!--Button-->
       <span slot="footer" class="dialog-footer">
         <el-button @click="editDialogVisible = false">Cancel</el-button>
-        <el-button type="primary" @click="editUser">Confirm</el-button>
+        <el-button type="primary" @click="editUser('editForm')">Confirm</el-button>
       </span>
     </el-dialog>
   </div>
@@ -151,40 +160,82 @@ import { userList, userAdd, userUpdate, userDelete, userBatchDelete} from "@/api
 export default {
   data() {
     return {
-      userList: [], // 用户列表
-      total: 0, // 用户总数
-      // 获取用户列表的参数对象
+      userList: [],
+      total: 0,
       queryInfo: {
-        keyword: "", // 查询参数
-        pageNo: 1, // 当前页码
-        pageSize: 5, // 每页显示条数
+        keyword: "",
+        pageNo: 1,
+        pageSize: 5,
       },
-      addDialogVisible: false, // 控制添加用户对话框是否显示
+      addDialogVisible: false,
       userForm: {
-        //用户
         loginName: "",
         userName: "",
         password: "",
         sex: "",
+        money: "",
         email: "",
         address: "",
       },
-      editDialogVisible: false, // 控制修改用户信息对话框是否显示
+      editDialogVisible: false,
       editForm: {
         id: "",
         loginName: "",
         userName: "",
         password: "",
         sex: "",
+        money: "",
         email: "",
         address: "",
       },
       multipleSelection: [],
       ids: [],
+      userRules: {
+        loginName : [
+          { required: true, message: 'Login name cannot be empty!', trigger: 'change' }
+        ],
+        userName : [
+          { required: true, message: 'User name cannot be empty!', trigger: 'change' }
+        ],
+        password : [
+          { required: true, message: 'Password cannot be empty!', trigger: 'change' }
+        ],
+        sex : [
+          { required: true, message: 'Must select a gender!', trigger: 'change' }
+        ],
+        money : [
+          { required: true, message: 'Balance cannot be empty!', trigger: 'change' }
+        ],
+        email : [
+          { required: true, message: 'Email cannot be empty!', trigger: 'change' }
+        ],
+        address : [
+          { required: true, message: 'Address cannot be empty!', trigger: 'change' }
+        ]
+      },
+      editRules: {
+        loginName : [
+          { required: true, message: 'Login name cannot be empty!', trigger: 'change' }
+        ],
+        userName : [
+          { required: true, message: 'User name cannot be empty!', trigger: 'change' }
+        ],
+        sex : [
+          { required: true, message: 'Must select a gender!', trigger: 'change' }
+        ],
+        money : [
+          { required: true, message: 'Balance cannot be empty!', trigger: 'change' }
+        ],
+        email : [
+          { required: true, message: 'Email cannot be empty!', trigger: 'change' }
+        ],
+        address : [
+          { required: true, message: 'Address cannot be empty!', trigger: 'change' }
+        ]
+      },
     };
   },
   created() {
-    // 生命周期函数
     this.getUserList();
   },
   methods: {
@@ -192,7 +243,6 @@ export default {
       userList(this.queryInfo)
         .then((res) => {
           if (res.data.code === 200) {
-            //用户列表
             this.userList = res.data.data.records;
             this.total = res.data.data.total;
           } else {
@@ -203,76 +253,90 @@ export default {
           console.log(err);
         });
     },
-    // 监听 pageSize 改变的事件
+    formattedMoney(money) {
+      return '$'+parseFloat(money).toFixed(2);
+    },
+    // Listen the event of changing pageSize
     handleSizeChange(newSize) {
-      // console.log(newSize)
       this.queryInfo.pageSize = newSize;
-      // 重新发起请求用户列表
       this.getUserList();
     },
-    // 监听 当前页码值 改变的事件
+    // Listen the event of changing pageNo
     handleCurrentChange(newPage) {
-      // console.log(newPage)
       this.queryInfo.pageNo = newPage;
-      // 重新发起请求用户列表
       this.getUserList();
     },
-    //添加用户
-    addUser() {
-      userAdd(this.userForm)
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.addDialogVisible = false;
-            this.getUserList();
-            this.$message({
-              message: "Added user successfully.",
-              type: "success",
+    // Add user
+    addUser(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          userAdd(this.userForm)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.addDialogVisible = false;
+                this.getUserList();
+                this.$message({
+                  message: "Added user successfully.",
+                  type: "success",
+                });
+              } else {
+                this.$message.error("Failed to add user.");
+              }
+            })
+            .catch((err) => {
+              this.$message.error("Failed to add user.");
+              console.log(err);
             });
-          } else {
-            this.$message.error("Failed to add user.");
-          }
-        })
-        .catch((err) => {
-          this.$message.error("Failed to add user.");
-          console.log(err);
-        });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
     },
 
-    // 监听 添加用户对话框的关闭事件
+    // Listen the event of closing add dialog
     addDialogClosed() {
       // 表单内容重置为空
-      this.$refs.addFormRef.resetFields();
+      this.$refs.userForm.resetFields();
+    },
+    editDialogClosed() {
+      this.$refs.editForm.resetFields();
     },
 
-    // 监听 修改用户状态
     showEditDialog(userinfo) {
       this.editDialogVisible = true;
-      console.log(userinfo);
       this.editForm = userinfo;
     },
-    //修改用户
-    editUser() {
-      userUpdate(this.editForm)
-        .then((res) => {
-          if (res.data.code === 200) {
-            this.editDialogVisible = false;
-            this.getUserList();
-            this.$message({
-              message: "Edited user successfully.",
-              type: "success",
+    // Edit user
+    editUser(formName) {
+      this.$refs[formName].validate((valid) => {
+        if (valid) {
+          userUpdate(this.editForm)
+            .then((res) => {
+              if (res.data.code === 200) {
+                this.editDialogVisible = false;
+                this.getUserList();
+                this.$message({
+                  message: "Edited user successfully.",
+                  type: "success",
+                });
+              } else {
+                this.$message.error("Failed to edit user.");
+              }
+            })
+            .catch((err) => {
+              this.$message.error("Failed to edit user.");
+              console.loge(err);
             });
-          } else {
-            this.$message.error("Failed to edit user.");
-          }
-        })
-        .catch((err) => {
-          this.$message.error("Failed to edit user.");
-          console.loge(err);
-        });
+        } else {
+          console.log('error submit!!');
+          return false;
+        }
+      });
     },
-    // 根据ID删除对应的用户信息
+    // Delete user by id
     async removeUserById(id) {
-      // 弹框 询问用户是否删除
+      // Confirm dialog
       const confirmResult = await this.$confirm(
         "This operation will permanently delete the user. Do you want to continue?",
         "Warning",
@@ -282,11 +346,7 @@ export default {
           type: "warning",
         }
       ).catch((err) => err);
-      // 如果用户确认删除，则返回值为字符串 confirm
-      // 如果用户取消删除，则返回值为字符串 cancel
-      // console.log(confirmResult)
-      if (confirmResult == "confirm") {
-        //删除用户
+      if (confirmResult === "confirm") {
         userDelete(id)
           .then((res) => {
             if (res.data.code === 200) {
@@ -305,19 +365,18 @@ export default {
           });
       }
     },
-    //批量选中事件处理
+    // Listen the event of changing selection
     handleSelectionChange(val) {
       this.multipleSelection = val;
-      console.log(this.multipleSelection);
-      //向被删除的ids赋值
+      const newIds = [];
       this.multipleSelection.forEach((item) => {
-        this.ids.push(item.id);
-        console.log(this.ids);
+        newIds.push(item.id);
       });
+      this.ids = newIds;
     },
-    //批量删除用户
+    // Batch delete user
     async batchDeleteUser(){
-      // 弹框 询问用户是否删除
+      // Confirm dialog
       const confirmResult = await this.$confirm(
         "This operation will permanently delete the user. Do you want to continue?",
         "Warning",
@@ -327,10 +386,7 @@ export default {
           type: "warning",
         }
       ).catch((err) => err);
-      // 如果用户确认删除，则返回值为字符串 confirm
-      // 如果用户取消删除，则返回值为字符串 cancel
-      if (confirmResult == "confirm") {
-        //批量删除用户
+      if (confirmResult === "confirm") {
         userBatchDelete(this.ids)
           .then((res) => {
             if (res.data.code === 200) {
@@ -353,7 +409,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .el-row {
   margin-bottom: 20px;
 }

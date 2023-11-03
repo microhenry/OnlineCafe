@@ -14,6 +14,16 @@ public class User {
     private String sex;
     private String email;
     private String address;
+    private double money;
+    public double getMoney() {
+        return money;
+    }
+
+    public void setMoney(double money) {
+        this.money = money;
+    }
+
+
 
     public Integer getId() {
         return id;
@@ -81,6 +91,7 @@ public class User {
         this.sex = sex;
         this.email = email;
         this.address = address;
+        this.money=100.0;
     }
 
     @Override
@@ -93,6 +104,7 @@ public class User {
                 ", sex='" + sex + '\'' +
                 ", email='" + email + '\'' +
                 ", address='" + address + '\'' +
+                ", money=" + money +
                 '}';
     }
 }

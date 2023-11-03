@@ -22,4 +22,5 @@ public interface UserService {
     Integer deleteUser(Integer id);
 
     void batchDelete(List<Integer> ids);
+    IPage<User> selectUser(QueryDTO queryDTO);
 }

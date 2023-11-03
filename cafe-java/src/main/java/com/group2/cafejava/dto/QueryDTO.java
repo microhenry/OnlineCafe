@@ -1,9 +1,10 @@
 package com.group2.cafejava.dto;
 
+// Used to pass query parameters to the controller
 public class QueryDTO {
-    private Integer pageNo;    //页码
-    private Integer pageSize;  //页面大小
-    private String keyword;    //关键字
+    private Integer pageNo;
+    private Integer pageSize;
+    private String keyword;
 
     public Integer getPageNo() {
         return pageNo;
@@ -27,5 +28,14 @@ public class QueryDTO {
 
     public void setKeyword(String keyword) {
         this.keyword = keyword;
+    }
+
+    public QueryDTO(Integer pageNo, Integer pageSize, String keyword) {
+        this.pageNo = pageNo;
+        this.pageSize = pageSize;
+        this.keyword = keyword;
+    }
+
+    public QueryDTO() {
     }
 }

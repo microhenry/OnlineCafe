@@ -12,11 +12,11 @@ public class CorsConfig {
     public CorsFilter corsFilter() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
         CorsConfiguration corsConfiguration = new CorsConfiguration();
-        //允许源，这里允许所有源访问，实际应用会加以限制
+        // Allow all domains to access
         corsConfiguration.addAllowedOrigin("*");
-        //允许所有请求头
+        // Allow cookies to be sent across
         corsConfiguration.addAllowedHeader("*");
-        //允许所有方法
+        // Allow all HTTP methods
         corsConfiguration.addAllowedMethod("*");
         source.registerCorsConfiguration("/**", corsConfiguration);
         return new CorsFilter(source);

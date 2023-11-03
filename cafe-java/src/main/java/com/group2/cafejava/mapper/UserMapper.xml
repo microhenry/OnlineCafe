@@ -12,4 +12,12 @@
             </if>
         </where>
     </select>
+    <select id="selectUser" resultType="User">
+        select * from user
+        <where>
+            <if test="keyword !=null and keyword !='' ">
+                or login_name like CONCAT('%',#{keyword},'%')
+            </if>
+        </where>
+    </select>
 </mapper>
